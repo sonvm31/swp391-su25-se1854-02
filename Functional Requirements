@@ -5,33 +5,33 @@ Major Features
 ▪ FE-03: View dashboard and reports.
 ▪ FE-04: Manage account, decentralize role.
 2. Manager
-▪ FE-06: Log in and log out.
-▪ FE-07: Manage information about doctor: view doctor, create doctor, update doctor and delete doctor.
-▪ FE-08: Manage information about staff: view staff, create staff, update staff and delete staff.
-▪ FE-9: View dashboard and reports.
+▪ FE-05: Log in and log out.
+▪ FE-06: Manage information about doctor: view doctor, create doctor, update doctor and delete doctor.
+▪ FE-07: Manage information about staff: view staff, create staff, update staff and delete staff.
+▪ FE-08: View dashboard and reports.
 3. Doctor
-▪ FE-10: Log in and log out.
-▪ FE-11: View test result (ARV, CD4, load capacity of HIV).
-▪ FE-12: Manage information about patient : view patient , create patient , update patient and delete patient.
-▪ FE-13: Choode and modify clinical protocol given in system.
-▪ FE-14: Create dashboard and reports.
+▪ FE-09: Log in and log out.
+▪ FE-10: View test result (ARV, CD4, load capacity of HIV).
+▪ FE-11: Manage information about patient : view patient , create patient , update patient and delete patient.
+▪ FE-12: Choode and modify clinical protocol given in system.
+▪ FE-13: Create dashboard and reports.
 4. Staff:
-▪ FE-15: Log in and log out.
-▪ FE-16: Support customer.
-▪ FE-17: Check appointment.
-▪ FE-18: Support doctor.
-▪ FE-19: Create dashboard and reports.
+▪ FE-14: Log in and log out.
+▪ FE-15: Support customer.
+▪ FE-16: Check appointment.
+▪ FE-17: Support doctor.
+▪ FE-18: Create dashboard and reports.
 5. Customer (Patient):
-▪ FE-20: Log in and log out.
-▪ FE-21: Choose doctor for treatment process.
-▪ FE-22: View test result (ARV, CD4, load capacity of HIV).
-▪ FE-23: View checkup or treatment history.
-▪ FE-24: Get notification of medicine or re-test.
-▪ FE-25: Book private advisory with doctor in incognito.
-▪ FE-26: View document and advise about HIV.
-▪ FE-27: Make appointment for checkup or treatment.
+▪ FE-19: Log in and log out.
+▪ FE-20: Choose doctor for treatment process.
+▪ FE-21: View test result (ARV, CD4, load capacity of HIV).
+▪ FE-22: View checkup or treatment history.
+▪ FE-23: Get notification of medicine or re-test.
+▪ FE-24: Book private advisory with doctor in incognito.
+▪ FE-25: View document and advise about HIV.
+▪ FE-26: Make appointment for checkup or treatment.
 5. Guest:
-▪ FE-28: Log in and log out.
-▪ FE-29: View document and advise about HIV.
-▪ FE-30: Create account.
+▪ FE-27: Log in and log out.
+▪ FE-28: View document and advise about HIV.
+▪ FE-29: Create account.
 
