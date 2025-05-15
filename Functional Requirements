@@ -7,28 +7,28 @@ Major Features
 2. Manager
 ▪ FE-05: Log in and log out.
 ▪ FE-06: Manage information about doctor and staff (view, create, update and delete).
-▪ FE-06: Create, updatem, delete, view doctor treatment schedule.
-▪ FE-06: Review blog before posting.
-▪ FE-08: View dashboard and reports.
+▪ FE-07: Create, updatem, delete, view doctor treatment schedule.
+▪ FE-08: Review blog before posting.
+▪ FE-09: View dashboard and reports.
 3. Doctor
-▪ FE-09: Log in and log out.
-▪ FE-10: View test result.
-▪ FE-11: Manage information about patient (view, create, update and delete).
-▪ FE-12: Choose and modify clinical protocol given in system.
+▪ FE-10: Log in and log out.
+▪ FE-11: View test result.
+▪ FE-12: Manage information about patient (view, create, update and delete).
+▪ FE-13: Choose and modify clinical protocol given in system.
 4. Staff:
 ▪ FE-14: Log in and log out.
-▪ FE-16: Write blog.
-▪ FE-17: Set test result for patient.
+▪ FE-15: Write blog.
+▪ FE-16: Set test result for patient.
 5. Customer (Patient):
-▪ FE-19: Log in and log out (with Gmail option).
-▪ FE-20: Choose doctor for treatment process.
-▪ FE-21: View test result.
-▪ FE-22: View history.
-▪ FE-23: Get notification of medicine or re-test.
-▪ FE-24: Book private advisory with doctor in incognito.
-▪ FE-25: View document and advise about HIV.
-▪ FE-26: Make appointment for checkup or treatment.
+▪ FE-17: Log in and log out (with Gmail option).
+▪ FE-18: Choose doctor for treatment process.
+▪ FE-19: View test result.
+▪ FE-20: View history.
+▪ FE-21: Get notification of medicine or re-test.
+▪ FE-22: Book private advisory with doctor in incognito.
+▪ FE-23: View document and advise about HIV.
+▪ FE-24: Make appointment for checkup or treatment.
 5. Guest:
-▪ FE-28: View document and advise about HIV.
-▪ FE-29: Create account.
+▪ FE-25: View document and advise about HIV.
+▪ FE-26: Create account.
 
