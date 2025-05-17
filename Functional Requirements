@@ -2,32 +2,31 @@ Major Features
 1. Admin
 ▪ FE-01: Log in and log out.
 ▪ FE-02: Manage information about other users (view, create, update and delete).
-▪ FE-03: View dashboard and reports.
-▪ FE-04: Manage account, decentralize role.
 2. Manager
-▪ FE-05: Log in and log out.
-▪ FE-06: Manage information about doctor and staff (view, create, update and delete).
-▪ FE-07: Create, updatem, delete, view doctor treatment schedule.
-▪ FE-08: Review blog before posting.
-▪ FE-09: View dashboard and reports.
+▪ FE-03: Log in and log out.
+▪ FE-04: Manage information about doctor and staff (view, create, update and delete).
+▪ FE-05: Manage check up and advisory schedule.
+▪ FE-06: Manage treatment schedule.
+▪ FE-07: View dashboard and reports.
 3. Doctor
-▪ FE-10: Log in and log out.
-▪ FE-11: View test result.
-▪ FE-12: Manage information about patient (view, create, update and delete).
+▪ FE-08: Log in and log out.
+▪ FE-09: View test result.
+▪ FE-10: Manage information about patient (view, create, update and delete).
+▪ FE-11: Manage treatment schedule.
+▪ FE-12: View checkup schedule.
 ▪ FE-13: Choose and modify clinical protocol given in system.
 4. Staff:
 ▪ FE-14: Log in and log out.
-▪ FE-16: Set test result for patient.
+▪ FE-15: Set test result for patient.
 5. Customer (Patient):
-▪ FE-17: Log in and log out (with Gmail option).
-▪ FE-18: Choose doctor for treatment process.
-▪ FE-19: View test result.
-▪ FE-20: View history.
-▪ FE-21: Get notification of medicine or re-test.
-▪ FE-22: Book private advisory with doctor in incognito.
-▪ FE-23: View document and advise about HIV.
-▪ FE-24: Make appointment for checkup or treatment.
+▪ FE-16: Log in and log out (with Gmail option).
+▪ FE-17: Get notificaton of medicine or re-test.
+▪ FE-18: Choose doctor for checkup and advisory (with incognito option).
+▪ FE-19: View treatment schedule.
+▪ FE-20: View test result.
+▪ FE-21: View document and advise about HIV.
+▪ FE-22: Make appointment for checkup or treatment.
 5. Guest:
-▪ FE-25: View document and advise about HIV.
-▪ FE-26: Create account.
+▪ FE-23: View document and advise about HIV.
+▪ FE-24: Create account.
 
