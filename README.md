@@ -4,4 +4,4 @@
 ![system context diagram](img/SystemContextDiagram.png)
 
 ## UML
-![uml](img/UML.png)
+![use case diagram](img/UseCaseDiagram.png)
