@@ -19,7 +19,7 @@ Major Features
 ▪ FE-14: Manage test result.
 5. Patient:
 ▪ FE-15: Log in and log out (with Gmail option).
-▪ FE-16: Choose doctor for checkup and advisory (with incognito option).
+▪ FE-16: Update checkup and advisory schedule (with incognito and optional doctor).
 ▪ FE-17: View treatment schedule.
 ▪ FE-18: View test result.
 ▪ FE-19: View document and advise about HIV.
