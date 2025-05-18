@@ -13,11 +13,11 @@ Major Features
 ▪ FE-09: View test result.
 ▪ FE-10: Manage information about patient (view, create, update and delete).
 ▪ FE-11: Manage treatment schedule.
-▪ FE-12: View checkup schedule.
+▪ FE-12: View checkup and advisory schedule.
 ▪ FE-13: Choose and modify clinical protocol given in system.
 4. Staff:
 ▪ FE-14: Log in and log out.
-▪ FE-15: Set test result for patient.
+▪ FE-15: Manage test result.
 5. Customer (Patient):
 ▪ FE-16: Log in and log out (with Gmail option).
 ▪ FE-17: Get notificaton of medicine or re-test.
@@ -25,8 +25,7 @@ Major Features
 ▪ FE-19: View treatment schedule.
 ▪ FE-20: View test result.
 ▪ FE-21: View document and advise about HIV.
-▪ FE-22: Make appointment for checkup or treatment.
 5. Guest:
-▪ FE-23: View document and advise about HIV.
-▪ FE-24: Create account.
+▪ FE-22: View document and advise about HIV.
+▪ FE-23: Create account.
 
