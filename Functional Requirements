@@ -11,19 +11,23 @@ Major Features
 3. Doctor
 ▪ FE-08: Log in and log out.
 ▪ FE-09: View work schedule.
-▪ FE-10: Choose and modify clinical protocol.
-▪ FE-11: View patient test result.
+▪ FE-10: View patient profile and test result.
+▪ FE-11: Choose and modify clinical protocol.
+▪ FE-12: Upload, edit clinical protocol.
 4. Staff:
-▪ FE-12: Log in and log out.
-▪ FE-13: Manage profile of patient (view, create, update and delete).
-▪ FE-14: Upload test result.
+▪ FE-13: Log in and log out.
+▪ FE-14: Manage profile of patient (view, create, update and delete).
+▪ FE-15: Upload, edit test result.
 5. Patient:
-▪ FE-15: Log in and log out (with Gmail option).
-▪ FE-16: Book check-up, advisory, treament schedule (with incognito and optional doctor).
-▪ FE-17: View test result.
-▪ FE-18: View clinical protocol.
-▪ FE-19: View document and advise about HIV.
+▪ FE-16: Log in and log out (with Gmail option).
+▪ FE-17: Choose doctor
+▪ FE-18: Book check-up date, time.
+▪ FE-19: Book advisory date, time (with optional incognito).
+▪ FE-20: Book treament date, time (with optional doctor).
+▪ FE-21: View test result.
+▪ FE-22: View clinical protocol.
+▪ FE-23: View document and advise about HIV.
 5. Guest:
-▪ FE-20: Create account.
-▪ FE-21: View document and advise about HIV.
+▪ FE-24: Create account.
+▪ FE-25: View document and advise about HIV.
 
