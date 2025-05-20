@@ -6,7 +6,7 @@ Major Features
 2. Manager
 ▪ FE-04: Log in and log out.
 ▪ FE-05: Manage profile of doctor and staff (view, create, update and delete).
-▪ FE-06: Manage check-up, advisory, treatment schedule.
+▪ FE-06: Manage check-up, advisory, treatment schedule (view, create, update and delete).
 ▪ FE-07: View dashboard and reports.
 3. Doctor
 ▪ FE-08: Log in and log out.
