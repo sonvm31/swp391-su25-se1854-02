@@ -22,7 +22,7 @@ Major Features
 ▪ FE-16: Log in and log out (with Gmail option).
 ▪ FE-17: Choose doctor.
 ▪ FE-18: Book check-up date, time.
-▪ FE-19: Book advisory date, time (with optional incognito).
+▪ FE-19: Book advisory date, time (with incognito option).
 ▪ FE-20: Book treament date, time (with optional doctor).
 ▪ FE-21: View test result.
 ▪ FE-22: View clinical protocol.
