@@ -16,12 +16,13 @@ Major Features
 4. Staff:
 ▪ FE-12: Log in and log out.
 ▪ FE-13: Manage profile of patient (view, create, update and delete).
+▪ FE-14: Upload test result.
 5. Patient:
-▪ FE-14: Log in and log out (with Gmail option).
-▪ FE-15: Book check-up, advisory, treament schedule (with incognito and optional doctor).
-▪ FE-16: View test result.
-▪ FE-17: View document and advise about HIV.
+▪ FE-15: Log in and log out (with Gmail option).
+▪ FE-16: Book check-up, advisory, treament schedule (with incognito and optional doctor).
+▪ FE-17: View test result.
+▪ FE-18: View document and advise about HIV.
 5. Guest:
-▪ FE-18: Create account.
-▪ FE-19: View document and advise about HIV.
+▪ FE-19: Create account.
+▪ FE-20: View document and advise about HIV.
 
