@@ -20,7 +20,7 @@ Major Features
 ▪ FE-15: Upload, edit test result.
 5. Patient:
 ▪ FE-16: Log in and log out (with Gmail option).
-▪ FE-17: Choose doctor
+▪ FE-17: Choose doctor.
 ▪ FE-18: Book check-up date, time.
 ▪ FE-19: Book advisory date, time (with optional incognito).
 ▪ FE-20: Book treament date, time (with optional doctor).
