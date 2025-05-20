@@ -1,28 +1,26 @@
 Major Features
 1. Admin
 ▪ FE-01: Log in and log out.
-▪ FE-02: Manage information about other users (view, create, update and delete).
+▪ FE-02: Manage account of other users (view, create, update and delete).
 2. Manager
 ▪ FE-03: Log in and log out.
-▪ FE-04: Manage information about doctor and staff (view, create, update and delete).
-▪ FE-05: Manage check-up and advisory schedule.
+▪ FE-04: Manage profile of doctor and staff (view, create, update and delete).
+▪ FE-05: Manage check-up, advisory, treatment schedule.
 ▪ FE-06: View dashboard and reports.
 3. Doctor
 ▪ FE-07: Log in and log out.
-▪ FE-08: Manage treatment schedule.
+▪ FE-08: View work schedule.
 ▪ FE-09: Choose and modify clinical protocol given in system.
-▪ FE-10: View test result.
-▪ FE-11: View check-up and advisory schedule.
+▪ FE-10: View patient test result.
 4. Staff:
-▪ FE-12: Log in and log out.
-▪ FE-13: Manage information about patient (view, create, update and delete).
+▪ FE-11: Log in and log out.
+▪ FE-12: Manage profile of patient (view, create, update and delete).
 5. Patient:
-▪ FE-14: Log in and log out (with Gmail option).
-▪ FE-15: Book checkup and advisory schedule (with incognito and optional doctor).
-▪ FE-16: View test result.
-▪ FE-17: View treatment schedule.
-▪ FE-18: View document and advise about HIV.
+▪ FE-13: Log in and log out (with Gmail option).
+▪ FE-14: Book check-up, advisory, treament schedule (with incognito and optional doctor).
+▪ FE-15: View test result.
+▪ FE-16: View document and advise about HIV.
 5. Guest:
-▪ FE-19: Create account.
-▪ FE-20: View document and advise about HIV.
+▪ FE-17: Create account.
+▪ FE-28: View document and advise about HIV.
 
