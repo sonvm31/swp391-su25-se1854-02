@@ -5,3 +5,6 @@
 
 ## Use Case Diagram
 ![use case diagram](img/UseCaseDiagram.png)
+
+## Main Flows
+![main flows](img/MainFlows.png)
