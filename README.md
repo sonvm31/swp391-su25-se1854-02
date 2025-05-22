@@ -8,3 +8,6 @@
 
 ## Main Flows
 ![main flows](img/MainFlows.png)
+
+## ERD
+![ERD](img/ERD.png)
