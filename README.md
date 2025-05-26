@@ -3,11 +3,17 @@
 ## System Context Diagram
 ![system context diagram](img/SystemContextDiagram.png)
 
-## Use Case Diagram
-![use case diagram](img/UseCaseDiagram.png)
-
 ## Main Flows
 ![main flows](img/MainFlows.png)
 
-## ERD
-![ERD](img/ERD.png)
+## ERD 1
+![ERD](img/ERD(v1).png)
+
+## Use Case Diagram 1
+![use case diagram](img/UseCaseDiagram(v1).png)
+
+## ERD 2
+![ERD](img/ERD(v2).png)
+
+## Use Case Diagram 2
+![use case diagram](img/UseCaseDiagram(v2).png)
