@@ -1,0 +1,98 @@
+import React from 'react';
+import { Layout, Menu, theme, Avatar, Dropdown, Typography, Button, Space } from 'antd';
+import { UserOutlined, DownOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom'; // assuming react-router for routing
+
+const { Header } = Layout;
+const { Text } = Typography;
+
+const AppHeader = ({ isAuthenticated = false, username = 'User' }) => {
+    const {
+        token: { colorBgContainer },
+    } = theme.useToken();
+
+    const items = [
+        { key: '1', label: 'Trang chủ' },
+        { key: '2', label: 'Đặt lịch' },
+        { key: '3', label: 'Hỏi đáp' },
+    ];
+
+    const menu = (
+        <Menu
+            items={[
+                { key: 'profile', label: 'Profile' },
+                { key: 'settings', label: 'Settings' },
+            ]}
+            onClick={({ key }) => {
+                console.log(`Clicked on ${key}`);
+                // Implement routing or modal open for Profile/Settings here
+            }}
+        />
+    );
+
+    const handleLogout = () => {
+        console.log('Logout clicked');
+        // Implement your logout logic here
+    };
+
+    return (
+        <Header
+            style={{
+                position: 'sticky',
+                top: 0,
+                zIndex: 1,
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                background: colorBgContainer,
+                padding: '0 24px',
+            }}
+        >
+            <div
+                className="demo-logo"
+                style={{ width: 120, height: 31, background: 'rgba(0, 0, 0, 0.3)', marginRight: 24 }}
+            />
+
+            <Menu
+                theme="light"
+                mode="horizontal"
+                defaultSelectedKeys={['1']}
+                items={items}
+                style={{
+                    flex: 'none',
+                    maxWidth: '800px',
+                    width: '100%',
+                    justifyContent: 'center'
+                }}
+            />
+
+            {isAuthenticated ? (
+                <Space align="center" size={8} style={{ cursor: 'default' }}>
+                    <Dropdown overlay={menu} placement="bottomLeft" arrow>
+                        <Space style={{ cursor: 'pointer' }} align="center">
+                            <Avatar icon={<UserOutlined />} />
+                            <Text style={{ color: '#fff', marginLeft: 4, marginRight: 4 }}>{username}</Text>
+                            <DownOutlined style={{ color: '#fff' }} />
+                        </Space>
+                    </Dropdown>
+                    <Button type="primary" icon={<LogoutOutlined />} onClick={handleLogout} danger>
+                        Logout
+                    </Button>
+                </Space>
+            ) : (
+                <Space size="middle">
+                    <Link to="/login">
+                        <Button type="primary">Login</Button>
+                    </Link>
+                    <Link to="/register">
+                        <Button>Register</Button>
+                    </Link>
+                </Space>
+            )}
+        </Header>
+    );
+};
+
+export default AppHeader;
+
