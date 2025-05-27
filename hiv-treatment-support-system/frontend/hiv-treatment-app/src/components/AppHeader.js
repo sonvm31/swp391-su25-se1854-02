@@ -1,7 +1,8 @@
 import React from 'react';
-import { Layout, Menu, theme, Avatar, Dropdown, Typography, Button, Space } from 'antd';
+import { Layout, Menu, theme, Avatar, Dropdown, Typography, Button, Space, Image } from 'antd';
 import { UserOutlined, DownOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom'; // assuming react-router for routing
+import appLogo from '../appLogo.png'
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -51,8 +52,29 @@ const AppHeader = ({ isAuthenticated = false, username = 'User' }) => {
         >
             <div
                 className="demo-logo"
-                style={{ width: 120, height: 31, background: 'rgba(0, 0, 0, 0.3)', marginRight: 24 }}
-            />
+                style={{
+                    width: 140,
+                    height: 40,
+                    marginRight: 24,
+                    marginTop: 10,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 8,
+
+                }}
+            >
+                <Link to="/"><img
+                    src={appLogo}
+                    alt="logo"
+                    style={{
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                        objectFit: "contain",
+                        display: "block",
+                    }}
+                /></Link>
+            </div>
 
             <Menu
                 theme="light"
@@ -77,16 +99,16 @@ const AppHeader = ({ isAuthenticated = false, username = 'User' }) => {
                         </Space>
                     </Dropdown>
                     <Button type="primary" icon={<LogoutOutlined />} onClick={handleLogout} danger>
-                        Logout
+                        Đăng xuất
                     </Button>
                 </Space>
             ) : (
                 <Space size="middle">
                     <Link to="/login">
-                        <Button type="primary">Login</Button>
+                        <Button type="primary">Đăng nhập</Button>
                     </Link>
                     <Link to="/register">
-                        <Button>Register</Button>
+                        <Button>Đăng kí</Button>
                     </Link>
                 </Space>
             )}
