@@ -26,14 +26,12 @@ const AppHeader = ({ isAuthenticated = false, username = 'User' }) => {
             ]}
             onClick={({ key }) => {
                 console.log(`Clicked on ${key}`);
-                // Implement routing or modal open for Profile/Settings here
             }}
         />
     );
 
     const handleLogout = () => {
         console.log('Logout clicked');
-        // Implement your logout logic here
     };
 
     return (

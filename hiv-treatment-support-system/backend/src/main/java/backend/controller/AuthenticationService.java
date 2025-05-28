@@ -1,0 +1,59 @@
+package backend.controller;
+
+import backend.dto.AuthenticationResponse;
+import backend.dto.RegisterRequest;
+import backend.model.Role;
+import backend.model.User;
+import backend.repository.UserRepository;
+import backend.service.JwtService;
+import backend.config.CustomUserDetails;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import java.util.Map;
+import java.util.HashMap;
+
+@Service
+@RequiredArgsConstructor
+public class AuthenticationService {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+
+    public AuthenticationResponse register(RegisterRequest request) {
+        if (userRepository.getUserByUsername(request.username()).isPresent()) {
+            throw new RuntimeException("Username already registered!");
+        }
+
+        var user = User.builder()
+                .username(request.username())
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
+                .status("ACTIVE")
+                .role(Role.USER)
+                .build();
+        userRepository.save(user);
+
+        UserDetails userDetails = new CustomUserDetails(user);
+        String jwtToken = jwtService.generateToken(userDetails);
+        return new AuthenticationResponse(jwtToken, user.getUsername());
+    }
+
+    public AuthenticationResponse login(String username, String password) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password)
+        );
+
+        User user = userRepository.getUserByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found after authentication"));
+
+        UserDetails userDetails = new CustomUserDetails(user);
+        String jwtToken = jwtService.generateToken(userDetails);
+
+        return new AuthenticationResponse(jwtToken, user.getUsername());
+    }
+}

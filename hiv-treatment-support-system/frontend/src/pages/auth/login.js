@@ -3,24 +3,31 @@ import '@ant-design/v5-patch-for-react-19';
 import { Form, Input, Button, Alert, Card, Typography, Divider } from 'antd';
 import { useGoogleLogin } from '@react-oauth/google';
 import { GoogleOutlined } from '@ant-design/icons';
-// import axios from 'axios';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const { Link, Text } = Typography;
 
 const Login = () => {
-    const [error, setError] = useState('');
-
-    const handleLogin = async (values) => {
-        // try {
-        //     const response = await axios.post('http://localhost:8080/login', {
-        //         username: values.username,
-        //         password: values.password,
-        //     });
-        //     alert(response.data); // Handle successful login
-        //     setError('');
-        // } catch (err) {
-        //     setError('Invalid credentials');
-        // }
+        const [username, setUsername] = useState('');
+        const [password, setPassword] = useState('');
+        const [error, setError] = useState('');
+        const navigate = useNavigate();
+      const handleLogin = async () => {
+         try {  
+             const response = await axios.post('/api/auth/login', {
+                 username,
+                 password,
+             });
+             setError('Success');
+             if (response.data.token) {
+                   localStorage.setItem('user', JSON.stringify(response.data));
+             }
+             navigate('/dashboard');
+             return response.data;
+         } catch (err) {
+             setError('Invalid credentials');
+         }
     };
 
     const login = useGoogleLogin({
@@ -41,6 +48,9 @@ const Login = () => {
                 <Form.Item
                     label="Tên đăng nhập"
                     name="username"
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     rules={[{ required: true, message: 'Hãy nhập tên đăng nhập của bạn' }]}
                 >
                     <Input placeholder="Tên đăng nhập" />
@@ -48,7 +58,10 @@ const Login = () => {
 
                 <Form.Item
                     label="Mật khẩu"
+                    id="password"
                     name="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     rules={[{ required: true, message: 'Hãy nhập mật khẩu của bạn' }]}
                 >
                     <Input.Password placeholder="Mật khẩu" />
