@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Menu, theme, Avatar, Dropdown, Typography, Button, Space, Image } from 'antd';
 import { UserOutlined, DownOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom'; // assuming react-router for routing
-import appLogo from '../appLogo.png'
+import appLogo from '../assets/appLogo.png';
 
 const { Header } = Layout;
 const { Text } = Typography;

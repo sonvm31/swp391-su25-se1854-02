@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '@ant-design/v5-patch-for-react-19';
+import '../../index.css';
 import { Form, Input, Button, Alert, Card, Typography, Divider } from 'antd';
 import { useGoogleLogin } from '@react-oauth/google';
 import { GoogleOutlined } from '@ant-design/icons';
@@ -9,25 +10,25 @@ import { useNavigate } from 'react-router-dom';
 const { Link, Text } = Typography;
 
 const Login = () => {
-        const [username, setUsername] = useState('');
-        const [password, setPassword] = useState('');
-        const [error, setError] = useState('');
-        const navigate = useNavigate();
-      const handleLogin = async () => {
-         try {  
-             const response = await axios.post('/api/auth/login', {
-                 username,
-                 password,
-             });
-             setError('Success');
-             if (response.data.token) {
-                   localStorage.setItem('user', JSON.stringify(response.data));
-             }
-             navigate('/dashboard');
-             return response.data;
-         } catch (err) {
-             setError('Invalid credentials');
-         }
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const navigate = useNavigate();
+    const handleLogin = async () => {
+        try {
+            const response = await axios.post('/api/auth/login', {
+                username,
+                password,
+            });
+            setError('Success');
+            if (response.data.token) {
+                localStorage.setItem('user', JSON.stringify(response.data));
+            }
+            navigate('/dashboard');
+            return response.data;
+        } catch (err) {
+            setError('Invalid credentials');
+        }
     };
 
     const login = useGoogleLogin({
