@@ -13,10 +13,19 @@ const AppHeader = ({ isAuthenticated = false, username = 'User' }) => {
     } = theme.useToken();
 
     const items = [
-        { key: '1', label: 'Trang chủ' },
-        { key: '2', label: 'Đặt lịch' },
-        { key: '3', label: 'Hỏi đáp' },
+        { key: '1', label: 'Trang chủ', path: '/' },
+        { key: '2', label: 'Đặt lịch', path: '/booking' },
+        { key: '3', label: 'Hỏi đáp', path: '/' },
     ];
+    const mapMenuItems = items.map(item => ({
+        key: item.key,
+        label: <Link to={item.path}>{item.label}</Link>,
+    }));
+
+    const activeMenu = items.find(item =>
+        location.pathname === item.path ||
+        location.pathname.startsWith(item.path + '/')
+    )?.key;
 
     const menu = (
         <Menu
@@ -77,8 +86,8 @@ const AppHeader = ({ isAuthenticated = false, username = 'User' }) => {
             <Menu
                 theme="light"
                 mode="horizontal"
-                defaultSelectedKeys={['1']}
-                items={items}
+                selectedKeys={activeMenu ? [activeMenu] : []}
+                items={mapMenuItems}
                 style={{
                     flex: 'none',
                     maxWidth: '800px',

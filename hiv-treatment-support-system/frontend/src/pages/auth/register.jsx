@@ -1,9 +1,11 @@
 import React from 'react';
 import '@ant-design/v5-patch-for-react-19';
 import { Form, Input, Button, DatePicker, Select, message, Divider, Typography } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 const { Link, Text } = Typography;
+const dateFormat = 'DD/MM/YYYY';
 
 const Register = () => {
     const [form] = Form.useForm();
@@ -21,6 +23,7 @@ const Register = () => {
 
     return (
         <div style={{ maxWidth: 500, margin: '40px auto', padding: 24, boxShadow: '0 4px 12px rgba(0,0,0,0.15)', borderRadius: 8 }}>
+            <Link href="/"><ArrowLeftOutlined /> Về trang chủ</Link>
             <h2 style={{ textAlign: 'center', marginBottom: 24 }}>Đăng kí</h2>
             <Form
                 form={form}
@@ -57,7 +60,7 @@ const Register = () => {
                     name="dob"
                     rules={[{ required: true, message: 'Hãy điền ngày sinh của bạn' }]}
                 >
-                    <DatePicker style={{ width: '100%' }} placeholder="Ngày sinh" />
+                    <DatePicker style={{ width: '100%' }} placeholder="Ngày sinh" format={dateFormat} />
                 </Form.Item>
 
                 <Form.Item

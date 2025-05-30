@@ -7,6 +7,8 @@ import Home from './pages/client/home';
 import Login from './pages/auth/login';
 import Register from './pages/auth/register';
 import Dashboard from './pages/auth/dashboard';
+import BookingCheckupForm from './pages/client/booking';
+import App from './App';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
@@ -18,6 +20,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/booking" element={<BookingCheckupForm />} />
+        {/* <Route path="/test" element={<App />} /> */}
       </Routes>
     </BrowserRouter>
   </GoogleOAuthProvider>
