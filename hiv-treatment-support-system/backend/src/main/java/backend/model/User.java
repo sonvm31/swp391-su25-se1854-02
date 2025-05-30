@@ -1,7 +1,8 @@
 package backend.model;
 
-import jakarta.persistence.*;
 import lombok.*;
+
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "_users")
@@ -9,6 +10,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class User {
 
     @Id

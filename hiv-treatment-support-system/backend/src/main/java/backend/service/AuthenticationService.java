@@ -1,11 +1,10 @@
-package backend.controller;
+package backend.service;
 
 import backend.dto.AuthenticationResponse;
 import backend.dto.RegisterRequest;
 import backend.model.Role;
 import backend.model.User;
 import backend.repository.UserRepository;
-import backend.service.JwtService;
 import backend.config.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,8 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.Map;
-import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +22,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        if (userRepository.getUserByUsername(request.username()).isPresent()) {
+        if (userRepository.findUserByUsername(request.username()).isPresent()) {
             throw new RuntimeException("Username already registered!");
         }
 
@@ -45,10 +42,9 @@ public class AuthenticationService {
 
     public AuthenticationResponse login(String username, String password) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
-        );
+                new UsernamePasswordAuthenticationToken(username, password));
 
-        User user = userRepository.getUserByUsername(username)
+        User user = userRepository.findUserByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found after authentication"));
 
         UserDetails userDetails = new CustomUserDetails(user);

@@ -1,7 +1,9 @@
 package backend.config;
 
 import backend.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,18 +36,17 @@ public class SecurityConfiguration {
     private final UserRepository userRepository;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthFilter)
+            throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/public/**").permitAll()
-                        .anyRequest().authenticated()
-                )
+                        .anyRequest().authenticated())
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -66,12 +67,10 @@ public class SecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService() {
         System.out.println();
-        return username -> userRepository.getUserByUsername(username)
+        return username -> userRepository.findUserByUsername(username)
                 .map(CustomUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }
-
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
