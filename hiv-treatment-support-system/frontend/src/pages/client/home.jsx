@@ -11,11 +11,11 @@ const Home = () => {
     return (
         <Layout>
             <AppHeader />
-            <Content style={{ padding: '0 20px' }}>
+            <Content style={{ padding: '15px 20px' }}>
                 <div
                     style={{
                         background: colorBgContainer,
-                        minHeight: 280,
+                        minHeight: 1080,
                         padding: 24,
                         borderRadius: borderRadiusLG,
                     }}
