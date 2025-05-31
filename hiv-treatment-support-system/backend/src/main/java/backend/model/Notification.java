@@ -27,8 +27,7 @@ public class Notification {
     private String title;
     private String message;
     private LocalDateTime createdAt;
-    private int userId;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "userId")
+    @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 }

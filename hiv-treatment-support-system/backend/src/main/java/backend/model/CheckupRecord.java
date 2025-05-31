@@ -32,16 +32,10 @@ public class CheckupRecord {
     private float height;
     private boolean isAnonymous;
     private boolean isFinishedTreatment;
-    private int checkupId;
-    private int regimenId;
-    private int resultId;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "checkupId")
+    @JoinColumn(name = "checkupId", referencedColumnName = "id")
     private CheckupSchedule checkup;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "regimenId")
+    @JoinColumn(name = "regimenId", referencedColumnName = "id")
     private Regimen regimen;
-    @OneToMany
-    @JoinColumn(name = "id", referencedColumnName = "resultId")
-    private TestResult test;
 }

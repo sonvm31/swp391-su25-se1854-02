@@ -30,12 +30,10 @@ public class CheckupSchedule {
     private String status;
     private Date date;
     private LocalTime slot;
-    private int userId;
-    private int payId;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "userId")
+    @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
     @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "paymentId")
+    @JoinColumn(name = "paymentId", referencedColumnName = "id")
     private Payment payment;
 }

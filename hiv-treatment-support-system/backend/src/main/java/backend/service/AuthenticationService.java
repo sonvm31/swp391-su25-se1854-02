@@ -3,9 +3,14 @@ package backend.service;
 import backend.dto.AuthenticationResponse;
 import backend.dto.RegisterRequest;
 import backend.model.User;
+import backend.repository.RoleRepository;
 import backend.repository.UserRepository;
 import backend.config.CustomUserDetails;
+
 import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDateTime;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +21,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -34,7 +40,8 @@ public class AuthenticationService {
                 .username(request.username())
                 .password(passwordEncoder.encode(request.password()))
                 .accountStatus("ACTIVE")
-                .roleId(0)
+                .role(roleRepository.findRoleNameById(0))
+                .createdAt(LocalDateTime.now())
                 .build();
         userRepository.save(user);
 

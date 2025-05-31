@@ -13,6 +13,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -35,9 +36,8 @@ public class User {
     private String accountStatus;
     private String address;
     private Date dateOfBirth;
-    private Date createdAt;
-    private int roleId;
+    private LocalDateTime createdAt;
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "roleId")
+    @JoinColumn(name = "roleId", referencedColumnName = "id")
     private Role role;
 }

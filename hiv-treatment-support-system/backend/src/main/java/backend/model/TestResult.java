@@ -1,6 +1,8 @@
 package backend.model;
 
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,4 +29,7 @@ public class TestResult {
     private String unit;
     private String note;
     private LocalDateTime dateOfResult;
+    @ManyToOne
+    @JoinColumn(name = "recordId", referencedColumnName = "id")
+    private CheckupRecord record;
 }
