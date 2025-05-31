@@ -1,11 +1,10 @@
 package backend.repository;
 
 import backend.model.Regimen;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-
+@Repository
 public interface RegimenRepository extends JpaRepository<Regimen, Integer> {
-    public ArrayList<Regimen> findReginmenByRegimenID(int userID);
+
 }

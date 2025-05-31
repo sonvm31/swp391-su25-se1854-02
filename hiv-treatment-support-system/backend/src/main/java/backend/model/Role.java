@@ -1,22 +1,24 @@
 package backend.model;
 
-public enum Role {
-    USER("USER", 1),
-    ADMIN("ADMIN", 0);
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Table;
+import jakarta.persistence.Id;
 
-    private final String description;
-    private final int level;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    Role(String description, int level) {
-        this.description = description;
-        this.level = level;
-    }
+@Entity
+@Table(name = "roles")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 
-    public String getDescription() {
-        return description;
-    }
-
-    public int getLevel() {
-        return level;
-    }
+public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int roleID;
+    private String roleName;
 }

@@ -1,11 +1,16 @@
 package backend.model;
 
-import lombok.*;
-
+import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "test_result")
@@ -14,10 +19,12 @@ import java.util.Date;
 @AllArgsConstructor
 
 public class TestResult {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int resultID;
     private String type;
-    private Date dateOfTest;
     private String result;
     private String unit;
     private String note;
+    private LocalDateTime dateOfResult;
 }

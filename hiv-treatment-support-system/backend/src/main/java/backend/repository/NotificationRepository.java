@@ -1,13 +1,10 @@
 package backend.repository;
 
 import backend.model.Notification;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+@Repository
+public interface NotificationRepository extends JpaRepository<Notification, Integer> {
 
-public class NotificationRepository {
-    public interface InnerNotificationRepository extends JpaRepository<Notification, Integer> {
-        ArrayList<Notification> findNotificationByUser_id(int userID);
-    }
 }

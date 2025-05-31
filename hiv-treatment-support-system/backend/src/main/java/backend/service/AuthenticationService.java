@@ -2,7 +2,6 @@ package backend.service;
 
 import backend.dto.AuthenticationResponse;
 import backend.dto.RegisterRequest;
-import backend.model.Role;
 import backend.model.User;
 import backend.repository.UserRepository;
 import backend.config.CustomUserDetails;
@@ -27,11 +26,15 @@ public class AuthenticationService {
         }
 
         var user = User.builder()
-                .username(request.username())
+                .fullName(request.fullName())
+                .gender(request.gender())
+                .dateOfBirth(request.dateOfBirth())
                 .email(request.email())
+                .address(request.address())
+                .username(request.username())
                 .password(passwordEncoder.encode(request.password()))
-                .status("ACTIVE")
-                .role(Role.USER)
+                .accountStatus("ACTIVE")
+                .roleID(0)
                 .build();
         userRepository.save(user);
 

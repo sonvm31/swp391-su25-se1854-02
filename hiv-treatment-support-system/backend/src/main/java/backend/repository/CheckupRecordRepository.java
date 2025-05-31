@@ -1,12 +1,10 @@
 package backend.repository;
 
-import backend.dto.UserPrivateInformationRequest;
 import backend.model.CheckupRecord;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-
+@Repository
 public interface CheckupRecordRepository extends JpaRepository<CheckupRecord, Integer> {
-    public ArrayList<CheckupRecord> findCheckupRercordByUserID(UserPrivateInformationRequest request);
+
 }

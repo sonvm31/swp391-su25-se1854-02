@@ -1,11 +1,14 @@
 package backend.model;
 
-import lombok.*;
-
+import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "checkup_record")
@@ -14,19 +17,19 @@ import java.util.Date;
 @AllArgsConstructor
 
 public class CheckupRecord {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int recordID;
     private String roomCode;
-    private Date dateOfTest;
-    private boolean hivStatus;
-    private Date dateOfResult;
-    private String bloodType;
-    private float height;
-    private float weight;
     private String insuranceNumber;
+    private String hivStatus;
+    private String bloodType;
     private String note;
+    private float weight;
+    private float height;
     private boolean isAnonymous;
     private boolean isFinishedTreatment;
-    private String checkupID;
-    private String regimenID;
-    private String resultID;
+    private int checkupID;
+    private int regimenID;
+    private int resultID;
 }

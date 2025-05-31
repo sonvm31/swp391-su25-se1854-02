@@ -1,10 +1,10 @@
 package backend.repository;
 
-import backend.model.Payment;
+import backend.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PaymentRepository extends JpaRepository<Payment, Integer> {
-
+public interface RoleRepository extends JpaRepository<Role, Integer> {
+    public String findRoleNameByRoleID(int roleID);
 }

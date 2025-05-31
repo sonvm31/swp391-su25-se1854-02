@@ -1,9 +1,14 @@
 package backend.model;
 
-import lombok.*;
-
+import jakarta.persistence.Id;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "payment")
@@ -12,9 +17,11 @@ import jakarta.persistence.Table;
 @AllArgsConstructor
 
 public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int paymentID;
     private String account;
-    private float amount;
     private String description;
-    private boolean status;
+    private String status;
+    private float amount;
 }
