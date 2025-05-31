@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int paymentID;
+    private int id;
     private String account;
     private String description;
     private String status;

@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class TestResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int resultID;
+    private int id;
     private String type;
     private String result;
     private String unit;

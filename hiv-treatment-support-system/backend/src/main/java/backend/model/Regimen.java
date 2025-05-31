@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class Regimen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int reginmenID;
+    private int id;
     private String regimenName;
     private String components;
     private String description;

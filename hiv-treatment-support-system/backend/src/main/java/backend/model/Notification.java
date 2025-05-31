@@ -1,6 +1,8 @@
 package backend.model;
 
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,9 +23,12 @@ import java.time.LocalDateTime;
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int notificationID;
+    private int id;
     private String title;
     private String message;
     private LocalDateTime createdAt;
-    private int userID;
+    private int userId;
+    @ManyToOne
+    @JoinColumn(name = "id", referencedColumnName = "userId")
+    private User user;
 }

@@ -34,7 +34,7 @@ public class AuthenticationService {
                 .username(request.username())
                 .password(passwordEncoder.encode(request.password()))
                 .accountStatus("ACTIVE")
-                .roleID(0)
+                .roleId(0)
                 .build();
         userRepository.save(user);
 

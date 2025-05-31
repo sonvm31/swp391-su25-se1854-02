@@ -25,7 +25,7 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userID;
+    private int id;
     private int phoneNumber;
     private String fullName;
     private String gender;
@@ -36,8 +36,8 @@ public class User {
     private String address;
     private Date dateOfBirth;
     private Date createdAt;
-    private int roleID;
+    private int roleId;
     @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "roleID")
+    @JoinColumn(name = "id", referencedColumnName = "roleId")
     private Role role;
 }
