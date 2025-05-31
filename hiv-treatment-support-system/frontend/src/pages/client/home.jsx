@@ -15,7 +15,7 @@ const Home = () => {
                 <div
                     style={{
                         background: colorBgContainer,
-                        minHeight: 280,
+                        minHeight: 1080,
                         padding: 24,
                         borderRadius: borderRadiusLG,
                     }}

@@ -2,6 +2,7 @@ import React from 'react';
 import '@ant-design/v5-patch-for-react-19';
 import { Form, Input, Button, DatePicker, Select, message, Divider, Typography } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import axios from 'axios';
 
 const { Option } = Select;
 const { Link, Text } = Typography;
@@ -10,10 +11,26 @@ const dateFormat = 'DD/MM/YYYY';
 const Register = () => {
     const [form] = Form.useForm();
 
-    const onFinish = (values) => {
-        console.log('Form values:', values);
-        message.success('Registration successful!');
-        form.resetFields();
+    const onFinish = async (values) => {
+        const response = await axios.post('/api/auth/register', {
+            fullName: values.fullname,
+            gender: values.gender,
+            dateOfBirth: values.dob,
+            email: values.email,
+            phone: values.phone,
+            address: values.address,
+            username: values.username,
+            password: values.password
+        })
+
+        setError('Success');
+        // if (response.data.token) {
+        //     localStorage.setItem('user', JSON.stringify(response.data));
+        // }
+        navigate('/login');
+        return response.data;
+
+
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -31,9 +48,7 @@ const Register = () => {
                 layout="vertical"
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                initialValues={{
-                    gender: 'male',
-                }}
+
             >
                 <Form.Item
                     label="Họ và tên"

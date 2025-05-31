@@ -4,6 +4,7 @@ import AppHeader from '../../components/AppHeader';
 import AppFooter from '../../components/AppFooter';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import moment from 'moment';
+import axios from 'axios';
 
 
 const { Link } = Typography;
@@ -14,11 +15,31 @@ const dateFormat = 'DD/MM/YYYY';
 const Booking = () => {
     const [form] = Form.useForm();
     const [availableTimes, setAvailableTimes] = useState(generateTimeSlots());
+    const [selectedDate, setSelectedDate] = useState('')
 
-    const handleSubmit = (values) => {
-        console.log('Submitted values:', values);
+    const handleSubmit = async (values) => {
+        // console.log('Submitted values:', values.date.format('DD/MM/YYYY'));
+
+        try {
+            console.log(values)
+            const response = await axios.post('/api/booking', {
+                name: values.name,
+                phone: values.phone,
+                service: values.service,
+                doctor: values.doctor,
+                date: values.date.format('DD/MM/YYYY'),
+                time: values.time,
+                notes: values.notes
+            })
+        } catch (error) {
+
+        }
+
         // You can add code here to send the data to the server
     };
+
+
+
     const disabledDate = (current) => {
         // Disallow dates before today
         return current && current < moment().startOf('day');
@@ -98,6 +119,7 @@ const Booking = () => {
                                             label="Ngày khám"
                                             rules={[{ required: true, message: 'Vui lòng chọn ngày khám' }]}
                                         >
+
                                             <DatePicker disabledDate={disabledDate} format={dateFormat} style={{ width: '100%' }} />
                                         </Form.Item>
                                     </Col>
