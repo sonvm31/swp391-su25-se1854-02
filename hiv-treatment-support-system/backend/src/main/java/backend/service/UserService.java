@@ -2,7 +2,7 @@ package backend.service;
 
 import backend.model.Role;
 import backend.model.User;
-import backend.model.request.ListByRoleRequest;
+import backend.model.request.UpdateProfileRequest;
 import backend.repository.UserRepository;
 
 import java.util.List;
@@ -18,8 +18,44 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> getUsersByRole(ListByRoleRequest request) {
-        List<User> list = userRepository.findUsersByRole(Role.valueOf(request.role().toUpperCase()));
+    public List<User> getUsersByRole(String role) {
+        List<User> list = userRepository.findUsersByRole(Role.valueOf(role.toUpperCase()));
         return list;
+    }
+
+    public void deleteUserById(int id) {
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("User not found with ID: " + id);
+        }
+        userRepository.deleteUserById(id);
+    }
+
+    public void updateUserById(UpdateProfileRequest request) {
+        User user = userRepository.findUserById(request.id());
+        if (request.phoneNumber() != null) {
+            user.setPhoneNumber(request.phoneNumber());
+        }
+        if (request.fullName() != null) {
+            user.setFullName(request.fullName());
+        }
+        if (request.gender() != null) {
+            user.setGender(request.gender());
+        }
+        if (request.email() != null) {
+            user.setEmail(request.email());
+        }
+        if (request.username() != null) {
+            user.setUsername(request.username());
+        }
+        if (request.password() != null) {
+            user.setPassword(request.password());
+        }
+        if (request.address() != null) {
+            user.setAddress((request.address()));
+        }
+        if (request.dateOfBirth() != null) {
+            user.setDateOfBirth(request.dateOfBirth());
+        }
+        userRepository.save(user);
     }
 }

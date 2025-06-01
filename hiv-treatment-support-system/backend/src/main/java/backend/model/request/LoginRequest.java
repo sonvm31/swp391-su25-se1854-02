@@ -1,4 +1,8 @@
 package backend.model.request;
 
-public record LoginRequest(String username, String password) {
+import io.micrometer.common.lang.NonNull;
+
+public record LoginRequest(
+        @NonNull String username,
+        @NonNull String password) {
 }

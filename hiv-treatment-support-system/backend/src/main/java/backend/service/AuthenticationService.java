@@ -5,10 +5,8 @@ import backend.model.Role;
 import backend.model.User;
 import backend.model.request.CreateAccountRequest;
 import backend.model.request.LoginRequest;
-import backend.model.request.MailVerificationRequest;
 import backend.model.request.RegisterRequest;
 import backend.model.response.AuthenticationResponse;
-import backend.model.response.MailVerificationResponse;
 import backend.repository.MailVerificationRepository;
 import backend.repository.UserRepository;
 import backend.config.CustomUserDetails;
@@ -37,7 +35,6 @@ public class AuthenticationService {
     private final JavaMailSender mailSender;
     private final AuthenticationManager authenticationManager;
 
-    // Patient register
     public AuthenticationResponse register(RegisterRequest request) {
         if (userRepository.findUserByUsername(request.username()).isPresent()) {
             throw new RuntimeException("Username already registered!");
@@ -62,7 +59,6 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwtToken, user.getUsername());
     }
 
-    // Check login
     public AuthenticationResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password()));
@@ -79,8 +75,7 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwtToken, user.getUsername());
     }
 
-    // Admin create account
-    public AuthenticationResponse createAccount(CreateAccountRequest request) {
+    public AuthenticationResponse create(CreateAccountRequest request) {
         var user = User.builder()
                 .username(request.username())
                 .email(request.email())
@@ -111,15 +106,15 @@ public class AuthenticationService {
         return new AuthenticationResponse(token, user.getUsername());
     }
 
-    public MailVerificationResponse verify(MailVerificationRequest request) {
+    public String verify(String token) {
         Optional<MailVerification> mailVerification = mailVerificationRepository
-                .findMailVerificationByToken(request.token());
+                .findMailVerificationByToken(token);
         if (mailVerification.isEmpty() || mailVerification.get().getExpiryDate().isBefore(LocalDateTime.now())) {
-            return new MailVerificationResponse("Invalid or expired token");
+            return "Invalid or expired token";
         }
         User user = mailVerification.get().getUser();
         user.setVerified(true);
         userRepository.save(user);
-        return new MailVerificationResponse("Validate success");
+        return "Validate success";
     }
 }
