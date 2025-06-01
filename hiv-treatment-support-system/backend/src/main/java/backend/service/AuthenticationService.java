@@ -5,8 +5,10 @@ import backend.model.Role;
 import backend.model.User;
 import backend.model.request.CreateAccountRequest;
 import backend.model.request.LoginRequest;
+import backend.model.request.MailVerificationRequest;
 import backend.model.request.RegisterRequest;
 import backend.model.response.AuthenticationResponse;
+import backend.model.response.MailVerificationResponse;
 import backend.repository.MailVerificationRepository;
 import backend.repository.UserRepository;
 import backend.config.CustomUserDetails;
@@ -14,6 +16,7 @@ import backend.config.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.mail.SimpleMailMessage;
@@ -106,5 +109,17 @@ public class AuthenticationService {
         mailSender.send(message);
 
         return new AuthenticationResponse(token, user.getUsername());
+    }
+
+    public MailVerificationResponse verify(MailVerificationRequest request) {
+        Optional<MailVerification> mailVerification = mailVerificationRepository
+                .findMailVerificationByToken(request.token());
+        if (mailVerification.isEmpty() || mailVerification.get().getExpiryDate().isBefore(LocalDateTime.now())) {
+            return new MailVerificationResponse("Invalid or expired token");
+        }
+        User user = mailVerification.get().getUser();
+        user.setVerified(true);
+        userRepository.save(user);
+        return new MailVerificationResponse("Validate success");
     }
 }

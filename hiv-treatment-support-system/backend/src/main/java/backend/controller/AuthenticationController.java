@@ -1,25 +1,19 @@
 package backend.controller;
 
 import backend.service.AuthenticationService;
-import backend.model.MailVerification;
-import backend.model.User;
 import backend.model.request.CreateAccountRequest;
 import backend.model.request.LoginRequest;
+import backend.model.request.MailVerificationRequest;
 import backend.model.request.RegisterRequest;
 import backend.model.response.AuthenticationResponse;
-import backend.repository.MailVerificationRepository;
-import backend.repository.UserRepository;
+import backend.model.response.MailVerificationResponse;
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
-    private final MailVerificationRepository mailVerificationRepository;
-    private final UserRepository userRepository;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
@@ -49,16 +41,8 @@ public class AuthenticationController {
     }
 
     @GetMapping("/verify")
-    public ResponseEntity<String> verifyEmail(@RequestParam String token) {
-        Optional<MailVerification> mailVerification = mailVerificationRepository.findMailVerificationByToken(token);
-
-        if (mailVerification.isEmpty() || mailVerification.get().getExpiryDate().isBefore(LocalDateTime.now())) {
-            return ResponseEntity.badRequest().body("Invalid or expired token");
-        }
-        User user = mailVerification.get().getUser();
-        user.setVerified(true);
-        userRepository.save(user);
-
-        return ResponseEntity.ok("Email verified successfully!");
+    public ResponseEntity<MailVerificationResponse> verifyEmail(@RequestBody MailVerificationRequest request) {
+        MailVerificationResponse response = authenticationService.verify(request);
+        return ResponseEntity.ok(response);
     }
 }
