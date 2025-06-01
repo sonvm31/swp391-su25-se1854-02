@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '@ant-design/v5-patch-for-react-19';
-import '../../index.css';
 import { Form, Input, Button, Alert, Segmented, Typography, Divider } from 'antd';
 import { useGoogleLogin } from '@react-oauth/google';
 import { GoogleOutlined, ArrowLeftOutlined } from '@ant-design/icons';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { loginAPI } from '../../services/api.service';
 
 const { Link, Text } = Typography;
 
@@ -16,10 +15,7 @@ const Login = () => {
     const navigate = useNavigate();
     const handleLogin = async () => {
         try {
-            const response = await axios.post('/api/auth/login', {
-                username,
-                password,
-            });
+            const response = await loginAPI(username, password)
             setError('Success');
             if (response.data.token) {
                 localStorage.setItem('user', JSON.stringify(response.data));

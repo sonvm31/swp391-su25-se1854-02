@@ -1,36 +1,27 @@
-import React from 'react';
 import '@ant-design/v5-patch-for-react-19';
-import { Form, Input, Button, DatePicker, Select, message, Divider, Typography } from 'antd';
+import { Form, Input, Button, DatePicker, Select, message, Divider, Typography, notification } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { registerAPI } from '../../services/api.service';
 
 const { Option } = Select;
 const { Link, Text } = Typography;
-const dateFormat = 'DD/MM/YYYY';
+const dateFormat = 'DD-MM-YYYY';
+
 
 const Register = () => {
     const [form] = Form.useForm();
-
+    const navigate = useNavigate();
     const onFinish = async (values) => {
-        const response = await axios.post('/api/auth/register', {
-            fullName: values.fullname,
-            gender: values.gender,
-            dateOfBirth: values.dob,
-            email: values.email,
-            phone: values.phone,
-            address: values.address,
-            username: values.username,
-            password: values.password
-        })
-
+        const response = await registerAPI(values)
         setError('Success');
-        // if (response.data.token) {
-        //     localStorage.setItem('user', JSON.stringify(response.data));
-        // }
+        if (response.data) {
+            notification.success({
+                message: 'Đăng kí thành công'
+            })
+        }
         navigate('/login');
         return response.data;
-
-
     };
 
     const onFinishFailed = (errorInfo) => {

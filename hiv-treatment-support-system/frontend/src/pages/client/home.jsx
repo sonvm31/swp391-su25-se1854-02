@@ -1,8 +1,8 @@
-import React from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import AppHeader from '../../components/AppHeader';
-import AppFooter from '../../components/AppFooter';
-const { Header, Content, Footer } = Layout;
+
+import { Layout, theme } from 'antd';
+import AppHeader from '../../components/layouts/client/app-header';
+import AppFooter from '../../components/layouts/client/app-footer';
+const { Content } = Layout;
 
 const Home = () => {
     const {
@@ -11,7 +11,7 @@ const Home = () => {
     return (
         <Layout>
             <AppHeader />
-            <Content style={{ padding: '15px 20px' }}>
+            <Content style={{ padding: '15px' }}>
                 <div
                     style={{
                         background: colorBgContainer,
@@ -20,7 +20,7 @@ const Home = () => {
                         borderRadius: borderRadiusLG,
                     }}
                 >
-                    Content
+
                 </div>
             </Content>
             <AppFooter />

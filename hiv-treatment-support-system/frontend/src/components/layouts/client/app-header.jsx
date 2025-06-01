@@ -1,8 +1,7 @@
-import React from 'react';
 import { Layout, Menu, theme, Avatar, Dropdown, Typography, Button, Space, Image } from 'antd';
 import { UserOutlined, DownOutlined, LogoutOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom'; // assuming react-router for routing
-import appLogo from '../assets/appLogo.png';
+import { Link } from 'react-router-dom';
+import appLogo from '../../../assets/appLogo.png';
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -15,7 +14,7 @@ const AppHeader = ({ isAuthenticated = false, username = 'User' }) => {
     const items = [
         { key: '1', label: 'Trang chủ', path: '/' },
         { key: '2', label: 'Đặt lịch', path: '/booking' },
-        { key: '3', label: 'Hỏi đáp', path: '/' },
+        // { key: '3', label: 'Hỏi đáp', path: '/' },
     ];
     const mapMenuItems = items.map(item => ({
         key: item.key,
