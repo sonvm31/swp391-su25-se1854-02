@@ -1,4 +1,4 @@
-package backend.dto;
+package backend.model.request;
 
 import java.util.Date;
 

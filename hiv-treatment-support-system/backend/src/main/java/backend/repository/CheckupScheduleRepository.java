@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CheckupScheduleRepository extends JpaRepository<CheckupSchedule, Integer> {
-
+    CheckupSchedule findCheckupScheduleByUserId(int userId);
 }

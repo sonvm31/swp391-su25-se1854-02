@@ -12,22 +12,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "checkup_schedule")
+@Table(name = "doctor_profile")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CheckupSchedule {
+public class DoctorProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String type;
-    private String status;
-    private Date date;
-    private LocalTime slot;
+    private String qualifications;
+    private String licenseNumber;
+    private String biography;
+    private Date startYear;
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;

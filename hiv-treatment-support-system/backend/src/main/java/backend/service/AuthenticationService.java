@@ -1,31 +1,40 @@
 package backend.service;
 
-import backend.dto.AuthenticationResponse;
-import backend.dto.RegisterRequest;
+import backend.model.MailVerification;
+import backend.model.Role;
 import backend.model.User;
-import backend.repository.RoleRepository;
+import backend.model.request.CreateAccountRequest;
+import backend.model.request.LoginRequest;
+import backend.model.request.RegisterRequest;
+import backend.model.response.AuthenticationResponse;
+import backend.repository.MailVerificationRepository;
 import backend.repository.UserRepository;
 import backend.config.CustomUserDetails;
 
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.mail.javamail.JavaMailSender;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final MailVerificationRepository mailVerificationRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final JavaMailSender mailSender;
     private final AuthenticationManager authenticationManager;
 
+    // Patient register
     public AuthenticationResponse register(RegisterRequest request) {
         if (userRepository.findUserByUsername(request.username()).isPresent()) {
             throw new RuntimeException("Username already registered!");
@@ -40,7 +49,7 @@ public class AuthenticationService {
                 .username(request.username())
                 .password(passwordEncoder.encode(request.password()))
                 .accountStatus("ACTIVE")
-                .role(roleRepository.findRoleNameById(0))
+                .role(Role.PATIENT)
                 .createdAt(LocalDateTime.now())
                 .build();
         userRepository.save(user);
@@ -50,16 +59,52 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwtToken, user.getUsername());
     }
 
-    public AuthenticationResponse login(String username, String password) {
+    // Check login
+    public AuthenticationResponse login(LoginRequest request) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password));
+                new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 
-        User user = userRepository.findUserByUsername(username)
+        User user = userRepository.findUserByUsername(request.username())
                 .orElseThrow(() -> new RuntimeException("User not found after authentication"));
 
+        if (user.getAccountStatus().equals("UNACTIVE") || !user.isVerified()) {
+            throw new RuntimeException("Account is unactive or not verified yet");
+        }
         UserDetails userDetails = new CustomUserDetails(user);
         String jwtToken = jwtService.generateToken(userDetails);
 
         return new AuthenticationResponse(jwtToken, user.getUsername());
+    }
+
+    // Admin create account
+    public AuthenticationResponse createAccount(CreateAccountRequest request) {
+        var user = User.builder()
+                .username(request.username())
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
+                .accountStatus("ACTIVE")
+                .role(Role.valueOf(request.role().toUpperCase()))
+                .createdAt(LocalDateTime.now())
+                .isVerified(false)
+                .build();
+
+        String token = UUID.randomUUID().toString();
+        MailVerification verificationToken = MailVerification.builder()
+                .token(token)
+                .expiryDate(LocalDateTime.now().plusHours(24))
+                .user(user)
+                .build();
+        userRepository.save(user);
+        mailVerificationRepository.save(verificationToken);
+        String subject = "Verify your email";
+        String verificationUrl = "http://localhost:8080/api/verify?token=" + token;
+        String body = "Click the link to verify your email: " + verificationUrl;
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(user.getEmail());
+        message.setSubject(subject);
+        message.setText(body);
+        mailSender.send(message);
+
+        return new AuthenticationResponse(token, user.getUsername());
     }
 }

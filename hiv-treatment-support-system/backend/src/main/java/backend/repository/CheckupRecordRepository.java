@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CheckupRecordRepository extends JpaRepository<CheckupRecord, Integer> {
-
+    CheckupRecord findCheckupRecordByCheckupId(int userId);
 }

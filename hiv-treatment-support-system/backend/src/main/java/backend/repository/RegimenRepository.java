@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RegimenRepository extends JpaRepository<Regimen, Integer> {
-
+    Regimen findRegimenById(int id);
 }

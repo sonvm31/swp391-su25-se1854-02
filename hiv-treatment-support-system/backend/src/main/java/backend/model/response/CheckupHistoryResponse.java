@@ -1,4 +1,4 @@
-package backend.dto;
+package backend.model.response;
 
 import backend.model.CheckupSchedule;
 

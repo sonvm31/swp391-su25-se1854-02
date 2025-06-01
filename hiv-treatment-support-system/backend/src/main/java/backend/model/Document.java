@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

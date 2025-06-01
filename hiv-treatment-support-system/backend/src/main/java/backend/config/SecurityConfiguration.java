@@ -31,7 +31,6 @@ import java.util.Arrays;
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
-
 public class SecurityConfiguration {
     private final UserRepository userRepository;
 

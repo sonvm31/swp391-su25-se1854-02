@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Regimen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
