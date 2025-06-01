@@ -3,10 +3,8 @@ package backend.controller;
 import backend.service.AuthenticationService;
 import backend.model.request.CreateAccountRequest;
 import backend.model.request.LoginRequest;
-import backend.model.request.MailVerificationRequest;
 import backend.model.request.RegisterRequest;
 import backend.model.response.AuthenticationResponse;
-import backend.model.response.MailVerificationResponse;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,13 +35,13 @@ public class AuthenticationController {
 
     @PostMapping("/create")
     public ResponseEntity<AuthenticationResponse> create(@RequestBody CreateAccountRequest request) {
-        AuthenticationResponse response = authenticationService.createAccount(request);
+        AuthenticationResponse response = authenticationService.create(request);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/verify")
-    public ResponseEntity<MailVerificationResponse> verifyEmail(@RequestBody MailVerificationRequest request) {
-        MailVerificationResponse response = authenticationService.verify(request);
+    public ResponseEntity<String> verifyEmail(@RequestParam String token) {
+        String response = authenticationService.verify(token);
         return ResponseEntity.ok(response);
     }
 }

@@ -24,7 +24,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int phoneNumber;
+    private String phoneNumber;
     private String fullName;
     private String gender;
     private String email;

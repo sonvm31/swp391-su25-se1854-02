@@ -1,4 +1,10 @@
 package backend.model.request;
 
-public record CreateAccountRequest(String email, String username, String password, String role) {
+import io.micrometer.common.lang.NonNull;
+
+public record CreateAccountRequest(
+        @NonNull String email,
+        @NonNull String username,
+        @NonNull String password,
+        @NonNull String role) {
 }
