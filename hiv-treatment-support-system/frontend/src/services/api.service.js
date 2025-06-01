@@ -48,14 +48,16 @@ const createAccountAPI = (username, password, email, role) => {
     return axios.post(URL_BACKEND, data)
 }
 
-const fetchAccountsAPI = () => {
-    const URL_BACKEND = '/api/admin/accounts'
-    return axios.get(URL_BACKEND)
+const fetchAccountsAPI = (role) => {
+    const URL_BACKEND = '/api/admin/list'
+    return axios.get(URL_BACKEND, {
+        params: { role }
+    })
 }
 
-const fetchUsersAPI = () => {
-    const URL_BACKEND = '/api/admin/users'
-    return axios.get(URL_BACKEND)
+const deleteAccountAPI = (id) => {
+    const URL_BACKEND = `/api/admin/${id}`
+    return axios.delete(URL_BACKEND)
 }
 
 export {
@@ -64,5 +66,6 @@ export {
     bookingAPI,
     createAccountAPI,
     fetchAccountsAPI,
-    fetchUsersAPI
+    fetchUsersAPI,
+    deleteAccountAPI
 }

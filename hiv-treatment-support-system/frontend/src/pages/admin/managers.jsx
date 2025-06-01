@@ -24,11 +24,9 @@ const AccountManagers = () => {
     }, [])
 
     const loadAccounts = async () => {
-        const response = await fetchAccountsAPI()
+        const response = await fetchAccountsAPI(role)
         setData(response.data)
     }
-
-    const displayData = data.filter(account => account.role === "MANAGER")
 
     const handleCreate = async () => {
         const response = await createAccountAPI(username, password, email, role)
@@ -91,7 +89,7 @@ const AccountManagers = () => {
                 <h2>Tài khoản quản lí</h2>
                 <Button onClick={() => setIsOpenModal(true)} type='primary'>Tạo mới</Button>
             </div>
-            <Table columns={columns} dataSource={displayData} rowKey={"id"} />
+            <Table columns={columns} dataSource={data} rowKey={"id"} />
             <Modal
                 title="Tạo tài khoản cho quản lí"
                 closable={{ 'aria-label': 'Custom Close Button' }}
