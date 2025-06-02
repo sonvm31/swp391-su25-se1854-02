@@ -6,6 +6,7 @@ import CareIntroSection from '../../components/home-section/CareIntroSection';
 import ServicesSection from '../../components/home-section/ServicesSection';
 import FullServicesSection2 from '../../components/home-section/FullServicesSection2';
 import DoctorList from '../../components/home-section/DoctorList';
+import Document from '../../components/home-section/Document';
 const { Content } = Layout;
 
 const Home = () => {
@@ -27,7 +28,8 @@ const Home = () => {
                     <CareIntroSection />
                     <ServicesSection />
                     <FullServicesSection2/>
-                    <DoctorList />
+                    <DoctorList/>
+                    <Document/>
                 </div>
             </Content>
             <AppFooter />

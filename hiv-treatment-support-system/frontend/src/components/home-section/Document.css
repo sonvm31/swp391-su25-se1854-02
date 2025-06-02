@@ -1,0 +1,105 @@
+.document-section {
+  padding: 60px 20px;
+  background-color: #f7f9fc;
+  text-align: center;
+}
+
+.document-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+.highlight {
+  color: #35a6c7;
+}
+
+.document-subtitle {
+  max-width: 700px;
+  margin: 10px auto 40px;
+  font-size: 16px;
+  color: #666;
+}
+
+.document-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  padding: 0 10px;
+}
+
+.document-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 300px;
+  width: 100%;
+  transition: transform 0.2s;
+  text-align: left;
+}
+
+.document-card:hover {
+  transform: translateY(-4px);
+}
+
+.doc-title {
+  font-size: 18px;
+  color: #222;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.document-author {
+  font-size: 14px;
+  font-weight: 500;
+  color: #2a93b0;
+  margin-bottom: 6px;
+}
+
+.document-snippet {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.document-date {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+.btn-read {
+  padding: 8px 14px;
+  background-color: #35a6c7;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-read:hover {
+  background-color: #2a93b0;
+}
+.view-all-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.btn-outline {
+  padding: 10px 18px;
+  background-color: transparent;
+  border: 2px solid #35a6c7;
+  color: #35a6c7;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-outline:hover {
+  background-color: #35a6c7;
+  color: white;
+}

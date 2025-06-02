@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './DoctorList.css';
 
 // Dùng ảnh từ thư mục public
-const defaultDoctorImage = '/assets/doctor.png';
+import defaultDoctorImage from '../../assets/doctor.png';
 
 function DoctorList() {
   const [doctors, setDoctors] = useState([]);
   const [showAll, setShowAll] = useState(false);
-
+  
   useEffect(() => {
     //fetch('/api/doctors')// có data thì gỡ cmt dòng này
     // Lấy dữ liệu giả từ public/api/doctors.json
