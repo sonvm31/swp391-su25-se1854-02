@@ -7,5 +7,4 @@ import backend.model.Document;
 
 @Repository
 public interface DocumentRepository extends JpaRepository<Document, Integer> {
-    Document findDocumentById(int id);
 }

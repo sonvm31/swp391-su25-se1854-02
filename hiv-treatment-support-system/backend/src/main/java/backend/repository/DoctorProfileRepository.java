@@ -7,5 +7,4 @@ import backend.model.DoctorProfile;
 
 @Repository
 public interface DoctorProfileRepository extends JpaRepository<DoctorProfile, Integer> {
-    DoctorProfile findDoctorProfileById(int id);
 }

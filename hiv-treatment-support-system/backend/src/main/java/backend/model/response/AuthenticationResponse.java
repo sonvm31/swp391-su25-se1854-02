@@ -1,4 +1,8 @@
 package backend.model.response;
 
-public record AuthenticationResponse(String token, String name) {
+import io.micrometer.common.lang.NonNull;
+
+public record AuthenticationResponse(
+        @NonNull String token,
+        @NonNull String name) {
 }
