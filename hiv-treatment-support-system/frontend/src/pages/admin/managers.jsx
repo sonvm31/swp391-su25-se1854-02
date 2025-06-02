@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Button, Input, Modal, notification, Select, Space, Table, Tag } from 'antd';
-import { createAccountAPI, fetchAccountsAPI } from '../../services/api.service';
+import { Button, Input, Modal, notification, Popconfirm, Select, Space, Table, Tag } from 'antd';
+import { createAccountAPI, deleteAccountAPI, fetchAccountsAPI } from '../../services/api.service';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import UpdateUserModal from '../../components/admin/update-modal';
 
 const AccountManagers = () => {
 
     const [data, setData] = useState([
         {
+            id: '1',
             username: 'hello',
             email: 'hello@gmail.com',
             role: 'MANAGER',
@@ -17,7 +19,10 @@ const AccountManagers = () => {
     const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
     const [role, setRole] = useState("MANAGER")
+    const [dataUpdate, setDataUpdate] = useState({})
+
     const [isOpenModal, setIsOpenModal] = useState(false)
+    const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false)
 
     useEffect(() => {
         loadAccounts()
@@ -32,15 +37,31 @@ const AccountManagers = () => {
         const response = await createAccountAPI(username, password, email, role)
         if (response.data) {
             notification.success({
-                message: 'Đăng kí thành công'
+                message: 'Hệ thống',
+                description: 'Tạo tài khoản thành công'
             })
         }
-        setIsOpenModal(false)
+        resetAndClose()
         await loadAccounts()
     }
 
-    const test = () => {
-        alert("clicked")
+    const handleDelete = async (id) => {
+        const response = await deleteAccountAPI(id)
+        if (response.data) {
+            notification.success({
+                message: 'Hệ thống',
+                description: 'Xóa tài khoản thành công'
+            })
+            await loadAccounts()
+        }
+    }
+
+    const resetAndClose = () => {
+        setIsOpenModal(false)
+        setUsername("")
+        setEmail("")
+        setPassword("")
+        setRole("MANAGER")
     }
 
     const columns = [
@@ -74,10 +95,22 @@ const AccountManagers = () => {
         {
             title: 'Action',
             key: 'action',
-            render: () => (
+            render: (_, record) => (
                 <Space size="large">
-                    <EditOutlined onClick={test} style={{ color: 'orange' }} />
-                    <DeleteOutlined onClick={test} style={{ color: 'red' }} />
+                    <EditOutlined onClick={() => {
+                        setIsUpdateModalOpen(true);
+                        setDataUpdate(record)
+                    }} style={{ color: 'orange' }} />
+                    <Popconfirm
+                        title="Xóa người dùng"
+                        description="Bạn có chắc muốn xóa tài khoản này?"
+                        onConfirm={() => handleDelete(record.id)}
+                        okText="Có"
+                        cancelText="Không"
+                        placement="left"
+                    >
+                        <DeleteOutlined style={{ color: 'red' }} />
+                    </Popconfirm>
                 </Space>
             ),
         },
@@ -90,12 +123,19 @@ const AccountManagers = () => {
                 <Button onClick={() => setIsOpenModal(true)} type='primary'>Tạo mới</Button>
             </div>
             <Table columns={columns} dataSource={data} rowKey={"id"} />
+            <UpdateUserModal
+                isUpdateModalOpen={isUpdateModalOpen}
+                setIsUpdateModalOpen={setIsUpdateModalOpen}
+                dataUpdate={dataUpdate}
+                setDataUpdate={setDataUpdate}
+                loadAccounts={loadAccounts}
+            />
             <Modal
                 title="Tạo tài khoản cho quản lí"
                 closable={{ 'aria-label': 'Custom Close Button' }}
                 open={isOpenModal}
-                onOk={() => setIsOpenModal(false)}
-                onCancel={() => setIsOpenModal(false)}
+                onOk={() => handleCreate()}
+                onCancel={resetAndClose}
                 okText={"Tạo"}
                 cancelText={"Hủy"}
             >
@@ -118,6 +158,7 @@ const AccountManagers = () => {
                     </div>
                 </div>
             </Modal>
+
         </>
     )
 }

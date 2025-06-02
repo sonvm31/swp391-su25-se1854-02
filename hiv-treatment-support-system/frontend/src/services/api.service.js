@@ -38,7 +38,7 @@ const bookingAPI = (values) => {
 }
 
 const createAccountAPI = (username, password, email, role) => {
-    const URL_BACKEND = '/api/create'
+    const URL_BACKEND = '/api/auth/create'
     const data = {
         username,
         password,
@@ -49,14 +49,24 @@ const createAccountAPI = (username, password, email, role) => {
 }
 
 const fetchAccountsAPI = (role) => {
-    const URL_BACKEND = '/api/admin/list'
+    const URL_BACKEND = '/api/user/list'
     return axios.get(URL_BACKEND, {
         params: { role }
     })
 }
 
+const updateAccountAPI = (id, username, email) => {
+    const URL_BACKEND = `/api/user/${id}`
+    const data = {
+        username,
+        email
+    }
+
+    return axios.put(URL_BACKEND, data)
+}
+
 const deleteAccountAPI = (id) => {
-    const URL_BACKEND = `/api/admin/${id}`
+    const URL_BACKEND = `/api/user/${id}`
     return axios.delete(URL_BACKEND)
 }
 
@@ -66,6 +76,6 @@ export {
     bookingAPI,
     createAccountAPI,
     fetchAccountsAPI,
-    fetchUsersAPI,
-    deleteAccountAPI
+    deleteAccountAPI,
+    updateAccountAPI
 }
