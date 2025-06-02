@@ -1,5 +1,18 @@
 package backend.service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import backend.config.CustomUserDetails;
 import backend.model.MailVerification;
 import backend.model.Role;
 import backend.model.User;
@@ -9,21 +22,7 @@ import backend.model.request.RegisterRequest;
 import backend.model.response.AuthenticationResponse;
 import backend.repository.MailVerificationRepository;
 import backend.repository.UserRepository;
-import backend.config.CustomUserDetails;
-
 import lombok.RequiredArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.UUID;
-
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.mail.javamail.JavaMailSender;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +55,7 @@ public class AuthenticationService {
 
         UserDetails userDetails = new CustomUserDetails(user);
         String jwtToken = jwtService.generateToken(userDetails);
+        
         return new AuthenticationResponse(jwtToken, user.getUsername());
     }
 
@@ -69,6 +69,7 @@ public class AuthenticationService {
         if (user.getAccountStatus().equals("UNACTIVE") || !user.isVerified()) {
             throw new RuntimeException("Account is unactive or not verified yet");
         }
+
         UserDetails userDetails = new CustomUserDetails(user);
         String jwtToken = jwtService.generateToken(userDetails);
 
@@ -85,6 +86,7 @@ public class AuthenticationService {
                 .createdAt(LocalDateTime.now())
                 .isVerified(false)
                 .build();
+        userRepository.save(user);
 
         String token = UUID.randomUUID().toString();
         MailVerification verificationToken = MailVerification.builder()
@@ -92,11 +94,12 @@ public class AuthenticationService {
                 .expiryDate(LocalDateTime.now().plusHours(24))
                 .user(user)
                 .build();
-        userRepository.save(user);
         mailVerificationRepository.save(verificationToken);
+
         String subject = "Verify your email";
         String verificationUrl = "http://localhost:8080/api/verify?token=" + token;
         String body = "Click the link to verify your email: " + verificationUrl;
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(user.getEmail());
         message.setSubject(subject);
@@ -106,15 +109,18 @@ public class AuthenticationService {
         return new AuthenticationResponse(token, user.getUsername());
     }
 
-    public String verify(String token) {
+    public boolean verify(String token) {
         Optional<MailVerification> mailVerification = mailVerificationRepository
                 .findMailVerificationByToken(token);
+
         if (mailVerification.isEmpty() || mailVerification.get().getExpiryDate().isBefore(LocalDateTime.now())) {
-            return "Invalid or expired token";
+            return false;
         }
+
         User user = mailVerification.get().getUser();
         user.setVerified(true);
         userRepository.save(user);
-        return "Validate success";
+
+        return true;
     }
 }

@@ -1,23 +1,24 @@
 package backend.model;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "checkup_schedule")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CheckupSchedule {
@@ -26,8 +27,9 @@ public class CheckupSchedule {
     private int id;
     private String type;
     private String status;
-    private Date date;
+    private LocalDate date;
     private LocalTime slot;
+
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;

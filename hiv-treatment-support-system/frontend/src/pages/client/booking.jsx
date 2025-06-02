@@ -3,7 +3,7 @@ import { Form, Input, Select, DatePicker, Button, Typography, Col, Row, Layout, 
 import AppHeader from '../../components/layouts/client/app-header';
 import AppFooter from '../../components/layouts/client/app-footer';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import moment from 'moment';
+// import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { bookingAPI } from '../../services/api.service';
 

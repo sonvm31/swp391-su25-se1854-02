@@ -1,18 +1,17 @@
 package backend.model;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
 
 @Entity
 @Table(name = "doctor_profile")
@@ -26,7 +25,8 @@ public class DoctorProfile {
     private String qualifications;
     private String licenseNumber;
     private String biography;
-    private Date startYear;
+    private LocalDate startYear;
+
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
