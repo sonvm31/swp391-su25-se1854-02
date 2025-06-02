@@ -2,6 +2,10 @@
 import { Layout, theme } from 'antd';
 import AppHeader from '../../components/layouts/client/app-header';
 import AppFooter from '../../components/layouts/client/app-footer';
+import CareIntroSection from '../../components/home-section/CareIntroSection';
+import ServicesSection from '../../components/home-section/ServicesSection';
+import FullServicesSection2 from '../../components/home-section/FullServicesSection2';
+import DoctorList from '../../components/home-section/DoctorList';
 const { Content } = Layout;
 
 const Home = () => {
@@ -20,7 +24,10 @@ const Home = () => {
                         borderRadius: borderRadiusLG,
                     }}
                 >
-
+                    <CareIntroSection />
+                    <ServicesSection />
+                    <FullServicesSection2/>
+                    <DoctorList />
                 </div>
             </Content>
             <AppFooter />
