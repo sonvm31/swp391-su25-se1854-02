@@ -1,15 +1,14 @@
 package backend.service;
 
-import backend.model.Role;
-import backend.model.User;
-import backend.model.request.UpdateProfileRequest;
-import backend.repository.UserRepository;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import backend.model.Role;
+import backend.model.User;
+import backend.model.request.UpdateProfileRequest;
+import backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -27,35 +26,39 @@ public class UserService {
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("User not found with ID: " + id);
         }
-        userRepository.deleteUserById(id);
+        userRepository.deleteById(id);
     }
 
-    public void updateUserById(UpdateProfileRequest request) {
-        User user = userRepository.findUserById(request.id());
-        if (request.phoneNumber() != null) {
-            user.setPhoneNumber(request.phoneNumber());
+    public boolean updateUserById(int id, UpdateProfileRequest request) {
+        User user = userRepository.findById(id).get();
+        if (user != null) {
+            if (request.phoneNumber() != null) {
+                user.setPhoneNumber(request.phoneNumber());
+            }
+            if (request.fullName() != null) {
+                user.setFullName(request.fullName());
+            }
+            if (request.gender() != null) {
+                user.setGender(request.gender());
+            }
+            if (request.email() != null) {
+                user.setEmail(request.email());
+            }
+            if (request.username() != null) {
+                user.setUsername(request.username());
+            }
+            if (request.password() != null) {
+                user.setPassword(request.password());
+            }
+            if (request.address() != null) {
+                user.setAddress((request.address()));
+            }
+            if (request.dateOfBirth() != null) {
+                user.setDateOfBirth(request.dateOfBirth());
+            }
+            userRepository.save(user);
+            return true;
         }
-        if (request.fullName() != null) {
-            user.setFullName(request.fullName());
-        }
-        if (request.gender() != null) {
-            user.setGender(request.gender());
-        }
-        if (request.email() != null) {
-            user.setEmail(request.email());
-        }
-        if (request.username() != null) {
-            user.setUsername(request.username());
-        }
-        if (request.password() != null) {
-            user.setPassword(request.password());
-        }
-        if (request.address() != null) {
-            user.setAddress((request.address()));
-        }
-        if (request.dateOfBirth() != null) {
-            user.setDateOfBirth(request.dateOfBirth());
-        }
-        userRepository.save(user);
+    return false;
     }
 }

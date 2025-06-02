@@ -1,13 +1,12 @@
 package backend.service;
 
-import lombok.RequiredArgsConstructor;
-
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import backend.model.Regimen;
 import backend.repository.RegimenRepository;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
