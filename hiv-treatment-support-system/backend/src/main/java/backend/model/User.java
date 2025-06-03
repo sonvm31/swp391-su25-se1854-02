@@ -3,7 +3,9 @@ package backend.model;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import jakarta.persistence.CascadeType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,6 +39,12 @@ public class User {
     private LocalDateTime createdAt;
     private boolean isVerified;
     private Role role;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    
+    @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private MailVerification mailVerification;
+
+    public String getDisplayId() {
+        return role.name().substring(0, 3) + "-" + id;
+    }
 }

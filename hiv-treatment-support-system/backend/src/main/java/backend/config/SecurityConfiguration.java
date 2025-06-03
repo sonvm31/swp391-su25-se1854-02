@@ -66,7 +66,7 @@ public class SecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService() {
         System.out.println();
-        return username -> userRepository.findUserByUsername(username)
+        return username -> userRepository.findByUsername(username)
                 .map(CustomUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
     }

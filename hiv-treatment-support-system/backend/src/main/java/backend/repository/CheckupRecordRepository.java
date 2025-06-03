@@ -9,5 +9,5 @@ import backend.model.CheckupRecord;
 
 @Repository
 public interface CheckupRecordRepository extends JpaRepository<CheckupRecord, Integer> {
-    Optional<CheckupRecord> findCheckupRecordByCheckupId(int checkupId);
+    Optional<CheckupRecord> findByCheckupId(int checkupId);
 }

@@ -12,15 +12,14 @@ import backend.service.CheckupScheduleService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/checkup")
+@RequestMapping("/api/schedule")
 @RequiredArgsConstructor
 public class CheckupSheduleController {
     private final CheckupScheduleService checkupScheduleService;
 
-    @RequestMapping("/{id}/list")
+    @RequestMapping("/list/{id}")
     public ResponseEntity<List<CheckupSchedule>> getCheckupScheduleByUserId(@RequestParam int userId) {
-        List<CheckupSchedule> response = checkupScheduleService.getCheckupScheduleByUserId(userId);
+        List<CheckupSchedule> response = checkupScheduleService.getByUserId(userId);
         return ResponseEntity.ok(response);
     }
-
 }

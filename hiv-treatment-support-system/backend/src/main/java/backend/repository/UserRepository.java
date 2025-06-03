@@ -11,7 +11,7 @@ import backend.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
-    Optional<User> findUserByUsername(String username);
+    Optional<User> findByUsername(String username);
 
     List<User> findUsersByRole(Role role);
 

@@ -15,7 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "mail")
+@Table(name = "mail_verification")
 @Data
 @Builder
 @NoArgsConstructor

@@ -14,6 +14,10 @@ public class DoctorProfileService {
     private final DoctorProfileRepository doctorProfileRepository;
 
     public Optional<DoctorProfile> getDoctorProfileById(int id) {
+        if (doctorProfileRepository.existsById(id)) {
+            throw new RuntimeException("Doctor profile not found with ID: " + id + ".");
+        }
+        
         return doctorProfileRepository.findById(id);
     }
 }

@@ -30,15 +30,14 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Boolean> updateUserById(@PathVariable int id, @RequestBody UpdateProfileRequest request) {
-        Boolean response = userService.updateUserById(id, request);
+    public ResponseEntity<String> updateUserById(@PathVariable int id, @RequestBody UpdateProfileRequest request) {
+        String response = userService.updateUserById(id, request);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUserById(@PathVariable int id) {
-        userService.deleteUserById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<String> deleteUserById(@PathVariable int id) {
+        String response = userService.deleteUserById(id);
+        return ResponseEntity.ok(response);
     }
-
 }

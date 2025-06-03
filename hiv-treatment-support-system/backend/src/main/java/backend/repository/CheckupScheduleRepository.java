@@ -9,5 +9,5 @@ import backend.model.CheckupSchedule;
 
 @Repository
 public interface CheckupScheduleRepository extends JpaRepository<CheckupSchedule, Integer> {
-    List<CheckupSchedule> findCheckupScheduleByUserId(int userId);
+    List<CheckupSchedule> findByUserId(int userId);
 }

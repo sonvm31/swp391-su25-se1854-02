@@ -40,8 +40,8 @@ public class AuthenticationController {
     }
 
     @GetMapping("/verify")
-    public ResponseEntity<Boolean> verifyEmail(@RequestParam String token) {
-        Boolean response = authenticationService.verify(token);
+    public ResponseEntity<String> verify(@RequestParam String token) {
+        String response = authenticationService.verify(token);
         return ResponseEntity.ok(response);
     }
 }

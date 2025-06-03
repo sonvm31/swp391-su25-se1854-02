@@ -10,12 +10,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "test_result")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TestResult {
@@ -27,6 +29,7 @@ public class TestResult {
     private String unit;
     private String note;
     private LocalDateTime dateOfResult;
+    
     @ManyToOne
     @JoinColumn(name = "recordId", referencedColumnName = "id")
     private CheckupRecord record;

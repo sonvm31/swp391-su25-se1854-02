@@ -14,6 +14,9 @@ public class TestResultService {
     private final TestResultRepository testResultRepository;
 
     public Optional<TestResult> getRegimenById(int id) {
+        if (testResultRepository.existsById(id)) {
+            throw new RuntimeException("Regimen not found with ID: " + id + ".");
+        }
         return testResultRepository.findById(id);
     }
 }

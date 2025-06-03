@@ -8,12 +8,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "payment")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Payment {
@@ -24,8 +26,8 @@ public class Payment {
     private String description;
     private String status;
     private float amount;
+
     @OneToOne
     @JoinColumn(name = "checkupId", referencedColumnName = "id")
     private CheckupSchedule checkup;
-
 }

@@ -34,48 +34,7 @@ public class AuthenticationService {
     private final JavaMailSender mailSender;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
-        if (userRepository.findUserByUsername(request.username()).isPresent()) {
-            throw new RuntimeException("Username already registered!");
-        }
-
-        var user = User.builder()
-                .fullName(request.fullName())
-                .gender(request.gender())
-                .dateOfBirth(request.dateOfBirth())
-                .email(request.email())
-                .address(request.address())
-                .username(request.username())
-                .password(passwordEncoder.encode(request.password()))
-                .accountStatus("ACTIVE")
-                .role(Role.PATIENT)
-                .createdAt(LocalDateTime.now())
-                .build();
-        userRepository.save(user);
-
-        UserDetails userDetails = new CustomUserDetails(user);
-        String jwtToken = jwtService.generateToken(userDetails);
-        
-        return new AuthenticationResponse(jwtToken, user.getUsername());
-    }
-
-    public AuthenticationResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.username(), request.password()));
-
-        User user = userRepository.findUserByUsername(request.username())
-                .orElseThrow(() -> new RuntimeException("User not found after authentication"));
-
-        if (user.getAccountStatus().equals("UNACTIVE") || !user.isVerified()) {
-            throw new RuntimeException("Account is unactive or not verified yet");
-        }
-
-        UserDetails userDetails = new CustomUserDetails(user);
-        String jwtToken = jwtService.generateToken(userDetails);
-
-        return new AuthenticationResponse(jwtToken, user.getUsername());
-    }
-
+    // Admin tạo tài khoản và yêu cầu xác minh email
     public AuthenticationResponse create(CreateAccountRequest request) {
         var user = User.builder()
                 .username(request.username())
@@ -105,22 +64,81 @@ public class AuthenticationService {
         message.setSubject(subject);
         message.setText(body);
         mailSender.send(message);
-
         return new AuthenticationResponse(token, user.getUsername());
     }
 
-    public boolean verify(String token) {
+    // Bệnh nhân đăng ký tài khoản và nhận xác minh email
+    public AuthenticationResponse register(RegisterRequest request) {
+        if (userRepository.findByUsername(request.username()).isPresent()) {
+            throw new RuntimeException("Username already registered!");
+        }
+
+        var user = User.builder()
+                .fullName(request.fullName())
+                .gender(request.gender())
+                .dateOfBirth(request.dateOfBirth())
+                .email(request.email())
+                .address(request.address())
+                .username(request.username())
+                .password(passwordEncoder.encode(request.password()))
+                .accountStatus("ACTIVE")
+                .role(Role.PATIENT)
+                .createdAt(LocalDateTime.now())
+                .build();
+        userRepository.save(user);
+
+         String token = UUID.randomUUID().toString();
+        MailVerification verificationToken = MailVerification.builder()
+                .token(token)
+                .expiryDate(LocalDateTime.now().plusHours(24))
+                .user(user)
+                .build();
+        mailVerificationRepository.save(verificationToken);
+
+        String subject = "Verify your email";
+        String verificationUrl = "http://localhost:8080/api/verify?token=" + token;
+        String body = "Click the link to verify your email: " + verificationUrl;
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(user.getEmail());
+        message.setSubject(subject);
+        message.setText(body);
+        mailSender.send(message);
+
+        UserDetails userDetails = new CustomUserDetails(user);
+        String jwtToken = jwtService.generateToken(userDetails);
+        return new AuthenticationResponse(jwtToken, user.getUsername());
+    }
+
+    // Gửi thông báo trạng thái xác minh email 
+    public String verify(String token) {
         Optional<MailVerification> mailVerification = mailVerificationRepository
-                .findMailVerificationByToken(token);
+                .findByToken(token);
 
         if (mailVerification.isEmpty() || mailVerification.get().getExpiryDate().isBefore(LocalDateTime.now())) {
-            return false;
+            return "Invalid or expired token.";
         }
 
         User user = mailVerification.get().getUser();
         user.setVerified(true);
         userRepository.save(user);
+        return "Mail verified successfully.";
+    }
 
-        return true;
+    // Đăng nhập bằng tên tài khoản và mật khẩu
+    public AuthenticationResponse login(LoginRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.username(), request.password()));
+
+        User user = userRepository.findByUsername(request.username())
+                .orElseThrow(() -> new RuntimeException("User not found after authentication"));
+
+        if (user.getAccountStatus().equals("UNACTIVE") || !user.isVerified()) {
+            throw new RuntimeException("Account is unactive or not verified yet");
+        }
+
+        UserDetails userDetails = new CustomUserDetails(user);
+        String jwtToken = jwtService.generateToken(userDetails);
+        return new AuthenticationResponse(jwtToken, user.getUsername());
     }
 }

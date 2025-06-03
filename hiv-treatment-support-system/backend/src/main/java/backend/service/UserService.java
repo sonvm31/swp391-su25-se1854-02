@@ -17,48 +17,55 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    // Admin lấy danh sách người dùng thông qua role
     public List<User> getUsersByRole(String role) {
         List<User> list = userRepository.findUsersByRole(Role.valueOf(role.toUpperCase()));
         return list;
     }
 
-    public void deleteUserById(int id) {
+    // Admin yêu cầu thay đổi thông tin người dùng 
+    public String updateUserById(int id, UpdateProfileRequest request) {
+        User user = userRepository.findById(id).get();
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User not found with ID: " + id);
+            throw new RuntimeException("User not found with ID: " + id + ".");
         }
-        userRepository.deleteById(id);
+
+        if (request.phoneNumber() != null) {
+            user.setPhoneNumber(request.phoneNumber());
+        }
+        if (request.fullName() != null) {
+            user.setFullName(request.fullName());
+        }
+        if (request.gender() != null) {
+            user.setGender(request.gender());
+        }
+        if (request.email() != null) {
+            user.setEmail(request.email());
+        }
+        if (request.username() != null) {
+            user.setUsername(request.username());
+        }
+        if (request.password() != null) {
+            user.setPassword(request.password());
+        }
+        if (request.address() != null) {
+            user.setAddress((request.address()));
+        }
+        if (request.dateOfBirth() != null) {
+            user.setDateOfBirth(request.dateOfBirth());
+        }
+        userRepository.save(user);
+        return "User updated successfully with ID: " + id + ".";
     }
 
-    public boolean updateUserById(int id, UpdateProfileRequest request) {
-        User user = userRepository.findById(id).get();
-        if (user != null) {
-            if (request.phoneNumber() != null) {
-                user.setPhoneNumber(request.phoneNumber());
-            }
-            if (request.fullName() != null) {
-                user.setFullName(request.fullName());
-            }
-            if (request.gender() != null) {
-                user.setGender(request.gender());
-            }
-            if (request.email() != null) {
-                user.setEmail(request.email());
-            }
-            if (request.username() != null) {
-                user.setUsername(request.username());
-            }
-            if (request.password() != null) {
-                user.setPassword(request.password());
-            }
-            if (request.address() != null) {
-                user.setAddress((request.address()));
-            }
-            if (request.dateOfBirth() != null) {
-                user.setDateOfBirth(request.dateOfBirth());
-            }
-            userRepository.save(user);
-            return true;
+    // Admin yêu cầu xóa người dùng 
+    public String deleteUserById(int id) {
+        if (!userRepository.existsById(id)) {
+            throw new RuntimeException("User not found with ID: " + id + ".");
         }
-    return false;
+        userRepository.deleteById(id);
+        return "User deleted successfully with ID: " + id + ".";
     }
+
+ 
 }

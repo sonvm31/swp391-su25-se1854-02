@@ -9,5 +9,5 @@ import backend.model.Notification;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Integer> {
-    List<Notification> findNotificationsByUserId(int userId);
+    List<Notification> findByUserId(int userId);
 }

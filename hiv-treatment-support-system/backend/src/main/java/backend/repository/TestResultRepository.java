@@ -9,5 +9,5 @@ import backend.model.TestResult;
 
 @Repository
 public interface TestResultRepository extends JpaRepository<TestResult, Integer> {
-    List<TestResult> findTestResultByRecordId(int recordId);
+    List<TestResult> findByRecordId(int recordId);
 }

@@ -9,5 +9,5 @@ import backend.model.Payment;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
-    Optional<Payment> findPaymentByCheckupId(int checkupId);
+    Optional<Payment> findByCheckupId(int checkupId);
 }
