@@ -6,15 +6,7 @@ import UpdateUserModal from '../../components/admin/update-modal';
 
 const AccountManagers = () => {
 
-    const [data, setData] = useState([
-        {
-            id: '1',
-            username: 'hello',
-            email: 'hello@gmail.com',
-            role: 'MANAGER',
-            status: 'active'
-        },
-    ])
+    const [data, setData] = useState([])
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
@@ -30,7 +22,15 @@ const AccountManagers = () => {
 
     const loadAccounts = async () => {
         const response = await fetchAccountsAPI(role)
-        setData(response.data)
+        console.log(response.data)
+
+        if (response.data) {
+            const displayData = {
+                id: data['id']
+            }
+            setData(displayData)
+            console.log(displayData)
+        }
     }
 
     const handleCreate = async () => {
@@ -78,14 +78,14 @@ const AccountManagers = () => {
         {
             title: 'Trạng thái',
             key: 'status',
-            dataIndex: 'status',
-            render: (_, { status }) => {
+            dataIndex: 'accountStatus',
+            render: (_, { accountStatus }) => {
 
-                let color = status === 'active' ? 'green' : 'volcano';
-                let text = status === 'active' ? 'Đang hoạt động' : 'Bị khóa';
+                let color = accountStatus === 'ACTIVE' ? 'green' : 'volcano';
+                let text = accountStatus === 'ACTIVE' ? 'Đang hoạt động' : 'Bị khóa';
 
                 return (
-                    <Tag color={color} key={status}>
+                    <Tag color={color} key={accountStatus}>
                         {text}
                     </Tag>
                 );
@@ -100,6 +100,7 @@ const AccountManagers = () => {
                     <EditOutlined onClick={() => {
                         setIsUpdateModalOpen(true);
                         setDataUpdate(record)
+
                     }} style={{ color: 'orange' }} />
                     <Popconfirm
                         title="Xóa người dùng"
@@ -122,7 +123,7 @@ const AccountManagers = () => {
                 <h2>Tài khoản quản lí</h2>
                 <Button onClick={() => setIsOpenModal(true)} type='primary'>Tạo mới</Button>
             </div>
-            <Table columns={columns} dataSource={data} rowKey={"id"} />
+            <Table columns={columns} dataSource={data} rowKey={data.id} />
             <UpdateUserModal
                 isUpdateModalOpen={isUpdateModalOpen}
                 setIsUpdateModalOpen={setIsUpdateModalOpen}
@@ -131,10 +132,10 @@ const AccountManagers = () => {
                 loadAccounts={loadAccounts}
             />
             <Modal
-                title="Tạo tài khoản cho quản lí"
+                title="Tạo tài khoản"
                 closable={{ 'aria-label': 'Custom Close Button' }}
                 open={isOpenModal}
-                onOk={() => handleCreate()}
+                onOk={handleCreate}
                 onCancel={resetAndClose}
                 okText={"Tạo"}
                 cancelText={"Hủy"}

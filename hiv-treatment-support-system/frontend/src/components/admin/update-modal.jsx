@@ -1,6 +1,6 @@
 import { Input, Modal, notification } from "antd"
 import { useEffect, useState } from "react"
-import { createAccountAPI, updateAccountAPI } from "../../services/api.service"
+import { updateAccountAPI } from "../../services/api.service"
 
 
 
@@ -17,7 +17,7 @@ const UpdateUserModal = (props) => {
             setId(dataUpdate.id)
             setUsername(dataUpdate.username)
             setEmail(dataUpdate.email)
-            setRole('MANAGER')
+            setRole(dataUpdate.role)
         }
     }, [dataUpdate])
 
@@ -25,7 +25,8 @@ const UpdateUserModal = (props) => {
         const response = await updateAccountAPI(id, username, email)
         if (response.data) {
             notification.success({
-                message: 'Đăng kí thành công'
+                message: 'Hệ thống',
+                description: 'Cập nhật thành công'
             })
         }
         resetAndClose()
@@ -36,7 +37,7 @@ const UpdateUserModal = (props) => {
         setIsUpdateModalOpen(false)
         setUsername('')
         setEmail('')
-        setRole('MANAGER')
+        setRole('')
         setDataUpdate({})
     }
     return (
@@ -46,7 +47,7 @@ const UpdateUserModal = (props) => {
             open={isUpdateModalOpen}
             onOk={handleUpdate}
             onCancel={resetAndClose}
-            okText={"Tạo"}
+            okText={"Cập nhật"}
             cancelText={"Hủy"}
         >
             <div style={{ display: 'flex', gap: '15px', flexDirection: 'column' }}>
