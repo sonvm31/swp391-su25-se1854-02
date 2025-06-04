@@ -3,6 +3,7 @@ package backend.testresult.model;
 import java.time.LocalDateTime;
 
 import backend.healthrecord.model.HealthRecord;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,7 +29,10 @@ public class TestResult {
     private String type;
     private String result;
     private String unit;
+
+    @Column(columnDefinition = "NVARCHAR")
     private String note;
+    
     private LocalDateTime dateOfResult;
     
     @ManyToOne

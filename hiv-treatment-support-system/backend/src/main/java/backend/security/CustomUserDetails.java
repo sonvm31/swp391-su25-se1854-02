@@ -1,4 +1,4 @@
-package backend.config;
+package backend.security;
 
 import java.util.Collection;
 import java.util.List;

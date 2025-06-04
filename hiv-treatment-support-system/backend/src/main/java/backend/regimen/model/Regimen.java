@@ -1,6 +1,7 @@
 package backend.regimen.model;
 
 import backend.healthrecord.model.HealthRecord;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,9 +26,17 @@ public class Regimen {
     private int id;
     private String regimenName;
     private String components;
+
+    @Column(columnDefinition = "NVARCHAR")
     private String description;
+
+    @Column(columnDefinition = "NVARCHAR")
     private String indications;
+
+    @Column(columnDefinition = "NVARCHAR")
     private String contradications;
+
+    @Column(columnDefinition = "NVARCHAR")
     private String note;
 
     @OneToOne

@@ -1,4 +1,4 @@
-package backend.user.service;
+package backend.authentication.service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -12,15 +12,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import backend.config.CustomUserDetails;
-import backend.user.dto.AuthenticationResponse;
+import backend.authentication.dto.AuthenticationResponse;
+import backend.authentication.dto.LoginRequest;
+import backend.authentication.dto.RegisterRequest;
+import backend.authentication.model.MailVerification;
+import backend.authentication.reposiotry.MailVerificationRepository;
+import backend.security.CustomUserDetails;
+import backend.security.JwtService;
 import backend.user.dto.CreateUserRequest;
-import backend.user.dto.LoginRequest;
-import backend.user.dto.RegisterRequest;
-import backend.user.model.MailVerification;
 import backend.user.model.Role;
 import backend.user.model.User;
-import backend.user.repository.MailVerificationRepository;
 import backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -88,7 +89,7 @@ public class AuthenticationService {
                 .build();
         userRepository.save(user);
 
-         String token = UUID.randomUUID().toString();
+        String token = UUID.randomUUID().toString();
         MailVerification verificationToken = MailVerification.builder()
                 .token(token)
                 .expiryDate(LocalDateTime.now().plusHours(24))

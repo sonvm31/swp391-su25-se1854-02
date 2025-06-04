@@ -1,4 +1,4 @@
-package backend.user.dto;
+package backend.authentication.dto;
 
 import java.time.LocalDate;
 
@@ -12,5 +12,6 @@ public record RegisterRequest(
     String phoneNumber,
     String address,
     @NonNull String username,
-    @NonNull String password) {
+    @NonNull String password
+) {
 }

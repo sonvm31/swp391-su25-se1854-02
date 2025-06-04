@@ -1,4 +1,4 @@
-package backend.user.controller;
+package backend.authentication.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import backend.user.dto.AuthenticationResponse;
+import backend.authentication.dto.AuthenticationResponse;
+import backend.authentication.dto.LoginRequest;
+import backend.authentication.dto.RegisterRequest;
+import backend.authentication.service.AuthenticationService;
 import backend.user.dto.CreateUserRequest;
-import backend.user.dto.LoginRequest;
-import backend.user.dto.RegisterRequest;
-import backend.user.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -27,15 +27,16 @@ public class AuthenticationController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
-        AuthenticationResponse response = authenticationService.login(request);
-        return ResponseEntity.ok(response);
-    }
-
     @PostMapping("/create")
     public ResponseEntity<AuthenticationResponse> create(@RequestBody CreateUserRequest request) {
         AuthenticationResponse response = authenticationService.create(request);
+        return ResponseEntity.ok(response);
+    }
+
+    
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
+        AuthenticationResponse response = authenticationService.login(request);
         return ResponseEntity.ok(response);
     }
 

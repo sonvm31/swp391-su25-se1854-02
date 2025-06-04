@@ -1,4 +1,4 @@
-package backend.user.service;
+package backend.security;
 
 import java.security.Key;
 import java.util.Date;

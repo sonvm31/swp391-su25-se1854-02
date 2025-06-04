@@ -1,7 +1,8 @@
-package backend.user.model;
+package backend.authentication.model;
 
 import java.time.LocalDateTime;
 
+import backend.user.model.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

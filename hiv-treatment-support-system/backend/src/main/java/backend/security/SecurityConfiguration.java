@@ -1,4 +1,4 @@
-package backend.config;
+package backend.security;
 
 import java.util.Arrays;
 
@@ -23,7 +23,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import backend.user.model.JwtAuthenticationFilter;
 import backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 

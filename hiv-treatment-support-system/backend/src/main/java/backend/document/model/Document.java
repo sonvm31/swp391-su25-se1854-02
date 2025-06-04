@@ -2,6 +2,7 @@ package backend.document.model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +14,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "documnet")
+@Table(name = "document")
 @Data
 @Builder
 @NoArgsConstructor
@@ -24,6 +25,7 @@ public class Document {
     private int id;
     private String title;
     private String author;
+    @Column(columnDefinition = "NTEXT")
     private String content;
     private LocalDateTime createdAt;
 }
