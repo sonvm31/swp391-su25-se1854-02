@@ -18,7 +18,7 @@ const AppFooter = () => {
       <div className="footer-content">
         <div className="footer-columns">
           <div className="footer-column">
-            <h3>💙 HIV Care Center</h3>
+            <h3> HIV Care Center</h3>
             <p>
               Trung tâm cung cấp dịch vụ khám, tư vấn và điều trị HIV bằng các phương pháp phù hợp, hiện đại. Chúng tôi cam kết đồng hành cùng người bệnh trong quá trình chăm sóc sức khỏe, đảm bảo môi trường thân thiện, riêng tư và tôn trọng.
             </p>
@@ -30,7 +30,6 @@ const AppFooter = () => {
             <p><PhoneOutlined /> Hotline: 1900-1234</p>
             <p><MailOutlined /> info@hivcare.vn</p>
             <p><ClockCircleOutlined /> Thứ 2 - Thứ 7: 8:00–16:30</p>
-            <p><SafetyOutlined /> Bảo mật thông tin 100%</p>
           </div>
 
           <div className="footer-column">
