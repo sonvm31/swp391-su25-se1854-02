@@ -1,12 +1,16 @@
 import { useRouteError } from "react-router-dom";
+import { Button, Result } from 'antd';
 
 const Errors = () => {
     const error = useRouteError();
     return (
-        <div>
-            <h2>Oops! Something went wrong.</h2>
-            <p>{error.message}</p>
-        </div>
+
+        <Result
+            status="500"
+            title="Oops! Something went wrong."
+            subTitle={error.message}
+        />
+
     );
 }
 
