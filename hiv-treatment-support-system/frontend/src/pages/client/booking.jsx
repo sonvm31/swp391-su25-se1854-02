@@ -3,7 +3,7 @@ import { Form, Input, Select, DatePicker, Button, Typography, Col, Row, Layout, 
 import AppHeader from '../../components/layouts/client/app-header';
 import AppFooter from '../../components/layouts/client/app-footer';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-
+import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { bookingAPI } from '../../services/api.service';
 
@@ -19,7 +19,6 @@ const Booking = () => {
     const navigate = useNavigate();
 
     const handleSubmit = async (values) => {
-        // console.log('Submitted values:', values.date.format('DD/MM/YYYY'));
 
         try {
             console.log(values)
@@ -40,7 +39,11 @@ const Booking = () => {
     };
 
     const disabledDate = (current) => {
-        return current && current < moment().startOf('day');
+        const isBeforeToday = current && current < moment().startOf('day');
+
+        const isSunday = current && current.day() === 0;
+
+        return isBeforeToday || isSunday;
     };
     const {
         token: { colorBgContainer, borderRadiusLG },

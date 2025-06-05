@@ -25,10 +25,8 @@ const AccountManagers = () => {
         console.log(response.data)
 
         if (response.data) {
-            const displayData = {
-                id: data['id']
-            }
-            setData(displayData)
+
+            setData(response.data)
             console.log(displayData)
         }
     }

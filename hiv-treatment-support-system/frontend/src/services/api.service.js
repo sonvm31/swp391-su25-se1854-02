@@ -70,6 +70,16 @@ const deleteAccountAPI = (id) => {
     return axios.delete(URL_BACKEND)
 }
 
+const fetchDoctorProfileAPI = () => {
+    const URL_BACKEND = ''
+    return axios.get(URL_BACKEND)
+}
+
+const fetchScheduleAPI = () => {
+    const URL_BACKEDN = ''
+    return axios.get(URL_BACKEDN)
+}
+
 export {
     loginAPI,
     registerAPI,
@@ -77,5 +87,7 @@ export {
     createAccountAPI,
     fetchAccountsAPI,
     deleteAccountAPI,
-    updateAccountAPI
+    updateAccountAPI,
+    fetchDoctorProfileAPI,
+    fetchScheduleAPI
 }
