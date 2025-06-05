@@ -61,12 +61,23 @@
   border-radius: 4px;
 }
 
+.ant-menu-item-selected {
+  border-bottom: 3px solid burlywood !important;
+  color: burlywood !important;
+}
+
+& .ant-menu-item:hover {
+  border-bottom: 3px solid burlywood !important;
+  color: burlywood !important;
+}
+
+
 /* Override Ant Design menu styles */
 .ant-menu-horizontal {
   border: none !important;
 }
 
-.ant-menu-horizontal > .ant-menu-item::after,
-.ant-menu-horizontal > .ant-menu-submenu::after {
+.ant-menu-horizontal>.ant-menu-item::after,
+.ant-menu-horizontal>.ant-menu-submenu::after {
   display: none !important;
 }

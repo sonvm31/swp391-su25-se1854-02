@@ -20,20 +20,20 @@ const AppHeader = ({ isAuthenticated = false, username = 'User' }) => {
     { key: 'services', label: 'Dịch vụ', path: '/services' },
     { key: 'doctors', label: 'Bác sĩ', path: '/doctors' },
     { key: 'resources', label: 'Tài liệu & Blog', path: '/resources' },
-    { 
-      key: 'booking', 
+    {
+      key: 'booking',
       label: 'Đặt lịch khám',
       path: '/booking',
       icon: <CalendarOutlined />
     },
-    { 
-      key: 'test-results', 
+    {
+      key: 'test-results',
       label: 'Tra cứu XN',
       path: '/test-results',
       icon: <FileSearchOutlined />
     },
-    { 
-      key: 'history', 
+    {
+      key: 'history',
       label: 'Lịch sử khám',
       path: '/history',
       icon: <HistoryOutlined />
