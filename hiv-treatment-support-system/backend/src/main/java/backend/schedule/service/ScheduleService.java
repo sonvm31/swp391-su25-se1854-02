@@ -1,5 +1,7 @@
 package backend.schedule.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,67 +23,113 @@ public class ScheduleService {
     // Tạo ca khám bệnh
     public String create(CreateScheduleRequest request) {
         Schedule checkupSchedule = Schedule.builder()
-                .date(request.date())
-                .slot(request.slot())
-                .doctor(userRepository.findById(request.doctorId()).get())
-                .build();
+            .date(request.date())
+            .slot(request.slot())
+            .doctor(userRepository.findById(request.doctorId()).get())
+            .build();
         scheduleRepository.save(checkupSchedule);
 
-        return "Checkup schedule created successfully with ID: " + checkupSchedule.getId() + ".";
+        return "Slot created successfully with ID: " + checkupSchedule.getId() + ".";
     }
 
     // Xem danh sách ca khám bệnh 
     public List<Schedule> list() {
-        return scheduleRepository.findAll();
-    }
- 
-    // Xem danh sách ca khám bệnh theo ID bệnh nhân
-    public List<Schedule> getByPatientId(int patientId) {
-        return scheduleRepository.findByPatientId(patientId);
-    }
+        List<Schedule> schedules = scheduleRepository.findAll();
+        if (schedules.isEmpty()) 
+            throw new RuntimeException("No slot found.");
 
-    // Xem danh sách ca khám bệnh theo ID bác sĩ
-    public List<Schedule> getByDoctorId(int docotrId) {
-        return scheduleRepository.findByDoctorId(docotrId);
+        return schedules;
     }
     
     // Xem chi tiết ca khám bệnh 
     public Schedule get(int id) {
-        return scheduleRepository.findById(id).get();
+        return scheduleRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Slot not found with ID: " + id + "."));
     }
 
     // Chỉnh sửa ca khám bệnh
-    public String update(int id, UpdateCheckupScheduleRequest request) {
-        if (!scheduleRepository.existsById(id)) {
-            throw new RuntimeException("Check-up schedule not found with ID: " + id + ".");
-        }
+    public String update(int id, UpdateCheckupScheduleRequest request) {        
+        Schedule CheckupSchedule = scheduleRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Slot not found with ID: " + id + "."));
 
-        Schedule CheckupSchedule = scheduleRepository.findById(id).get();
         Optional.of(request.date()).ifPresent(CheckupSchedule::setDate);
         Optional.of(request.slot()).ifPresent(CheckupSchedule::setSlot);
         Optional.of(request.status()).ifPresent(CheckupSchedule::setStatus);
         Optional.of(userRepository.findById(request.doctorId()).get()).ifPresent(CheckupSchedule::setDoctor);
     
-        return "Check-up schedule updated successfully with ID: " + id + ".";
+        return "Slot updated successfully with ID: " + id + ".";
     }   
 
     // Đăng ký ca khám bệnh theo ID bệnh nhân
     public String register(int id, int patientId, String type) {
-        Schedule CheckupSchedule = scheduleRepository.findById(id).orElseThrow(() -> new RuntimeException("Check-up schedule not found with ID: " + id + "."));
+        Schedule CheckupSchedule = scheduleRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Slot not found with ID: " + id + "."));
+
         Optional.of(userRepository.findById(patientId).get()).ifPresent(CheckupSchedule::setPatient);
         Optional.of(type).ifPresent(CheckupSchedule::setType);
         
-        return "Check-up schedule registered successfully with ID: " + id + ".";
+        return "Slot registered successfully with ID: " + id + ".";
     }   
 
     // Xóa ca khám bệnh 
     public String delete(int id) {
-        if (!scheduleRepository.existsById(id)) {
-            throw new RuntimeException("Check-up slot not found with ID: " + id + ".");
-        }
+        scheduleRepository.delete(scheduleRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Slot not found with ID: " + id + ".")));
         
-        scheduleRepository.delete(scheduleRepository.findById(id).get());
+        return "Slot deleted successfully with ID: " + id + ".";
+    }
+
+    // Xem danh sách ca khám bệnh theo ID bệnh nhân
+    public List<Schedule> getByPatientId(int patientId) {
+        List<Schedule> schedules = scheduleRepository.findByPatientId(patientId);
+        if (schedules.isEmpty()) 
+            throw new RuntimeException("No slot found.");
+
+        return schedules;
+    }
+
+    // Xem danh sách ca khám bệnh theo ID bác sĩ
+    public List<Schedule> getByDoctorId(int docotrId) {
+        List<Schedule> schedules = scheduleRepository.findByDoctorId(docotrId);
+        if (schedules.isEmpty()) 
+            throw new RuntimeException("No slot found.");
+            
+        return schedules;
+    }
+
+    // Xem danh sách ca khám bệnh theo loại
+    public List<Schedule> getByType(String type) {
+        List<Schedule> schedules = scheduleRepository.findByType(type);
+        if (schedules.isEmpty()) 
+            throw new RuntimeException("No slot found.");
         
-        return "Check-up slot deleted successfully with ID: " + id + ".";
+        return schedules;
+    }
+
+    // Xem danh sách ca khám bệnh theo trạng thái
+    public List<Schedule> getByStatus(String status) {
+        List<Schedule> schedules = scheduleRepository.findByStatus(status);
+        if (schedules.isEmpty())
+            throw new RuntimeException("No slot found.");
+       
+        return schedules;
+    }
+
+    // Xem danh sách ca khám bệnh theo ngày
+    public List<Schedule> getByDate(LocalDate date) {
+        List<Schedule> schedules = scheduleRepository.findByDate(date);
+        if (schedules.isEmpty()) 
+            throw new RuntimeException("No slot found.");
+        
+        return schedules;
+    }
+
+    // Xem danh sách ca khám bệnh theo giờ
+    public List<Schedule> getBySlot(LocalTime slot) {
+        List<Schedule> schedules = scheduleRepository.findBySlot(slot);
+        if (schedules.isEmpty()) 
+            throw new RuntimeException("No slot found.");
+
+        return schedules;
     }
 }

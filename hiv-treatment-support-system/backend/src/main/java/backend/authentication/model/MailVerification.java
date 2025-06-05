@@ -25,7 +25,9 @@ public class MailVerification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String token;
+    
     private LocalDateTime expiryDate;
 
     @OneToOne

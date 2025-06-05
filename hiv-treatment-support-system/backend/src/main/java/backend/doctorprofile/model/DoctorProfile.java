@@ -24,7 +24,9 @@ public class DoctorProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String licenseNumber;
+    
     private String startYear;
 
     @Column(columnDefinition = "NVARCHAR")

@@ -1,5 +1,7 @@
 package backend.doctorprofile.controller;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,32 +19,28 @@ import backend.doctorprofile.service.DoctorProfileService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/doctor")
+@RequestMapping("/api/doctor-profile")
 @RequiredArgsConstructor
 public class DoctorProfileController {
     private final DoctorProfileService doctorProfileService;
 
-    @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody CreateDoctorProfileRequest request) {
-        String response = doctorProfileService.create(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/{doctorId}")
-    public ResponseEntity<DoctorProfile> get(@PathVariable int doctorId) {
-        DoctorProfile response = doctorProfileService.get(doctorId);
-        return ResponseEntity.ok(response);
+    @PostMapping()
+    public ResponseEntity<Map<String, String>> create(@RequestBody CreateDoctorProfileRequest request) {
+        return ResponseEntity.ok(Map.of("message", doctorProfileService.create(request)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable int id, @RequestBody UpdateDoctorProfileRequest request) {
-        String response = doctorProfileService.update(id, request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateDoctorProfileRequest request) {
+        return ResponseEntity.ok(Map.of("message", doctorProfileService.update(id, request)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) {
-        String response = doctorProfileService.delete(id);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, String>> delete(@PathVariable int id) {
+        return ResponseEntity.ok(Map.of("message", doctorProfileService.delete(id)));
+    }
+   
+    @GetMapping("/doctor-id/{doctorId}")
+    public ResponseEntity<DoctorProfile> get(@PathVariable int doctorId) {
+        return ResponseEntity.ok(doctorProfileService.get(doctorId));
     }
 }

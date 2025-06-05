@@ -5,8 +5,11 @@ import java.time.LocalTime;
 
 public record UpdateCheckupScheduleRequest (
     LocalDate date,
+
     LocalTime slot,
+    
     String status,
+
     int doctorId
 ) {
 }

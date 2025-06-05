@@ -24,13 +24,21 @@ public class HealthRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String roomCode;
+
     private String insuranceNumber;
+
     private String hivStatus;
+
     private String bloodType;
+
     private String note;
+
     private float weight;
+
     private float height;
+    
     private boolean isFinishedTreatment;
 
     @ManyToOne

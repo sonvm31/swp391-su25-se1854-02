@@ -1,5 +1,7 @@
 package backend.healthrecord.controller;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,27 +24,24 @@ import lombok.RequiredArgsConstructor;
 public class HealthRecordController {
     private final HealthRecordService healthRecordService;
 
-    @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody CreateHealthRecordRequest request) {
-        String response = healthRecordService.create(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/{checkupId}")
-    public ResponseEntity<HealthRecord> getByCheckupId(@PathVariable int checkupId) {
-        HealthRecord response = healthRecordService.getByCheckupScheduleId(checkupId);
-        return ResponseEntity.ok(response);
+    @PostMapping()
+    public ResponseEntity<Map<String, String>> create(@RequestBody CreateHealthRecordRequest request) {
+        return ResponseEntity.ok(Map.of("message", healthRecordService.create(request)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable int id, @RequestBody UpdateHealthRecordRequest request) {
-        String response = healthRecordService.update(id, request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateHealthRecordRequest request) {
+        return ResponseEntity.ok(Map.of("message", healthRecordService.update(id, request)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) {
-        String response = healthRecordService.delete(id);
+    public ResponseEntity<Map<String, String>> delete(@PathVariable int id) {
+        return ResponseEntity.ok(Map.of("message", healthRecordService.delete(id)));
+    }
+    
+    @GetMapping("/schedule-id/{scheduleId}")
+    public ResponseEntity<HealthRecord> getByCheckupId(@PathVariable int checkupId) {
+        HealthRecord response = healthRecordService.getByCheckupScheduleId(checkupId);
         return ResponseEntity.ok(response);
     }
 }

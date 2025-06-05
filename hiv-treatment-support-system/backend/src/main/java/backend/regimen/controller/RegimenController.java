@@ -1,6 +1,7 @@
 package backend.regimen.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,33 +25,28 @@ import lombok.RequiredArgsConstructor;
 public class RegimenController {
     private final ReginmenService reginmenService;
 
-    @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody CreateRegimenRequest request) {
-        String response = reginmenService.create(request);
-        return ResponseEntity.ok(response);
+    @PostMapping()
+    public ResponseEntity<Map<String, String>> create(@RequestBody CreateRegimenRequest request) {
+        return ResponseEntity.ok(Map.of("message", reginmenService.create(request)));
     }
 
-    @GetMapping("/list")
+    @GetMapping()
     public ResponseEntity<List<Regimen>> list() {
-        List<Regimen> response = reginmenService.list();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(reginmenService.list());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Regimen> get(@PathVariable int id) {
-        Regimen response = reginmenService.get(id);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(reginmenService.get(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable int id, @RequestBody UpdateRegimenRequest request) {
-        String response = reginmenService.update(id, request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateRegimenRequest request) {
+        return ResponseEntity.ok(Map.of("message", reginmenService.update(id, request)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) {
-        String response = reginmenService.delete(id);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, String>> delete(@PathVariable int id) {
+        return ResponseEntity.ok(Map.of("message", reginmenService.delete(id)));
     }
 }

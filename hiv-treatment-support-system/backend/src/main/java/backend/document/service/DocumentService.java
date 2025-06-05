@@ -19,10 +19,10 @@ public class DocumentService {
     // Tạo tài liệu
     public String create(CreateDocumentRequest request) {
         var document = Document.builder()
-        .title(request.title())
-        .author(request.author())
-        .content(request.content())
-        .build();
+            .title(request.title())
+            .author(request.author())
+            .content(request.content())
+            .build();
         documentRepository.save(document);
 
         return "Document created successfully with ID: " + document.getId() + ".";
@@ -30,17 +30,24 @@ public class DocumentService {
 
     // Xem danh sách tất cả tài liệu 
     public List<Document> list() {
-        return documentRepository.findAll();
+        List<Document> documents = documentRepository.findAll();
+        if (documents.isEmpty()) 
+            throw new RuntimeException("No document found");
+
+        return documents;
     }
 
     // Xem chi tiết tài liệu 
     public Document get(int id) {
-        return documentRepository.findById(id).get();
+        return documentRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Document not found with ID: " + id + "."));
     }
 
     // Chỉnh sửa tài liệu
     public String update(int id, UpdateDocumentRequest request) {
-        Document document = documentRepository.findById(id).orElseThrow(() -> new RuntimeException("Document not found with ID: " + id + "."));
+        Document document = documentRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Document not found with ID: " + id + "."));
+        
         Optional.of(request.title()).ifPresent(document::setTitle);
         Optional.of(request.author()).ifPresent(document::setAuthor);
         Optional.of(request.content()).ifPresent(document::setContent);
@@ -50,12 +57,30 @@ public class DocumentService {
     }
 
     // Xóa tài liệu
-    public String delete(int id) {
-        if (!documentRepository.existsById(id)) {
-            throw new RuntimeException("Document not found with ID: " + id + ".");
-        }
-        documentRepository.delete(documentRepository.findById(id).get());
+    public String delete(int id) {        
+        documentRepository.delete(documentRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Document not found with ID: " + id + ".")));
         
         return "Document deleted successfully with ID: " + id + ".";
+    }
+
+    // Tìm danh sách tài liệu theo tên, tác giả và nội dung
+    public List<Document> search(String searchString) {
+        List<Document> documents = documentRepository.findAll();
+        if (documents.isEmpty()) 
+            throw new RuntimeException("No document found.");
+        
+        List<Document> searchList = list();
+        for (Document document : documents) {
+            if (document.getAuthor().contains(searchString) 
+            || document.getTitle().contains(searchString)
+            || document.getContent().contains(searchString)) {
+                searchList.add(document);
+            }
+        } 
+        if (searchList.isEmpty()) 
+            throw new RuntimeException("Document not found with search value: " + searchString + ".");
+
+        return searchList;
     }
 }

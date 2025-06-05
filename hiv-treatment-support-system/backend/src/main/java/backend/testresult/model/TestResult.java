@@ -26,14 +26,19 @@ public class TestResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String type;
+
     private String result;
+    
     private String unit;
 
     @Column(columnDefinition = "NVARCHAR")
     private String note;
     
-    private LocalDateTime dateOfResult;
+    private LocalDateTime expectedResultTime;
+    
+    private LocalDateTime actualResultTime;
     
     @ManyToOne
     @JoinColumn(name = "healthRecordId", referencedColumnName = "id")

@@ -1,5 +1,7 @@
 package backend.authentication.controller;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +14,6 @@ import backend.authentication.dto.AuthenticationResponse;
 import backend.authentication.dto.LoginRequest;
 import backend.authentication.dto.RegisterRequest;
 import backend.authentication.service.AuthenticationService;
-import backend.user.dto.CreateUserRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -23,26 +24,16 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
-        AuthenticationResponse response = authenticationService.register(request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(authenticationService.register(request));
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<AuthenticationResponse> create(@RequestBody CreateUserRequest request) {
-        AuthenticationResponse response = authenticationService.create(request);
-        return ResponseEntity.ok(response);
-    }
-
-    
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest request) {
-        AuthenticationResponse response = authenticationService.login(request);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(authenticationService.login(request));
     }
 
     @GetMapping("/verify")
-    public ResponseEntity<String> verify(@RequestParam String token) {
-        String response = authenticationService.verify(token);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, String>> verify(@RequestParam String token) {
+        return ResponseEntity.ok(Map.of("message", authenticationService.verify(token)));
     }
 }

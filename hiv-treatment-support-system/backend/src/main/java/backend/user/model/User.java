@@ -37,14 +37,23 @@ public class User {
     private String address;
 
     private String phoneNumber;
+
     private String gender;
+
     private String email;
+
     private String username;
+
     private String password;
+
     private String accountStatus;
+
     private LocalDate dateOfBirth;
+
     private LocalDateTime createdAt;
+
     private boolean isVerified;
+    
     private Role role;
     
     @OneToOne

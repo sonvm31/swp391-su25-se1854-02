@@ -21,12 +21,11 @@ public class NotificationService {
     // Tạo thông báo
     public String create(CreateNotificationRequest request) {
         var notification = Notification.builder()
-        .title(request.title())
-        .message(request.message())
-        .createdAt(request.createdAt())
-        .user(userRepository.findById(request.userId()).get())
-        .build();
-
+            .title(request.title())
+            .message(request.message())
+            .createdAt(request.createdAt())
+            .user(userRepository.findById(request.userId()).get())
+            .build();
         notificationRepository.save(notification);
 
         return "Notification created successfully with ID: " + notification.getId() + ".";
@@ -34,18 +33,25 @@ public class NotificationService {
 
     // Xem danh sách thông báo
     public List<Notification> list() {
-        return notificationRepository.findAll();
+        List<Notification> notifications = notificationRepository.findAll();
+        if (notifications.isEmpty()) 
+            throw new RuntimeException("No notification found");
+        
+        return notifications;
     }
 
-    // Xem danh sách thông báo theo người dùng
-    public List<Notification> listByUserId(int userId) {
-        return notificationRepository.findByUserId(userId);
+    // Xem chi tiết thông báo 
+    public Notification get(int id) {
+        return notificationRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("No notification found")); 
     }
 
     // Chỉnh sửa thông báo
     public String update(int id, UpdateNotificationRequest request) {
-        Notification notification = notificationRepository.findById(id).orElseThrow(() -> new RuntimeException("Notification not found with ID: " + id + "."));
-        Optional.of(request.title()).ifPresent(notification::setTitle);
+        Notification notification = notificationRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Notification not found with ID: " + id + "."));
+        
+            Optional.of(request.title()).ifPresent(notification::setTitle);
         Optional.of(request.message()).ifPresent(notification::setMessage);
         Optional.of(request.createdAt()).ifPresent(notification::setCreatedAt);
         notificationRepository.save(notification);
@@ -55,11 +61,35 @@ public class NotificationService {
 
     // Xóa thông báo
     public String delete(int id) {
-        if (!notificationRepository.existsById(id)) {
-            throw new RuntimeException("Notification not found with ID: " + id + ".");
-        }
-        notificationRepository.delete(notificationRepository.findById(id).get());
+        notificationRepository.delete(notificationRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Notification not found with ID: " + id + ".")));
         
         return "Notification deleted successfully with ID: " + id + ".";
+    }
+
+    // Xem danh sách thông báo theo người dùng
+    public List<Notification> listByUserId(int userId) {
+        List<Notification> notifications = notificationRepository.findByUserId(userId);
+        if (notifications.isEmpty()) 
+            throw new RuntimeException("No notification found");
+
+        return notifications;
+    }
+
+    // Tìm kiếm danh sách thông báo theo tên  
+    public List<Notification> getBySearchString(String searchString) {
+        List<Notification> notificationList = notificationRepository.findAll();
+        if (notificationList.isEmpty())  
+            throw new RuntimeException("No notification found.");
+
+        List<Notification> searchList = list();
+        for (Notification notification : notificationList) {
+            if (notification.getTitle().contains(searchString)) 
+                searchList.add(notification);
+        }
+        if (searchList.isEmpty())  
+            throw new RuntimeException("Notification not found with search value: " + searchString + ".");
+        
+        return notificationList;
     }
 }

@@ -35,28 +35,30 @@ public class DoctorProfileService {
 
     // Xem danh sách hồ sơ bác sĩ 
     public List<DoctorProfile> list() {
-        return doctorProfileRepository.findAll();
+        List<DoctorProfile> doctorProfiles = doctorProfileRepository.findAll();
+        if (doctorProfiles.isEmpty()) 
+            throw new RuntimeException("No doctor profile found");
+
+        return doctorProfiles;
     }
 
     // Xem chi tiết hồ sơ của bác sĩ 
     public DoctorProfile get(int id) {
-        if (doctorProfileRepository.existsById(id)) {
-            throw new RuntimeException("Doctor profile not found with ID: " + id + ".");
-        }
-        
-        return doctorProfileRepository.findById(id).get();
+        return doctorProfileRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Doctor profile not found with ID: " + id + "."));
     }
 
     // Chỉnh sửa hồ sơ bác sĩ
     public String update(int id, UpdateDoctorProfileRequest request) {
-        DoctorProfile doctorProfile = doctorProfileRepository.findById(id).orElseThrow(() -> new RuntimeException("Doctor profile not found with ID: " + id + "."));
+        DoctorProfile doctorProfile = doctorProfileRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Doctor profile not found with ID: " + id + "."));
+        
         Optional.ofNullable(request.qualifications()).ifPresent(doctorProfile::setQualifications);
         Optional.ofNullable(request.licenseNumber()).ifPresent(doctorProfile::setLicenseNumber);
         Optional.ofNullable(request.background()).ifPresent(doctorProfile::setBackground);
         Optional.ofNullable(request.biography()).ifPresent(doctorProfile::setBiography);
         Optional.ofNullable(request.startYear()).ifPresent(doctorProfile::setStartYear);
         Optional.ofNullable(userRepository.findById(id).get()).ifPresent(doctorProfile::setUser);
-
         doctorProfileRepository.save(doctorProfile);
 
         return "Doctor profile updated successfully with ID: " + id + ".";
@@ -64,10 +66,8 @@ public class DoctorProfileService {
 
     // Xóa hồ sơ bác sĩ
     public String delete(int id) {
-        if (!doctorProfileRepository.existsById(id)) {
-            throw new RuntimeException("Doctor profile not found with ID: " + id + ".");
-        }
-        doctorProfileRepository.delete(doctorProfileRepository.findById(id).get());
+        doctorProfileRepository.delete(doctorProfileRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Doctor profile not found with ID: " + id + ".")));
         
         return "Doctor profile deleted successfully with ID: " + id + ".";
     }

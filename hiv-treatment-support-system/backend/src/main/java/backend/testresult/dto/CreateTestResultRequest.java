@@ -4,10 +4,15 @@ import java.time.LocalDateTime;
 
 public record CreateTestResultRequest(
     String type,
+
     String result,
+
     String unit,
+
     String note,
-    LocalDateTime dateOfResult,
+
+    LocalDateTime expectedResultTime,
+    
     int scheduleId
 ) {
 }

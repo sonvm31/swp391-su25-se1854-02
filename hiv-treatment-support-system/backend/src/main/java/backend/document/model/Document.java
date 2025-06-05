@@ -23,9 +23,13 @@ public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String title;
+
     private String author;
+    
     @Column(columnDefinition = "NTEXT")
     private String content;
+    
     private LocalDateTime createdAt;
 }

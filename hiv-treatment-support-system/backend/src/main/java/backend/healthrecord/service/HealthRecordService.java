@@ -19,9 +19,9 @@ public class HealthRecordService {
     // Tạo phiếu khám sức khỏe
     public String create(CreateHealthRecordRequest request) {
         var healthRecord = HealthRecord.builder()
-        .roomCode(request.roomCode())
-        .insuranceNumber(request.insuranceNumber())
-        .build();
+            .roomCode(request.roomCode())
+            .insuranceNumber(request.insuranceNumber())
+            .build();
         healthRecordRepository.save(healthRecord);
 
         return "Check-up record created with ID: " + healthRecord.getId() + ".";
@@ -29,22 +29,29 @@ public class HealthRecordService {
 
     // Xem danh sách phiếu khám sức khỏe
     public List<HealthRecord> list() {
-        return healthRecordRepository.findAll();
+        List<HealthRecord> healthRecords = healthRecordRepository.findAll();
+        if (healthRecords.isEmpty()) 
+            throw new RuntimeException("No health record found.");
+        return healthRecords;
     }
     
     // Xem phiếu khám sức khỏe theo ID ca khám
     public HealthRecord getByCheckupScheduleId(int id) {
-        return healthRecordRepository.findByScheduleId(id).get();
+        return healthRecordRepository.findByScheduleId(id)
+            .orElseThrow(() -> new RuntimeException("Health record not found with ID: " + id +"."));
     }
 
     // Xem chi tiết phiếu khám sức khỏe 
     public HealthRecord get(int id) {
-        return healthRecordRepository.findById(id).get();
+        return healthRecordRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Health record not found with ID: " + id +"."));
     }
 
     // Cập nhật phiếu khám sức khỏe
     public String update(int id, UpdateHealthRecordRequest request) {
-        HealthRecord record = healthRecordRepository.findById(id).orElseThrow(() -> new RuntimeException("Check-up record not found with ID: " + id + "."));
+        HealthRecord record = healthRecordRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Check-up record not found with ID: " + id + "."));
+        
         Optional.ofNullable(request.roomCode()).ifPresent(record::setRoomCode);
         Optional.ofNullable(request.insuranceNumber()).ifPresent(record::setRoomCode);
         Optional.ofNullable(request.insuranceNumber()).ifPresent(record::setInsuranceNumber);
@@ -58,12 +65,11 @@ public class HealthRecordService {
 
         return "Check-up record updated successfullty with ID: " + record.getId() + ".";
     }
+
     // Xóa phiếu khám sức khỏe
     public String delete(int id) {
-        if (!healthRecordRepository.existsById(id)) {
-            throw new RuntimeException("Check-up record not found with ID:" + id + ".");
-        }
-        healthRecordRepository.delete(healthRecordRepository.findById(id).get());
+        healthRecordRepository.delete(healthRecordRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Check-up record not found with ID:" + id + ".")));
         
         return "Check-up record deleted successfully with ID:" + id + ".";
     }

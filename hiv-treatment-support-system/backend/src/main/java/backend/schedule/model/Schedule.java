@@ -26,10 +26,14 @@ import lombok.NoArgsConstructor;
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
+
     private String type;
+
     private String status;
+
     private LocalDate date;
+    
     private LocalTime slot;
 
     @OneToOne

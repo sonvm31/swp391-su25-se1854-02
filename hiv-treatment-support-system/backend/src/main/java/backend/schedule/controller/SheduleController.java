@@ -1,6 +1,9 @@
 package backend.schedule.controller;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.schedule.dto.CreateScheduleRequest;
@@ -24,51 +28,63 @@ import lombok.RequiredArgsConstructor;
 public class SheduleController {
     private final ScheduleService checkupScheduleService;
 
-    @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody CreateScheduleRequest request) {
-        String response = checkupScheduleService.create(request);
-        return ResponseEntity.ok(response);
+    @PostMapping()
+    public ResponseEntity<Map<String, String>> create(@RequestBody CreateScheduleRequest request) {
+        return ResponseEntity.ok(Map.of("message", checkupScheduleService.create(request)));
     }
 
-    @GetMapping("/list")
+    @GetMapping()
     public ResponseEntity<List<Schedule>> list() {
-        List<Schedule> response = checkupScheduleService.list();
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/{doctorId}/list")
-    public ResponseEntity<List<Schedule>> getByDoctorId(@PathVariable int id) {
-        List<Schedule> response = checkupScheduleService.getByDoctorId(id);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/{patientId}/list")
-    public ResponseEntity<List<Schedule>> getByPatientId(@PathVariable int id) {
-        List<Schedule> response = checkupScheduleService.getByPatientId(id);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(checkupScheduleService.list());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Schedule> list(@PathVariable int id) {
-        Schedule response = checkupScheduleService.get(id);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(checkupScheduleService.get(id));
     }
 
-    @PutMapping("/{id}/update") 
-    public ResponseEntity<String> update(@PathVariable int id, @RequestBody UpdateCheckupScheduleRequest request) {
-        String response = checkupScheduleService.update(id, request);
-        return ResponseEntity.ok(response);
+    @PutMapping("/update/schedule-id/{id}") 
+    public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateCheckupScheduleRequest request) {
+        return ResponseEntity.ok(Map.of("message", checkupScheduleService.update(id, request)));
     }
     
-    @PutMapping("/{id}/register") 
-    public ResponseEntity<String> register(@PathVariable int id, @RequestBody int patientId, String type) {
-        String response = checkupScheduleService.register(id, patientId, type);
-        return ResponseEntity.ok(response);
+    @PutMapping("/register/schedule-id/{id}") 
+    public ResponseEntity<Map<String, String>> register(@PathVariable int id, @RequestParam int patientId, @RequestParam String type) {
+        return ResponseEntity.ok(Map.of("message", checkupScheduleService.register(id, patientId, type)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) {
-        String response = checkupScheduleService.delete(id);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, String>> delete(@PathVariable int id) {
+        return ResponseEntity.ok(Map.of("message", checkupScheduleService.delete(id)));
+    }
+    
+    @GetMapping("/patient-id/{patientId}")
+    public ResponseEntity<List<Schedule>> getByPatientId(@PathVariable int id) {
+        return ResponseEntity.ok(checkupScheduleService.getByPatientId(id));
+    }
+
+    @GetMapping("/doctor-id/{doctorId}")
+    public ResponseEntity<List<Schedule>> getByDoctorId(@PathVariable int id) {
+        return ResponseEntity.ok(checkupScheduleService.getByDoctorId(id));
+    }
+
+    @GetMapping("/type/{type}")
+    public ResponseEntity<List<Schedule>> getByType(@PathVariable String type) {
+        return ResponseEntity.ok(checkupScheduleService.getByType(type));
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Schedule>> getByStatus(@PathVariable String status) {
+        return ResponseEntity.ok(checkupScheduleService.getByStatus(status));
+    }
+
+    @GetMapping("/date/{date}")
+    public ResponseEntity<List<Schedule>> getByDate(@PathVariable LocalDate date) {
+        return ResponseEntity.ok(checkupScheduleService.getByDate(date));
+    }
+
+    @GetMapping("/slot/{slot}")
+    public ResponseEntity<List<Schedule>> getBySlot(@PathVariable LocalTime slot) {
+        return ResponseEntity.ok(checkupScheduleService.getBySlot(slot));
     }
 }

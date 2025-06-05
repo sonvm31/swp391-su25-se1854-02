@@ -1,6 +1,7 @@
 package backend.payment.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,20 +22,22 @@ import lombok.RequiredArgsConstructor;
 public class PaymentController {
     private final PaymentService paymentService;
 
-    @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody CreatePaymentRequest request) {
-        String response = paymentService.create(request);
-        return ResponseEntity.ok(response);
+    @PostMapping()
+    public ResponseEntity<Map<String, String>> create(@RequestBody CreatePaymentRequest request) {
+        return ResponseEntity.ok(Map.of("message", paymentService.create(request)));
     }
-    @GetMapping("/list")
+    @GetMapping()
     public ResponseEntity<List<Payment>> list() {
-        List<Payment> response = paymentService.list();
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(paymentService.list());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Payment> list(@PathVariable int id) {
-        Payment response = paymentService.get(id);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(paymentService.get(id));
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<Payment>> getByStatus(@PathVariable String status) {
+        return ResponseEntity.ok(paymentService.getByStatus(status));
     }
 }

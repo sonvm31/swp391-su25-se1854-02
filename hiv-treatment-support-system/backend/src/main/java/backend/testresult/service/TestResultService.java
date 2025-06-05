@@ -21,31 +21,29 @@ public class TestResultService {
     // Tạo kết quả xét nghiệm 
     public String create(CreateTestResultRequest request) {
         var testResult = TestResult.builder()
-        .type(request.type())
-        .result(request.result())
-        .unit(request.unit())
-        .note(request.note())
-        .dateOfResult(request.dateOfResult())
-        .healthRecord(healthRecordRepository.findById(request.scheduleId()).get())
-        .build();
+            .type(request.type())
+            .result(request.result())
+            .unit(request.unit())
+            .note(request.note())
+            .expectedResultTime(request.expectedResultTime())
+            .healthRecord(healthRecordRepository.findById(request.scheduleId()).get())
+            .build();
         testResultRepository.save(testResult);
 
         return "Test result created successfully with ID: " + testResult.getId() + ".";
     }
 
-    // Xem danh sách kết quả xét nghiệm theo ID phiếu phám sức khỏe
-    public List<TestResult> list(int recordId) {
-        return testResultRepository.findByHealthRecordId(recordId);
-    }
-
-    // Chỉnh sửa kết quả xét nghiệm
+    // Cập nhật kết quả xét nghiệm
     public String update(int id, UpdateTestResultRequest request) {
-        TestResult testResult = testResultRepository.findById(id).orElseThrow(() -> new RuntimeException("Test result not found with ID: " + id + "."));
+        TestResult testResult = testResultRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Test result not found with ID: " + id + "."));
+        
         Optional.of(request.type()).ifPresent(testResult::setType);
         Optional.of(request.result()).ifPresent(testResult::setResult);
         Optional.of(request.unit()).ifPresent(testResult::setUnit);
         Optional.of(request.note()).ifPresent(testResult::setNote);
-        Optional.of(request.dateOfResult()).ifPresent(testResult::setDateOfResult);
+        Optional.of(request.expectedResultTime()).ifPresent(testResult::setExpectedResultTime);
+        Optional.of(request.actualResultTime()).ifPresent(testResult::setActualResultTime);
         testResultRepository.save(testResult);
         
         return "Test result updated successfully with ID: " + id + ".";
@@ -53,12 +51,18 @@ public class TestResultService {
     
     // Xóa kết quả xét nghiệm
     public String delete(int id) {
-        if (!testResultRepository.existsById(id)) {
-            throw new RuntimeException("Test result not found with ID: " + id + ".");
-        }
-
-        testResultRepository.delete(testResultRepository.findById(id).get());
+        testResultRepository.delete(testResultRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Test result not found with ID: " + id + ".")));
 
         return "Test result deleted successfully with ID: " + id + ".";
+    }
+
+    // Xem danh sách kết quả xét nghiệm theo ID phiếu phám sức khỏe
+    public List<TestResult> list(int recordId) {
+        List<TestResult> testResults = testResultRepository.findByHealthRecordId(recordId);
+        if (testResults.isEmpty()) 
+            throw new RuntimeException("Test result not found with record ID: " + recordId + ".");
+
+        return testResults;
     }
 }

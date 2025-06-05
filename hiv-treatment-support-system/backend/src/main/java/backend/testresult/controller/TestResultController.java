@@ -1,6 +1,7 @@
 package backend.testresult.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,26 +26,22 @@ public class TestResultController {
     private final TestResultService testResultService;
 
     @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody CreateTestResultRequest request) {
-        String response = testResultService.create(request);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/{checkupId}")
-    public ResponseEntity<List<TestResult>> get(@PathVariable int checkupId) {
-        List<TestResult> response = testResultService.list(checkupId);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, String>> create(@RequestBody CreateTestResultRequest request) {
+        return ResponseEntity.ok(Map.of("message", testResultService.create(request)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable int id, @RequestBody UpdateTestResultRequest request) {
-        String response = testResultService.update(id, request);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateTestResultRequest request) {
+        return ResponseEntity.ok(Map.of("message", testResultService.update(id, request)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable int id) {
-        String response = testResultService.delete(id);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<Map<String, String>> delete(@PathVariable int id) {
+        return ResponseEntity.ok(Map.of("message", testResultService.delete(id)));
+    }
+
+    @GetMapping("/record-id/{recordId}")
+    public ResponseEntity<List<TestResult>> get(@PathVariable int recordId) {
+        return ResponseEntity.ok(testResultService.list(recordId));
     }
 }
