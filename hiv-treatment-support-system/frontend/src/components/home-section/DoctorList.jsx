@@ -17,7 +17,7 @@ function DoctorList() {
       .catch((error) => console.error('Lỗi khi tải danh sách bác sĩ:', error));
   }, []);
 
-  const visibleDoctors = showAll ? doctors : doctors.slice(0, 3);
+  const visibleDoctors = showAll ? doctors : doctors.slice(0, 4);
 
   return (
     <section className="doctor-section">
@@ -39,17 +39,17 @@ function DoctorList() {
             />
             <div className="doctor-info">
               <h3>{doctor.name}</h3>
-              <p className="specialty">{doctor.background}</p>
+              
               <p>🕒 {doctor.experience} năm kinh nghiệm</p>
               <p>{doctor.qualifications}</p>
-              <p>🗓️ {doctor.schedule}</p>
+             
               <button className="btn-primary">Đặt lịch</button>
             </div>
           </div>
         ))}
       </div>
 
-      {doctors.length > 3 && (
+      {doctors.length > 4 && (
         <div className="view-all-container">
           <button
             className="btn-outline"

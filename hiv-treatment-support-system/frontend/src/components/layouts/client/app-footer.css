@@ -1,5 +1,5 @@
 .custom-footer {
-  background-color: #35a6c7;
+  background-color: #1a1a1a;
   color: white;
   padding: 40px 20px 20px;
   font-size: 14px;
@@ -23,10 +23,16 @@
   max-width: 350px;
 }
 
+.footer-bottom p,
+.footer-content p,
 .footer-content h3,
 .footer-content h4 {
   color: #ffffff;
   margin-bottom: 12px;
+}
+
+.footer-content h4{
+  margin-top: 10px;
 }
 
 .footer-content p {

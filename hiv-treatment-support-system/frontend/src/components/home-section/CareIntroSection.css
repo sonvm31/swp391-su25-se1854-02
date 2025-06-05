@@ -26,7 +26,7 @@
 }
 
 .highlight-hiv {
-  color: #b56dff;
+  color: #1583d6;
 }
 
 .description {
@@ -119,11 +119,11 @@
   user-select: none;
 }
 
-.register-btn:hover {
-  background: linear-gradient(90deg, #3b82f6, #06b6d4);
-  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.6);
-  transform: translateY(-2px);
-}
+  .register-btn:hover {
+    background: linear-gradient(90deg, #3b82f6, #06b6d4);
+    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.6);
+    transform: translateY(-2px);
+  }
 
 .register-btn:active {
   transform: translateY(0);

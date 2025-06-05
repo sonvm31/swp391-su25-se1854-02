@@ -1,126 +1,117 @@
-import { Layout, Menu, theme, Avatar, Dropdown, Typography, Button, Space, Image } from 'antd';
-import { UserOutlined, DownOutlined, LogoutOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+// src/components/layout/AppHeader.jsx
+import { Layout, Menu, theme, Avatar, Dropdown, Typography, Button, Space } from 'antd';
+import { UserOutlined, DownOutlined, LogoutOutlined, CalendarOutlined, FileSearchOutlined, HistoryOutlined } from '@ant-design/icons';
+import { Link, useLocation } from 'react-router-dom';
 import appLogo from '../../../assets/appLogo.png';
+import './app-header.css';
 
 const { Header } = Layout;
 const { Text } = Typography;
 
 const AppHeader = ({ isAuthenticated = false, username = 'User' }) => {
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
-    const items = [
-        { key: '1', label: 'Trang chủ', path: '/' },
-        { key: '2', label: 'Đặt lịch', path: '/booking' },
-        // { key: '3', label: 'Hỏi đáp', path: '/' },
-    ];
-    const mapMenuItems = items.map(item => ({
-        key: item.key,
-        label: <Link to={item.path}>{item.label}</Link>,
-    }));
+  const location = useLocation();
 
-    const activeMenu = items.find(item =>
+  const menuItems = [
+    { key: 'home', label: 'Trang chủ', path: '/' },
+    { key: 'services', label: 'Dịch vụ', path: '/services' },
+    { key: 'doctors', label: 'Bác sĩ', path: '/doctors' },
+    { key: 'resources', label: 'Tài liệu & Blog', path: '/resources' },
+    { 
+      key: 'booking', 
+      label: 'Đặt lịch khám',
+      path: '/booking',
+      icon: <CalendarOutlined />
+    },
+    { 
+      key: 'test-results', 
+      label: 'Tra cứu XN',
+      path: '/test-results',
+      icon: <FileSearchOutlined />
+    },
+    { 
+      key: 'history', 
+      label: 'Lịch sử khám',
+      path: '/history',
+      icon: <HistoryOutlined />
+    },
+  ];
+
+  const mapMenuItems = (items) => items.map(item => ({
+    key: item.key,
+    icon: item.icon,
+    label: <Link to={item.path}>{item.label}</Link>,
+  }));
+
+  const getActiveMenu = (items) => {
+    return items.find(
+      item =>
         location.pathname === item.path ||
         location.pathname.startsWith(item.path + '/')
     )?.key;
+  };
 
-    const menu = (
+  const userMenu = (
+    <Menu
+      items={[
+        { key: 'profile', label: 'Profile' },
+        { key: 'settings', label: 'Settings' },
+      ]}
+      onClick={({ key }) => {
+        console.log(`Clicked on ${key}`);
+      }}
+    />
+  );
+
+  const handleLogout = () => {
+    console.log('Logout clicked');
+  };
+
+  return (
+    <Header className="app-header">
+      <div className="header-content">
+        <div className="app-logo">
+          <Link to="/">
+            <img src={appLogo} alt="logo" />
+          </Link>
+        </div>
+
         <Menu
-            items={[
-                { key: 'profile', label: 'Profile' },
-                { key: 'settings', label: 'Settings' },
-            ]}
-            onClick={({ key }) => {
-                console.log(`Clicked on ${key}`);
-            }}
+          mode="horizontal"
+          selectedKeys={[getActiveMenu(menuItems)]}
+          items={mapMenuItems(menuItems)}
+          className="main-menu"
         />
-    );
 
-    const handleLogout = () => {
-        console.log('Logout clicked');
-    };
-
-    return (
-        <Header
-            style={{
-                position: 'sticky',
-                top: 0,
-                zIndex: 1,
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                background: colorBgContainer,
-                padding: '0 24px',
-            }}
-        >
-            <div
-                className="demo-logo"
-                style={{
-                    width: 140,
-                    height: 40,
-                    marginRight: 24,
-                    marginTop: 10,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 8,
-
-                }}
-            >
-                <Link to="/"><img
-                    src={appLogo}
-                    alt="logo"
-                    style={{
-                        maxWidth: "100%",
-                        maxHeight: "100%",
-                        objectFit: "contain",
-                        display: "block",
-                    }}
-                /></Link>
-            </div>
-
-            <Menu
-                theme="light"
-                mode="horizontal"
-                selectedKeys={activeMenu ? [activeMenu] : []}
-                items={mapMenuItems}
-                style={{
-                    flex: 'none',
-                    maxWidth: '800px',
-                    width: '100%',
-                    justifyContent: 'center'
-                }}
-            />
-
-            {isAuthenticated ? (
-                <Space align="center" size={8} style={{ cursor: 'default' }}>
-                    <Dropdown overlay={menu} placement="bottomLeft" arrow>
-                        <Space style={{ cursor: 'pointer' }} align="center">
-                            <Avatar icon={<UserOutlined />} />
-                            <Text style={{ color: '#fff', marginLeft: 4, marginRight: 4 }}>{username}</Text>
-                            <DownOutlined style={{ color: '#fff' }} />
-                        </Space>
-                    </Dropdown>
-                    <Button type="primary" icon={<LogoutOutlined />} onClick={handleLogout} danger>
-                        Đăng xuất
-                    </Button>
-                </Space>
-            ) : (
-                <Space size="middle">
-                    <Link to="/login">
-                        <Button type="primary">Đăng nhập</Button>
-                    </Link>
-                    <Link to="/register">
-                        <Button>Đăng kí</Button>
-                    </Link>
-                </Space>
-            )}
-        </Header>
-    );
+        {isAuthenticated ? (
+          <Space align="center" size={8} style={{ cursor: 'default' }}>
+            <Dropdown overlay={userMenu} placement="bottomLeft" arrow>
+              <Space style={{ cursor: 'pointer' }} align="center">
+                <Avatar icon={<UserOutlined />} />
+                <Text style={{ marginLeft: 4, marginRight: 4 }}>{username}</Text>
+                <DownOutlined />
+              </Space>
+            </Dropdown>
+            <Button type="primary" icon={<LogoutOutlined />} onClick={handleLogout} danger>
+              Đăng xuất
+            </Button>
+          </Space>
+        ) : (
+          <Space size="middle" className="auth-buttons">
+            <Link to="/login">
+              <Button type="primary">Đăng nhập</Button>
+            </Link>
+            <Link to="/register">
+              <Button>Đăng kí</Button>
+            </Link>
+          </Space>
+        )}
+      </div>
+    </Header>
+  );
 };
 
 export default AppHeader;
-

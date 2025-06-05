@@ -25,9 +25,15 @@ const AccountManagers = () => {
         console.log(response.data)
 
         if (response.data) {
+<<<<<<< HEAD
 
             setData(response.data)
             console.log(displayData)
+=======
+            
+            setData(response.data)
+            console.log(response.data)
+>>>>>>> eaee2f8f1e3ba8cac9129d2145fccc46f948b124
         }
     }
 
