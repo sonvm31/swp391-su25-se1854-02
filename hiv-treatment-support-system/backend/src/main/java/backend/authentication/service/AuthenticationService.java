@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,8 +28,12 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+    @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
     private final MailVerificationRepository mailVerificationRepository;
+    
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final JavaMailSender mailSender;
@@ -63,7 +68,7 @@ public class AuthenticationService {
         mailVerificationRepository.save(verificationToken);
 
         String subject = "Verify your email";
-        String verificationUrl = "http://localhost:8080/api/verify?token=" + token;
+        String verificationUrl = "http://localhost:8080/api/auth/verify?token=" + token;
         String body = "Click the link to verify your email: " + verificationUrl;
 
         SimpleMailMessage message = new SimpleMailMessage();

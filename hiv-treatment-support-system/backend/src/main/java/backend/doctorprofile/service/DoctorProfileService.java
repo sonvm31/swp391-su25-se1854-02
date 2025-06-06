@@ -3,6 +3,7 @@ package backend.doctorprofile.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import backend.doctorprofile.dto.CreateDoctorProfileRequest;
@@ -15,7 +16,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class DoctorProfileService {
+    @Autowired
     private final DoctorProfileRepository doctorProfileRepository;
+
+    @Autowired
     private final UserRepository userRepository;
 
     // Tạo hồ sơ bác sĩ

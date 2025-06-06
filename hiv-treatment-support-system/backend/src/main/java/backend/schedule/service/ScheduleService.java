@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import backend.schedule.dto.CreateScheduleRequest;
@@ -17,7 +18,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
+    @Autowired
     private final ScheduleRepository scheduleRepository;
+
+    @Autowired
     private final UserRepository userRepository;
 
     // Tạo ca khám bệnh

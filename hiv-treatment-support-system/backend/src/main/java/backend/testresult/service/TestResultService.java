@@ -3,6 +3,7 @@ package backend.testresult.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import backend.healthrecord.repository.HealthRecordRepository;
@@ -15,7 +16,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class TestResultService {
+    @Autowired
     private final TestResultRepository testResultRepository;
+
+    @Autowired
     private final HealthRecordRepository healthRecordRepository;
 
     // Tạo kết quả xét nghiệm 

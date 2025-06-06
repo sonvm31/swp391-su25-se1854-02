@@ -3,16 +3,11 @@ package backend.user.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import backend.authentication.model.MailVerification;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,10 +50,6 @@ public class User {
     private boolean isVerified;
     
     private Role role;
-    
-    @OneToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private MailVerification mailVerification;
 
     public String getDisplayId() {
         return role.name().substring(0, 3) + "-" + id;

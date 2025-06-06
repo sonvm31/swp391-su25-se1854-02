@@ -3,6 +3,7 @@ package backend.regimen.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import backend.regimen.dto.CreateRegimenRequest;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ReginmenService {
+    @Autowired
     private final RegimenRepository regimenRepository;
 
     // Tạo phác đồ 

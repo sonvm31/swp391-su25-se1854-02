@@ -2,6 +2,7 @@ package backend.payment.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import backend.payment.dto.CreatePaymentRequest;
@@ -13,7 +14,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
+    @Autowired
     private final PaymentRepository paymentRepository;
+
+    @Autowired
     private final ScheduleRepository checkupScheduleRepository;
     
     // Tạo thanh toán

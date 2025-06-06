@@ -26,7 +26,10 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
     private MailVerificationRepository mailVerificationRepository;
+    
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
     

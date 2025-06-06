@@ -3,6 +3,7 @@ package backend.notification.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import backend.notification.dto.CreateNotificationRequest;
@@ -15,7 +16,10 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
+    @Autowired
     private final NotificationRepository notificationRepository;
+
+    @Autowired
     private final UserRepository userRepository;
 
     // Tạo thông báo
