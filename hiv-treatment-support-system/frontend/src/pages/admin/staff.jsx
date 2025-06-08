@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Input, Modal, notification, Popconfirm, Select, Space, Table, Tag } from 'antd';
-import { createAccountAPI, deleteAccountAPI, fetchAccountsAPI } from '../../services/api.service';
+import { createAccountAPI, deleteAccountAPI, fetchAccountByRoleAPI } from '../../services/api.service';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import UpdateUserModal from '../../components/admin/update-modal';
 
@@ -21,8 +21,19 @@ const AccountStaff = () => {
     }, [])
 
     const loadAccounts = async () => {
-        const response = await fetchAccountsAPI(role)
-        setData(response.data)
+        try {
+            const response = await fetchAccountByRoleAPI(role)
+            console.log(">>>>>>>>>", response.error);
+            setData(response.data)
+        } catch (error) {
+            console.error("Failed to fetch accounts:", error);
+            setData([]); // Fallback to empty array
+            notification.error({
+                message: 'Hệ thống',
+                description: error.message
+            });
+        }
+
     }
 
     const handleCreate = async () => {

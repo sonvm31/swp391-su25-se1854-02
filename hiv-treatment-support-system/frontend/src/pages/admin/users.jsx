@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Input, Modal, notification, Popconfirm, Select, Space, Table, Tag } from 'antd';
-import { createAccountAPI, deleteAccountAPI, fetchAccountsAPI } from '../../services/api.service';
+import { createAccountAPI, deleteAccountAPI, fetchAccountByRoleAPI } from '../../services/api.service';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import UpdateUserModal from '../../components/admin/update-modal';
 
@@ -22,7 +22,7 @@ const AccountUsers = () => {
 
     const loadAccounts = async () => {
         try {
-            const response = await fetchAccountsAPI(role)
+            const response = await fetchAccountByRoleAPI(role)
             const safeData = Array.isArray(response?.data) ? response.data : [];
             setData(safeData);
         } catch (error) {
@@ -30,7 +30,7 @@ const AccountUsers = () => {
             setData([]); // Fallback to empty array
             notification.error({
                 message: 'Hệ thống',
-                description: 'Không thể tải danh sách tài khoản'
+                description: { error }
             });
         }
 

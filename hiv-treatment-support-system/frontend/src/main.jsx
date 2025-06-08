@@ -6,7 +6,8 @@ import Register from './pages/auth/register';
 import Admin from './pages/admin/admin-page';
 
 import BookingCheckupForm from './pages/client/booking';
-import Errors from './pages/errors';
+import NotFound from './pages/error/not-found';
+import Errors from './pages/error/data-error'
 import AdminDashboard from './pages/admin/dashboard';
 import AccountManagers from './pages/admin/managers';
 import AccountDoctors from './pages/admin/doctors';
@@ -14,14 +15,33 @@ import AccountStaff from './pages/admin/staff';
 import AccountUsers from './pages/admin/users';
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { AuthWrapper } from './components/context/auth.context';
+import App from './pages/client/App';
+import PrivateRoute from './pages/private-route';
 
 
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
-    errorElement: <Errors />,
+    element: <App />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+        errorElement: <Errors />,
+      },
+      {
+        path: '/booking',
+        element: (
+          <PrivateRoute>
+            <BookingCheckupForm />
+          </PrivateRoute>
+        ),
+        errorElement: <Errors />,
+      },
+    ]
   },
   {
     path: '/login',
@@ -33,11 +53,7 @@ const router = createBrowserRouter([
     element: <Register />,
     errorElement: <Errors />,
   },
-  {
-    path: '/booking',
-    element: <BookingCheckupForm />,
-    errorElement: <Errors />,
-  },
+
   {
     path: '/admin',
     element: <Admin />,
@@ -75,6 +91,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <GoogleOAuthProvider clientId="115076786122-q76et2blbn1k1dmfpd6d5ss1t192ljj6.apps.googleusercontent.com">
-    <RouterProvider router={router} />
+    <AuthWrapper>
+      <RouterProvider router={router} />
+    </AuthWrapper>
   </GoogleOAuthProvider>
 )

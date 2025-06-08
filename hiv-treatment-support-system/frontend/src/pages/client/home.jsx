@@ -1,12 +1,11 @@
 
 import { Layout, theme } from 'antd';
-import AppHeader from '../../components/layouts/client/app-header';
-import AppFooter from '../../components/layouts/client/app-footer';
 import CareIntroSection from '../../components/home-section/CareIntroSection';
 import ServicesSection from '../../components/home-section/ServicesSection';
 import FullServicesSection2 from '../../components/home-section/FullServicesSection2';
 import DoctorList from '../../components/home-section/DoctorList';
 import Document from '../../components/home-section/Document';
+import { Outlet } from 'react-router-dom';
 const { Content } = Layout;
 
 const Home = () => {
@@ -15,7 +14,7 @@ const Home = () => {
     } = theme.useToken();
     return (
         <Layout>
-            <AppHeader />
+
             <Content style={{ padding: '15px' }}>
                 <div
                     style={{
@@ -27,12 +26,13 @@ const Home = () => {
                 >
                     <CareIntroSection />
                     <ServicesSection />
-                    <FullServicesSection2/>
-                    <DoctorList/>
-                    <Document/>
+                    <FullServicesSection2 />
+                    <DoctorList />
+                    <Document />
                 </div>
+                <Outlet />
             </Content>
-            <AppFooter />
+
         </Layout>
     );
 };

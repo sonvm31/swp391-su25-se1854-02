@@ -25,7 +25,7 @@ const registerAPI = (values) => {
 }
 
 const bookingAPI = (values) => {
-    const URL_BACKEND = '/api/users/booking'
+    const URL_BACKEND = '/api/schedule'
     const data = {
         name: values.name,
         phone: values.phone,
@@ -38,7 +38,7 @@ const bookingAPI = (values) => {
 }
 
 const createAccountAPI = (username, password, email, role) => {
-    const URL_BACKEND = '/api/auth/create'
+    const URL_BACKEND = '/api/user/create'
     const data = {
         username,
         password,
@@ -48,11 +48,9 @@ const createAccountAPI = (username, password, email, role) => {
     return axios.post(URL_BACKEND, data)
 }
 
-const fetchAccountsAPI = (role) => {
-    const URL_BACKEND = '/api/user/list'
-    return axios.get(URL_BACKEND, {
-        params: { role }
-    })
+const fetchAccountByRoleAPI = (role) => {
+    const URL_BACKEND = `/api/user/${role}`
+    return axios.get(URL_BACKEND)
 }
 
 const updateAccountAPI = (id, username, email) => {
@@ -80,14 +78,26 @@ const fetchScheduleAPI = () => {
     return axios.get(URL_BACKEDN)
 }
 
+const fetchAccountAPI = () => {
+    const URL_BACKEND = '/api/auth/account'
+    return axios.get(URL_BACKEND)
+}
+
+const logoutAPI = () => {
+    const URL_BACKEND = '/api/auth/logout'
+    return axios.post(URL_BACKEND)
+}
+
 export {
     loginAPI,
     registerAPI,
     bookingAPI,
     createAccountAPI,
-    fetchAccountsAPI,
+    fetchAccountByRoleAPI,
     deleteAccountAPI,
     updateAccountAPI,
     fetchDoctorProfileAPI,
-    fetchScheduleAPI
+    fetchScheduleAPI,
+    fetchAccountAPI,
+    logoutAPI
 }

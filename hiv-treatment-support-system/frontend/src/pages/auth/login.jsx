@@ -1,27 +1,37 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import '@ant-design/v5-patch-for-react-19';
-import { Form, Input, Button, Alert, Segmented, Typography, Divider } from 'antd';
+import { Form, Input, Button, Alert, Segmented, Typography, Divider, notification } from 'antd';
 import { useGoogleLogin } from '@react-oauth/google';
 import { GoogleOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { loginAPI } from '../../services/api.service';
+import { AuthContext } from '../../components/context/auth.context';
+import { useForm } from 'antd/es/form/Form';
 
 const { Link, Text } = Typography;
 
 const Login = () => {
+    const form = useForm()
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+
     const navigate = useNavigate();
     const handleLogin = async () => {
         try {
             const response = await loginAPI(username, password)
             setError('Success');
             if (response.data.token) {
-                localStorage.setItem('user', JSON.stringify(response.data));
+                localStorage.setItem('access_token', response.data.token);
+
+                navigate(response.data.role === 'ADMIN' ? '/admin' : '/');
+            } else {
+                notification.error({
+                    message: "Lỗi đăng nhập",
+                    description: JSON.stringify(response.message)
+                })
             }
-            navigate('/dashboard');
-            return response.data;
+            // return response.data;
         } catch (err) {
             setError('Thông tin đăng nhập không hợp lệ!');
         }
@@ -76,7 +86,9 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         rules={[{ required: true, message: 'Hãy nhập mật khẩu của bạn' }]}
                     >
-                        <Input.Password placeholder="Mật khẩu" />
+                        <Input.Password placeholder="Mật khẩu" onKeyDown={(event) => {
+                            if (event.key === 'Enter') form.submit()
+                        }} />
                     </Form.Item>
 
                     <Form.Item>
@@ -125,7 +137,9 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         rules={[{ required: true, message: 'Hãy nhập mật khẩu của bạn' }]}
                     >
-                        <Input.Password placeholder="Mật khẩu" />
+                        <Input.Password placeholder="Mật khẩu" onKeyDown={(event) => {
+                            if (event.key === 'Enter') form.submit()
+                        }} />
                     </Form.Item>
 
                     <Form.Item>

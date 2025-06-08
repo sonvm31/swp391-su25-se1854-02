@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Form, Input, Select, DatePicker, Button, Typography, Col, Row, Layout, theme } from 'antd';
-import AppHeader from '../../components/layouts/client/app-header';
-import AppFooter from '../../components/layouts/client/app-footer';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
@@ -61,7 +59,7 @@ const Booking = () => {
 
     return (
         <Layout>
-            <AppHeader />
+
             <Content style={{ padding: '15px' }}>
                 <div style={{
                     background: colorBgContainer,
@@ -181,7 +179,7 @@ const Booking = () => {
                 </div>
 
             </Content>
-            <AppFooter />
+
         </Layout>
 
     );

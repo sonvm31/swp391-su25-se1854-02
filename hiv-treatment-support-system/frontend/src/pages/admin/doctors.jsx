@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, Input, Modal, notification, Popconfirm, Space, Table, Tag } from 'antd';
-import { createAccountAPI, deleteAccountAPI, fetchAccountsAPI } from '../../services/api.service';
+import { createAccountAPI, deleteAccountAPI, fetchAccountByRoleAPI } from '../../services/api.service';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import UpdateUserModal from '../../components/admin/update-modal';
 
@@ -21,7 +21,7 @@ const AccountDoctors = () => {
     }, [])
 
     const loadAccounts = async () => {
-        const response = await fetchAccountsAPI(role)
+        const response = await fetchAccountByRoleAPI(role)
         setData(response.data)
     }
 
