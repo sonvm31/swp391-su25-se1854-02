@@ -38,6 +38,7 @@ public class SecurityConfiguration {
             throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**").permitAll()

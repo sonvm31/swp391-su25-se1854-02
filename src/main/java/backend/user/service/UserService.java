@@ -103,11 +103,7 @@ public class UserService {
 
     // Xem danh sách người dùng theo vai trò
     public List<User> listByRole(String role) {
-        List<User> users = userRepository.findUsersByRole(Role.valueOf(role.toUpperCase()));
-        if (users.isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND");
-        
-        return users;
+        return userRepository.findUsersByRole(Role.valueOf(role.toUpperCase()));
     }
 
     // Xem danh sách người dùng theo tên

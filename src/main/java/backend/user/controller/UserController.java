@@ -32,7 +32,7 @@ public class UserController {
         return ResponseEntity.ok(userService.create(request));
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateUserRequest request) {
         return ResponseEntity.ok(Map.of("message", userService.update(id, request)));
     }
@@ -47,7 +47,7 @@ public class UserController {
         return ResponseEntity.ok(userService.listByRole(role));
     }
 
-    @GetMapping("{role}/search")
+    @GetMapping("/{role}/search")
     public ResponseEntity<List<User>> search(@PathVariable Role role, @PathVariable String searchString) {
         return ResponseEntity.ok(userService.search(role, searchString));
     }
