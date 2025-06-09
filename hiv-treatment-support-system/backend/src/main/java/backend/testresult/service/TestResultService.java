@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import backend.healthrecord.repository.HealthRecordRepository;
 import backend.testresult.dto.CreateTestResultRequest;
@@ -40,7 +42,7 @@ public class TestResultService {
     // Cập nhật kết quả xét nghiệm
     public String update(int id, UpdateTestResultRequest request) {
         TestResult testResult = testResultRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Test result not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO TEST RESULT FOUND WITH ID: " + id));
         
         Optional.of(request.type()).ifPresent(testResult::setType);
         Optional.of(request.result()).ifPresent(testResult::setResult);
@@ -56,7 +58,7 @@ public class TestResultService {
     // Xóa kết quả xét nghiệm
     public String delete(int id) {
         testResultRepository.delete(testResultRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Test result not found with ID: " + id + ".")));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO TEST RESULT FOUND WITH ID: " + id)));
 
         return "Test result deleted successfully with ID: " + id + ".";
     }
@@ -65,7 +67,7 @@ public class TestResultService {
     public List<TestResult> list(int recordId) {
         List<TestResult> testResults = testResultRepository.findByHealthRecordId(recordId);
         if (testResults.isEmpty()) 
-            throw new RuntimeException("Test result not found with record ID: " + recordId + ".");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO TEST RESULT FOUND WITH RECORD ID: " + recordId);
 
         return testResults;
     }

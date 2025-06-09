@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import backend.schedule.dto.CreateScheduleRequest;
 import backend.schedule.dto.UpdateCheckupScheduleRequest;
@@ -40,7 +42,7 @@ public class ScheduleService {
     public List<Schedule> list() {
         List<Schedule> schedules = scheduleRepository.findAll();
         if (schedules.isEmpty()) 
-            throw new RuntimeException("No slot found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND");
 
         return schedules;
     }
@@ -48,13 +50,13 @@ public class ScheduleService {
     // Xem chi tiết ca khám bệnh 
     public Schedule get(int id) {
         return scheduleRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Slot not found with ID: " + id + "."));
-    }
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID: " + id));
+    } 
 
     // Chỉnh sửa ca khám bệnh
     public String update(int id, UpdateCheckupScheduleRequest request) {        
         Schedule CheckupSchedule = scheduleRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Slot not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID" + id));
 
         Optional.of(request.date()).ifPresent(CheckupSchedule::setDate);
         Optional.of(request.slot()).ifPresent(CheckupSchedule::setSlot);
@@ -67,7 +69,7 @@ public class ScheduleService {
     // Đăng ký ca khám bệnh theo ID bệnh nhân
     public String register(int id, int patientId, String type) {
         Schedule CheckupSchedule = scheduleRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Slot not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID: " + id));
 
         Optional.of(userRepository.findById(patientId).get()).ifPresent(CheckupSchedule::setPatient);
         Optional.of(type).ifPresent(CheckupSchedule::setType);
@@ -78,7 +80,7 @@ public class ScheduleService {
     // Xóa ca khám bệnh 
     public String delete(int id) {
         scheduleRepository.delete(scheduleRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Slot not found with ID: " + id + ".")));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID: " + id)));
         
         return "Slot deleted successfully with ID: " + id + ".";
     }
@@ -87,7 +89,7 @@ public class ScheduleService {
     public List<Schedule> getByPatientId(int patientId) {
         List<Schedule> schedules = scheduleRepository.findByPatientId(patientId);
         if (schedules.isEmpty()) 
-            throw new RuntimeException("No slot found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND");
 
         return schedules;
     }
@@ -96,7 +98,7 @@ public class ScheduleService {
     public List<Schedule> getByDoctorId(int docotrId) {
         List<Schedule> schedules = scheduleRepository.findByDoctorId(docotrId);
         if (schedules.isEmpty()) 
-            throw new RuntimeException("No slot found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND");
             
         return schedules;
     }
@@ -105,7 +107,7 @@ public class ScheduleService {
     public List<Schedule> getByType(String type) {
         List<Schedule> schedules = scheduleRepository.findByType(type);
         if (schedules.isEmpty()) 
-            throw new RuntimeException("No slot found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND");
         
         return schedules;
     }
@@ -114,7 +116,7 @@ public class ScheduleService {
     public List<Schedule> getByStatus(String status) {
         List<Schedule> schedules = scheduleRepository.findByStatus(status);
         if (schedules.isEmpty())
-            throw new RuntimeException("No slot found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND");
        
         return schedules;
     }
@@ -123,7 +125,7 @@ public class ScheduleService {
     public List<Schedule> getByDate(LocalDate date) {
         List<Schedule> schedules = scheduleRepository.findByDate(date);
         if (schedules.isEmpty()) 
-            throw new RuntimeException("No slot found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND");
         
         return schedules;
     }
@@ -132,7 +134,7 @@ public class ScheduleService {
     public List<Schedule> getBySlot(LocalTime slot) {
         List<Schedule> schedules = scheduleRepository.findBySlot(slot);
         if (schedules.isEmpty()) 
-            throw new RuntimeException("No slot found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND");
 
         return schedules;
     }

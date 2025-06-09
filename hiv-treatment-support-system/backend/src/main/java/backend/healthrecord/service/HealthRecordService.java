@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import backend.healthrecord.dto.CreateHealthRecordRequest;
 import backend.healthrecord.dto.UpdateHealthRecordRequest;
@@ -33,26 +35,20 @@ public class HealthRecordService {
     public List<HealthRecord> list() {
         List<HealthRecord> healthRecords = healthRecordRepository.findAll();
         if (healthRecords.isEmpty()) 
-            throw new RuntimeException("No health record found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND");
         return healthRecords;
-    }
-    
-    // Xem phiếu khám sức khỏe theo ID ca khám
-    public HealthRecord getByCheckupScheduleId(int id) {
-        return healthRecordRepository.findByScheduleId(id)
-            .orElseThrow(() -> new RuntimeException("Health record not found with ID: " + id +"."));
     }
 
     // Xem chi tiết phiếu khám sức khỏe 
     public HealthRecord get(int id) {
         return healthRecordRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Health record not found with ID: " + id +"."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id));
     }
 
     // Cập nhật phiếu khám sức khỏe
     public String update(int id, UpdateHealthRecordRequest request) {
         HealthRecord record = healthRecordRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Check-up record not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id));
         
         Optional.ofNullable(request.roomCode()).ifPresent(record::setRoomCode);
         Optional.ofNullable(request.insuranceNumber()).ifPresent(record::setRoomCode);
@@ -62,7 +58,7 @@ public class HealthRecordService {
         Optional.ofNullable(request.note()).ifPresent(record::setNote);
         Optional.ofNullable(request.weight()).ifPresent(record::setWeight);
         Optional.ofNullable(request.height()).ifPresent(record::setHeight);
-        record.setFinishedTreatment(request.isFinishedTreatment());
+        Optional.ofNullable(request.treatmentStatus()).ifPresent(record::setTreatmentStatus);
         healthRecordRepository.save(record);
 
         return "Check-up record updated successfullty with ID: " + record.getId() + ".";
@@ -71,8 +67,14 @@ public class HealthRecordService {
     // Xóa phiếu khám sức khỏe
     public String delete(int id) {
         healthRecordRepository.delete(healthRecordRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Check-up record not found with ID:" + id + ".")));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id)));
         
         return "Check-up record deleted successfully with ID:" + id + ".";
+    }
+
+    // Xem phiếu khám sức khỏe theo ID ca khám
+    public HealthRecord getByScheduleId(int scheduleId) {
+        return healthRecordRepository.findByScheduleId(scheduleId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH SCHEDULE ID: " + scheduleId));
     }
 }

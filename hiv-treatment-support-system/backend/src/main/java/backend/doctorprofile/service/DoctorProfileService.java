@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import backend.doctorprofile.dto.CreateDoctorProfileRequest;
 import backend.doctorprofile.dto.UpdateDoctorProfileRequest;
@@ -41,7 +43,7 @@ public class DoctorProfileService {
     public List<DoctorProfile> list() {
         List<DoctorProfile> doctorProfiles = doctorProfileRepository.findAll();
         if (doctorProfiles.isEmpty()) 
-            throw new RuntimeException("No doctor profile found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PRODFILE FOUND");
 
         return doctorProfiles;
     }
@@ -49,13 +51,13 @@ public class DoctorProfileService {
     // Xem chi tiết hồ sơ của bác sĩ 
     public DoctorProfile get(int id) {
         return doctorProfileRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Doctor profile not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PRODFILE FOUND"));
     }
 
     // Chỉnh sửa hồ sơ bác sĩ
     public String update(int id, UpdateDoctorProfileRequest request) {
         DoctorProfile doctorProfile = doctorProfileRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Doctor profile not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PROFILE FOUND WITH ID: " + id));
         
         Optional.ofNullable(request.qualifications()).ifPresent(doctorProfile::setQualifications);
         Optional.ofNullable(request.licenseNumber()).ifPresent(doctorProfile::setLicenseNumber);
@@ -71,7 +73,7 @@ public class DoctorProfileService {
     // Xóa hồ sơ bác sĩ
     public String delete(int id) {
         doctorProfileRepository.delete(doctorProfileRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Doctor profile not found with ID: " + id + ".")));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PROFILE FOUND WITH ID: " + id)));
         
         return "Doctor profile deleted successfully with ID: " + id + ".";
     }

@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import backend.notification.dto.CreateNotificationRequest;
 import backend.notification.dto.UpdateNotificationRequest;
@@ -39,7 +41,7 @@ public class NotificationService {
     public List<Notification> list() {
         List<Notification> notifications = notificationRepository.findAll();
         if (notifications.isEmpty()) 
-            throw new RuntimeException("No notification found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND");
         
         return notifications;
     }
@@ -47,13 +49,13 @@ public class NotificationService {
     // Xem chi tiết thông báo 
     public Notification get(int id) {
         return notificationRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("No notification found")); 
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND")); 
     }
 
     // Chỉnh sửa thông báo
     public String update(int id, UpdateNotificationRequest request) {
         Notification notification = notificationRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Notification not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND WITH ID: " + id));
         
             Optional.of(request.title()).ifPresent(notification::setTitle);
         Optional.of(request.message()).ifPresent(notification::setMessage);
@@ -66,7 +68,7 @@ public class NotificationService {
     // Xóa thông báo
     public String delete(int id) {
         notificationRepository.delete(notificationRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Notification not found with ID: " + id + ".")));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND WITH ID: " + id)));
         
         return "Notification deleted successfully with ID: " + id + ".";
     }
@@ -75,7 +77,7 @@ public class NotificationService {
     public List<Notification> listByUserId(int userId) {
         List<Notification> notifications = notificationRepository.findByUserId(userId);
         if (notifications.isEmpty()) 
-            throw new RuntimeException("No notification found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND");
 
         return notifications;
     }
@@ -84,7 +86,7 @@ public class NotificationService {
     public List<Notification> getBySearchString(String searchString) {
         List<Notification> notificationList = notificationRepository.findAll();
         if (notificationList.isEmpty())  
-            throw new RuntimeException("No notification found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND");
 
         List<Notification> searchList = list();
         for (Notification notification : notificationList) {
@@ -92,7 +94,7 @@ public class NotificationService {
                 searchList.add(notification);
         }
         if (searchList.isEmpty())  
-            throw new RuntimeException("Notification not found with search value: " + searchString + ".");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND WITH TITLE: " + searchString);
         
         return notificationList;
     }

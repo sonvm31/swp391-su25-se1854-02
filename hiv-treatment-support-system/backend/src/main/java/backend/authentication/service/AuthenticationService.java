@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import backend.authentication.dto.AuthenticationResponse;
 import backend.authentication.dto.LoginRequest;
@@ -42,8 +44,8 @@ public class AuthenticationService {
 
     // Đăng ký tài khoản và yêu cầu xác minh email
     public AuthenticationResponse register(RegisterRequest request) {
-        if (userRepository.findByUsername(request.username()).isPresent()) 
-            throw new RuntimeException("Username already registered!");
+            if (userRepository.findByUsername(request.username()).isPresent()) 
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "USERNAME ALREADY REGISTERED");
         
         var user = User.builder()
             .fullName(request.fullName())
@@ -106,11 +108,11 @@ public class AuthenticationService {
             new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 
         User user = userRepository.findByUsername(request.username())
-            .orElseThrow(() -> new RuntimeException("User not found after authentication"));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "USER NOT FOUND"));
 
         if (user.getAccountStatus().equals("UNACTIVE") 
         || !user.isVerified()) 
-            throw new RuntimeException("Account is unactive or not verified yet");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "ACCOUNT IS UNACTIVE OR NOT VERIFIED YET");
 
         UserDetails userDetails = new CustomUserDetails(user);
         String jwtToken = jwtService.generateToken(userDetails);

@@ -6,10 +6,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import backend.authentication.dto.AuthenticationResponse;
 import backend.authentication.model.MailVerification;
@@ -70,13 +72,13 @@ public class UserService {
     // Xem chi tiết người dùng 
     public User get(int id) {
         return userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id));
     }
 
     // Chỉnh sửa người dùng 
     public String update(int id, UpdateUserRequest request) {
         User user = userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id));
             
         Optional.ofNullable(request.phoneNumber()).ifPresent(user::setPhoneNumber);
         Optional.ofNullable(request.fullName()).ifPresent(user::setFullName);
@@ -94,7 +96,7 @@ public class UserService {
     // Xóa người dùng 
     public String delete(int id) {
         userRepository.delete(userRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found with ID: " + id + ".")));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id)));
         
         return "User deleted successfully with ID: " + id + ".";
     }
@@ -103,7 +105,7 @@ public class UserService {
     public List<User> listByRole(String role) {
         List<User> users = userRepository.findUsersByRole(Role.valueOf(role.toUpperCase()));
         if (users.isEmpty()) 
-            throw new RuntimeException("No user found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND");
         
         return users;
     }
@@ -112,7 +114,7 @@ public class UserService {
     public List<User> search(Role role, String searchString) {
         List<User> users = userRepository.findByFullNameContaining(searchString);
         if (users.isEmpty()) 
-            throw new RuntimeException("No user found with full name: " + searchString + ".");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH FULL NAME: " + searchString);
 
         return users;
     }
@@ -120,24 +122,24 @@ public class UserService {
     // Tìm người dùng theo số điện thoại
     public User getByPhoneNumber(Role role, String searchString) {
         return userRepository.findByPhoneNumberContaining(searchString)
-            .orElseThrow(() -> new RuntimeException("No user found with full name: " + searchString + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH PHONE NUMBER: " + searchString));
     }
 
     // Tìm người dùng theo email
     public User getByEmail(Role role, String searchString) {
         return userRepository.findByEmailContaining(searchString)
-            .orElseThrow(() -> new RuntimeException("No user found with email: " + searchString + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH EMAIL: " + searchString));
     }
 
     // Tìm người dùng theo trạng thái xác minh email
     public User getByIsVerified(Role role, boolean isVerified) {
         return userRepository.findByIsVerified(isVerified)
-            .orElseThrow(() -> new RuntimeException("No user found with email verified status: " + isVerified + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH VERIFIED STATUS: " + isVerified));
     }
 
     // Tìm người dùng theo trạng thái tài khoản
     public User getByAccountStatus(Role role, String status) {
         return userRepository.findByAccountStatus(status)
-            .orElseThrow(() -> new RuntimeException("No user found with full name: " + status + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ACCOUNT STATUS: " + status));
     }
 }

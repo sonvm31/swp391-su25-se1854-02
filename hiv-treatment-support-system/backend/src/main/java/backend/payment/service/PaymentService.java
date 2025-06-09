@@ -3,7 +3,9 @@ package backend.payment.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import backend.payment.dto.CreatePaymentRequest;
 import backend.payment.model.Payment;
@@ -38,7 +40,7 @@ public class PaymentService {
     public List<Payment> list() {
         List<Payment> payments = paymentRepository.findAll();
         if (payments.isEmpty()) 
-            throw new RuntimeException("No payment found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO PAYMENT FOUND");
 
         return paymentRepository.findAll();
     }
@@ -46,14 +48,14 @@ public class PaymentService {
     // Xem chi tiết thanh toán 
     public Payment get(int id) {
         return paymentRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Payment not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO PAYMENT FOUND WITH ID: " + id));
     }
 
     // Xem danh sách thanh toán theo trạng thái
     public List<Payment> getByStatus(String status) {
         List<Payment> paymentList = paymentRepository.findByStatus(status);
         if (paymentList.isEmpty()) 
-            throw new RuntimeException("Payment not found with status: " + status + ".");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO PAYMENT FOUND WITH STATUS: " + status);
         
         return paymentList;
     }

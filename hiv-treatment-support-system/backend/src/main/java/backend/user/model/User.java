@@ -31,15 +31,18 @@ public class User {
     @Column(columnDefinition = "NVARCHAR")
     private String address;
 
+    @Column(unique = true)
     private String phoneNumber;
 
-    private String gender;
-
+    @Column(unique = true)
     private String email;
 
+    @Column(unique = true)
     private String username;
 
     private String password;
+
+    private String gender;
 
     private String accountStatus;
 

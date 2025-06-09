@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import backend.document.dto.CreateDocumentRequest;
 import backend.document.dto.UpdateDocumentRequest;
@@ -34,7 +36,7 @@ public class DocumentService {
     public List<Document> list() {
         List<Document> documents = documentRepository.findAll();
         if (documents.isEmpty()) 
-            throw new RuntimeException("No document found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND");
 
         return documents;
     }
@@ -42,13 +44,13 @@ public class DocumentService {
     // Xem chi tiết tài liệu 
     public Document get(int id) {
         return documentRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Document not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + id));
     }
 
     // Chỉnh sửa tài liệu
     public String update(int id, UpdateDocumentRequest request) {
         Document document = documentRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Document not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + id));
         
         Optional.of(request.title()).ifPresent(document::setTitle);
         Optional.of(request.author()).ifPresent(document::setAuthor);
@@ -61,7 +63,7 @@ public class DocumentService {
     // Xóa tài liệu
     public String delete(int id) {        
         documentRepository.delete(documentRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Document not found with ID: " + id + ".")));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + id)));
         
         return "Document deleted successfully with ID: " + id + ".";
     }
@@ -70,7 +72,7 @@ public class DocumentService {
     public List<Document> search(String searchString) {
         List<Document> documents = documentRepository.findAll();
         if (documents.isEmpty()) 
-            throw new RuntimeException("No document found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND");
         
         List<Document> searchList = list();
         for (Document document : documents) {
@@ -81,7 +83,7 @@ public class DocumentService {
             }
         } 
         if (searchList.isEmpty()) 
-            throw new RuntimeException("Document not found with search value: " + searchString + ".");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH SEARCH VALUE: " + searchString);
 
         return searchList;
     }

@@ -35,12 +35,12 @@ public class HealthRecord {
 
     private String note;
 
+    private String treatmentStatus;
+
     private float weight;
 
     private float height;
     
-    private boolean isFinishedTreatment;
-
     @ManyToOne
     @JoinColumn(name = "scheduleId", referencedColumnName = "id")
     private Schedule schedule;

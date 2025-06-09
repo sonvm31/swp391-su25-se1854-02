@@ -41,7 +41,7 @@ public class HealthRecordController {
     
     @GetMapping("/schedule-id/{scheduleId}")
     public ResponseEntity<HealthRecord> getByCheckupId(@PathVariable int checkupId) {
-        HealthRecord response = healthRecordService.getByCheckupScheduleId(checkupId);
+        HealthRecord response = healthRecordService.getByScheduleId(checkupId);
         return ResponseEntity.ok(response);
     }
 }

@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import backend.regimen.dto.CreateRegimenRequest;
 import backend.regimen.dto.UpdateRegimenRequest;
@@ -36,7 +38,7 @@ public class ReginmenService {
     public List<Regimen> list() {
         List<Regimen> regimens = regimenRepository.findAll();
         if (regimens.isEmpty()) 
-            throw new RuntimeException("No regimen found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND");
 
         return regimens;
     }
@@ -44,13 +46,13 @@ public class ReginmenService {
     // Xem chi tiết phác đồ
     public Regimen get(int id) {
         return regimenRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Regimen not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id));
     }
 
     // Chỉnh sửa phác đồ
     public String update(int id, UpdateRegimenRequest request) {
         Regimen regimen = regimenRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Regimen not found with ID: " + id + "."));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id));
         
         Optional.of(request.regimenName()).ifPresent(regimen::setRegimenName);
         Optional.of(request.components()).ifPresent(regimen::setComponents);
@@ -65,7 +67,7 @@ public class ReginmenService {
     // Xóa phác đồ
     public String delete(int id) {
         regimenRepository.delete(regimenRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Regimen not foud with ID: " + id + ".")));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id)));
         
         return "Regimen deleted successfully with ID: " + id + ".";
     }

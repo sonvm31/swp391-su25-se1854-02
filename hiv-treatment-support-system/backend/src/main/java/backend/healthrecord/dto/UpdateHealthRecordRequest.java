@@ -11,11 +11,11 @@ public record UpdateHealthRecordRequest(
 
     String note,
 
+    String treatmentStatus,
+
     float weight,
 
     float height,
-
-    boolean isFinishedTreatment,
 
     int scheduleId,
     
