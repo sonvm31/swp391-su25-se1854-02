@@ -1,10 +1,16 @@
 package backend.exception;
 
+import java.time.LocalDateTime;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import backend.exception.dto.ErrorResponse;
+import io.jsonwebtoken.ExpiredJwtException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -15,7 +21,7 @@ public class GlobalExceptionHandler {
         if (ex.getMessage().toLowerCase().contains("email")) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
         }
-        
+
         if (ex.getMessage().toLowerCase().contains("username")) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
         }
@@ -27,6 +33,31 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Data integrity violation");
     }
 
-    
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ErrorResponse> handleExpiredJwtException(ExpiredJwtException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.UNAUTHORIZED.value(),
+                "JWT token has expired",
+                LocalDateTime.now().toString());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage(),
+                LocalDateTime.now().toString());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGeneralException(Exception ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "An unexpected error occurred",
+                LocalDateTime.now().toString());
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }

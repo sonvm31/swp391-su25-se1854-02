@@ -11,10 +11,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import backend.authentication.dto.AccountResponse;
 import backend.authentication.dto.AuthenticationResponse;
 import backend.authentication.dto.LoginRequest;
 import backend.authentication.dto.RegisterRequest;
@@ -35,38 +37,37 @@ public class AuthenticationService {
 
     @Autowired
     private final MailVerificationRepository mailVerificationRepository;
-    
+
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final JavaMailSender mailSender;
     private final AuthenticationManager authenticationManager;
 
-
     // Đăng ký tài khoản và yêu cầu xác minh email
     public AuthenticationResponse register(RegisterRequest request) {
-            if (userRepository.findByUsername(request.username()).isPresent()) 
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "USERNAME ALREADY REGISTERED");
-        
+        if (userRepository.findByUsername(request.username()).isPresent())
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "USERNAME ALREADY REGISTERED");
+
         var user = User.builder()
-            .fullName(request.fullName())
-            .gender(request.gender())
-            .dateOfBirth(request.dateOfBirth())
-            .email(request.email())
-            .address(request.address())
-            .username(request.username())
-            .password(passwordEncoder.encode(request.password()))
-            .accountStatus("ACTIVE")
-            .role(Role.PATIENT)
-            .createdAt(LocalDateTime.now())
-            .build();
+                .fullName(request.fullName())
+                .gender(request.gender())
+                .dateOfBirth(request.dateOfBirth())
+                .email(request.email())
+                .address(request.address())
+                .username(request.username())
+                .password(passwordEncoder.encode(request.password()))
+                .accountStatus("ACTIVE")
+                .role(Role.PATIENT)
+                .createdAt(LocalDateTime.now())
+                .build();
         userRepository.save(user);
 
         String token = UUID.randomUUID().toString();
         MailVerification verificationToken = MailVerification.builder()
-            .token(token)
-            .expiryDate(LocalDateTime.now().plusHours(24))
-            .user(user)
-            .build();
+                .token(token)
+                .expiryDate(LocalDateTime.now().plusHours(24))
+                .user(user)
+                .build();
         mailVerificationRepository.save(verificationToken);
 
         String subject = "Verify your email";
@@ -82,16 +83,16 @@ public class AuthenticationService {
         UserDetails userDetails = new CustomUserDetails(user);
         String jwtToken = jwtService.generateToken(userDetails);
 
-        return new AuthenticationResponse(jwtToken, user.getUsername());
+        return new AuthenticationResponse(jwtToken, user.getUsername(), user.getRole().name());
     }
 
-    // Gửi thông báo trạng thái xác minh email 
+    // Gửi thông báo trạng thái xác minh email
     public String verify(String token) {
         Optional<MailVerification> mailVerification = mailVerificationRepository
                 .findByToken(token);
 
-        if (mailVerification.isEmpty() 
-        || mailVerification.get().getExpiryDate().isBefore(LocalDateTime.now())) {
+        if (mailVerification.isEmpty()
+                || mailVerification.get().getExpiryDate().isBefore(LocalDateTime.now())) {
             return "Invalid or expired token.";
         }
 
@@ -105,18 +106,25 @@ public class AuthenticationService {
     // Đăng nhập bằng tên tài khoản và mật khẩu
     public AuthenticationResponse login(LoginRequest request) {
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(request.username(), request.password()));
+                new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 
         User user = userRepository.findByUsername(request.username())
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "USER NOT FOUND"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "USER NOT FOUND"));
 
-        if (user.getAccountStatus().equals("UNACTIVE") 
-        || !user.isVerified()) 
+        if (user.getAccountStatus().equals("UNACTIVE")
+                || !user.isVerified())
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "ACCOUNT IS UNACTIVE OR NOT VERIFIED YET");
 
         UserDetails userDetails = new CustomUserDetails(user);
         String jwtToken = jwtService.generateToken(userDetails);
-        
-        return new AuthenticationResponse(jwtToken, user.getUsername());
+
+        return new AuthenticationResponse(jwtToken, user.getUsername(), user.getRole().name());
+    }
+
+    public AccountResponse getUserInfo(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        return new AccountResponse(user.getId(), user.getUsername(), user.getEmail(), user.getFullName(),
+                user.getAccountStatus(), user.getRole());
     }
 }

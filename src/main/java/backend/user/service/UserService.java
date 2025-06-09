@@ -31,29 +31,29 @@ public class UserService {
 
     @Autowired
     private MailVerificationRepository mailVerificationRepository;
-    
+
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
-    
+
     // Tạo tài khoản và yêu cầu xác minh email
     public AuthenticationResponse create(CreateUserRequest request) {
         var user = User.builder()
-            .username(request.username())
-            .email(request.email())
-            .password(passwordEncoder.encode(request.password()))
-            .accountStatus("ACTIVE")
-            .role(Role.valueOf(request.role().toUpperCase()))
-            .createdAt(LocalDateTime.now())
-            .isVerified(false)
-            .build();
+                .username(request.username())
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
+                .accountStatus("ACTIVE")
+                .role(Role.valueOf(request.role().toUpperCase()))
+                .createdAt(LocalDateTime.now())
+                .isVerified(false)
+                .build();
         userRepository.save(user);
 
         String token = UUID.randomUUID().toString();
         MailVerification verificationToken = MailVerification.builder()
-            .token(token)
-            .expiryDate(LocalDateTime.now().plusHours(24))
-            .user(user)
-            .build();
+                .token(token)
+                .expiryDate(LocalDateTime.now().plusHours(24))
+                .user(user)
+                .build();
         mailVerificationRepository.save(verificationToken);
 
         String subject = "Verify your email";
@@ -66,20 +66,20 @@ public class UserService {
         message.setText(body);
         mailSender.send(message);
 
-        return new AuthenticationResponse(token, user.getUsername());
-    }
-    
-    // Xem chi tiết người dùng 
-    public User get(long id) {
-        return userRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id));
+        return new AuthenticationResponse(token, user.getUsername(), user.getRole().name());
     }
 
-    // Chỉnh sửa người dùng 
+    // Xem chi tiết người dùng
+    public User get(long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id));
+    }
+
+    // Chỉnh sửa người dùng
     public String update(long id, UpdateUserRequest request) {
         User user = userRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id));
-            
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id));
+
         Optional.ofNullable(request.phoneNumber()).ifPresent(user::setPhoneNumber);
         Optional.ofNullable(request.fullName()).ifPresent(user::setFullName);
         Optional.ofNullable(request.gender()).ifPresent(user::setGender);
@@ -93,27 +93,27 @@ public class UserService {
         return "User updated successfully with ID: " + id + ".";
     }
 
-    // Xóa người dùng 
+    // Xóa người dùng
     public String delete(long id) {
         userRepository.delete(userRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id)));
-        
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id)));
+
         return "User deleted successfully with ID: " + id + ".";
     }
 
     // Xem danh sách người dùng theo vai trò
     public List<User> listByRole(String role) {
         List<User> users = userRepository.findUsersByRole(Role.valueOf(role.toUpperCase()));
-        if (users.isEmpty()) 
+        if (users.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND");
-        
+
         return users;
     }
 
     // Xem danh sách người dùng theo tên
     public List<User> search(Role role, String searchString) {
         List<User> users = userRepository.findByFullNameContaining(searchString);
-        if (users.isEmpty()) 
+        if (users.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH FULL NAME: " + searchString);
 
         return users;
@@ -122,24 +122,28 @@ public class UserService {
     // Tìm người dùng theo số điện thoại
     public User getByPhoneNumber(Role role, String searchString) {
         return userRepository.findByPhoneNumberContaining(searchString)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH PHONE NUMBER: " + searchString));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "NO USER FOUND WITH PHONE NUMBER: " + searchString));
     }
 
     // Tìm người dùng theo email
     public User getByEmail(Role role, String searchString) {
         return userRepository.findByEmailContaining(searchString)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH EMAIL: " + searchString));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "NO USER FOUND WITH EMAIL: " + searchString));
     }
 
     // Tìm người dùng theo trạng thái xác minh email
     public User getByIsVerified(Role role, boolean isVerified) {
         return userRepository.findByIsVerified(isVerified)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH VERIFIED STATUS: " + isVerified));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "NO USER FOUND WITH VERIFIED STATUS: " + isVerified));
     }
 
     // Tìm người dùng theo trạng thái tài khoản
     public User getByAccountStatus(Role role, String status) {
         return userRepository.findByAccountStatus(status)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ACCOUNT STATUS: " + status));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "NO USER FOUND WITH ACCOUNT STATUS: " + status));
     }
 }
