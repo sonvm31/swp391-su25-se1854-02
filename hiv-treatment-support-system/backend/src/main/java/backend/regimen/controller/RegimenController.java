@@ -36,17 +36,17 @@ public class RegimenController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Regimen> get(@PathVariable int id) {
+    public ResponseEntity<Regimen> get(@PathVariable long id) {
         return ResponseEntity.ok(reginmenService.get(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateRegimenRequest request) {
+    public ResponseEntity<Map<String, String>> update(@PathVariable long id, @RequestBody UpdateRegimenRequest request) {
         return ResponseEntity.ok(Map.of("message", reginmenService.update(id, request)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> delete(@PathVariable int id) {
+    public ResponseEntity<Map<String, String>> delete(@PathVariable long id) {
         return ResponseEntity.ok(Map.of("message", reginmenService.delete(id)));
     }
 }

@@ -12,6 +12,6 @@ public record CreateScheduleRequest (
 
     LocalTime slot,
     
-    int doctorId
+    long doctorId
 ){    
 }

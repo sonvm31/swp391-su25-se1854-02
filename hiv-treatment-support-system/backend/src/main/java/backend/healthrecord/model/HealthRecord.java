@@ -23,7 +23,7 @@ import lombok.NoArgsConstructor;
 public class HealthRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String roomCode;
 

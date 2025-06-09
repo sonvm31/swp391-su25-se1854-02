@@ -31,17 +31,17 @@ public class TestResultController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateTestResultRequest request) {
+    public ResponseEntity<Map<String, String>> update(@PathVariable long id, @RequestBody UpdateTestResultRequest request) {
         return ResponseEntity.ok(Map.of("message", testResultService.update(id, request)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> delete(@PathVariable int id) {
+    public ResponseEntity<Map<String, String>> delete(@PathVariable long id) {
         return ResponseEntity.ok(Map.of("message", testResultService.delete(id)));
     }
 
     @GetMapping("/record-id/{recordId}")
-    public ResponseEntity<List<TestResult>> get(@PathVariable int recordId) {
+    public ResponseEntity<List<TestResult>> get(@PathVariable long recordId) {
         return ResponseEntity.ok(testResultService.list(recordId));
     }
 }

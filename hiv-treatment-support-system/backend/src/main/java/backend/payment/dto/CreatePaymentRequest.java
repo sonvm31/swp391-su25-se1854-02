@@ -11,6 +11,6 @@ public record CreatePaymentRequest (
 
     Float amount,
     
-    int scheduleId
+    long scheduleId
 ) {
 }

@@ -47,17 +47,17 @@ public class NotificationService {
     }
 
     // Xem chi tiết thông báo 
-    public Notification get(int id) {
+    public Notification get(long id) {
         return notificationRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND")); 
     }
 
     // Chỉnh sửa thông báo
-    public String update(int id, UpdateNotificationRequest request) {
+    public String update(long id, UpdateNotificationRequest request) {
         Notification notification = notificationRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND WITH ID: " + id));
         
-            Optional.of(request.title()).ifPresent(notification::setTitle);
+        Optional.of(request.title()).ifPresent(notification::setTitle);
         Optional.of(request.message()).ifPresent(notification::setMessage);
         Optional.of(request.createdAt()).ifPresent(notification::setCreatedAt);
         notificationRepository.save(notification);
@@ -66,7 +66,7 @@ public class NotificationService {
     }
 
     // Xóa thông báo
-    public String delete(int id) {
+    public String delete(long id) {
         notificationRepository.delete(notificationRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND WITH ID: " + id)));
         
@@ -74,7 +74,7 @@ public class NotificationService {
     }
 
     // Xem danh sách thông báo theo người dùng
-    public List<Notification> listByUserId(int userId) {
+    public List<Notification> listByUserId(long userId) {
         List<Notification> notifications = notificationRepository.findByUserId(userId);
         if (notifications.isEmpty()) 
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND");

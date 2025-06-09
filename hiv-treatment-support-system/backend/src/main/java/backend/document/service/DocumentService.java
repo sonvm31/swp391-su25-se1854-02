@@ -42,13 +42,13 @@ public class DocumentService {
     }
 
     // Xem chi tiết tài liệu 
-    public Document get(int id) {
+    public Document get(long id) {
         return documentRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + id));
     }
 
     // Chỉnh sửa tài liệu
-    public String update(int id, UpdateDocumentRequest request) {
+    public String update(long id, UpdateDocumentRequest request) {
         Document document = documentRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + id));
         
@@ -61,7 +61,7 @@ public class DocumentService {
     }
 
     // Xóa tài liệu
-    public String delete(int id) {        
+    public String delete(long id) {        
         documentRepository.delete(documentRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + id)));
         

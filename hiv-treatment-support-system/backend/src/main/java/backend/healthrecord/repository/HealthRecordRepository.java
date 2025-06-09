@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import backend.healthrecord.model.HealthRecord;
 
 @Repository
-public interface HealthRecordRepository extends JpaRepository<HealthRecord, Integer> {
-    Optional<HealthRecord> findByScheduleId(int scheduleId);
+public interface HealthRecordRepository extends JpaRepository<HealthRecord, Long> {
+    Optional<HealthRecord> findByScheduleId(long scheduleId);
 }

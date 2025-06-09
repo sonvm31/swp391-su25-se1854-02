@@ -11,6 +11,6 @@ public record CreateDoctorProfileRequest(
 
     String biography,
     
-    int userId
+    long userId
 ){   
 }

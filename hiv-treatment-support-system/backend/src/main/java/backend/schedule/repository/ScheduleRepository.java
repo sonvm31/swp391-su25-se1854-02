@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 import backend.schedule.model.Schedule;
 
 @Repository
-public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
-    List<Schedule> findByPatientId(int userId);
+public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
+    List<Schedule> findByPatientId(long userId);
 
-    List<Schedule> findByDoctorId(int userId);
+    List<Schedule> findByDoctorId(long userId);
 
     List<Schedule> findByType(String type);
 

@@ -10,7 +10,7 @@ import backend.user.model.Role;
 import backend.user.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
     List<User> findUsersByRole(Role role);

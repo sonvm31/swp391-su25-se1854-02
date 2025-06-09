@@ -40,7 +40,7 @@ public class TestResultService {
     }
 
     // Cập nhật kết quả xét nghiệm
-    public String update(int id, UpdateTestResultRequest request) {
+    public String update(long id, UpdateTestResultRequest request) {
         TestResult testResult = testResultRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO TEST RESULT FOUND WITH ID: " + id));
         
@@ -56,7 +56,7 @@ public class TestResultService {
     }   
     
     // Xóa kết quả xét nghiệm
-    public String delete(int id) {
+    public String delete(long id) {
         testResultRepository.delete(testResultRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO TEST RESULT FOUND WITH ID: " + id)));
 
@@ -64,7 +64,7 @@ public class TestResultService {
     }
 
     // Xem danh sách kết quả xét nghiệm theo ID phiếu phám sức khỏe
-    public List<TestResult> list(int recordId) {
+    public List<TestResult> list(long recordId) {
         List<TestResult> testResults = testResultRepository.findByHealthRecordId(recordId);
         if (testResults.isEmpty()) 
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO TEST RESULT FOUND WITH RECORD ID: " + recordId);

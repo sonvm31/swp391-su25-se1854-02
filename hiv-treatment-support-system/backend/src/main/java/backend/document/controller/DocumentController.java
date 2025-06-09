@@ -37,17 +37,17 @@ public class DocumentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Document> get(@PathVariable int id) {
+    public ResponseEntity<Document> get(@PathVariable long id) {
         return ResponseEntity.ok(documentService.get(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateDocumentRequest request) {
+    public ResponseEntity<Map<String, String>> update(@PathVariable long id, @RequestBody UpdateDocumentRequest request) {
         return ResponseEntity.ok(Map.of("message", documentService.update(id, request)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> delete(@PathVariable int id) {
+    public ResponseEntity<Map<String, String>> delete(@PathVariable long id) {
         return ResponseEntity.ok(Map.of("message", documentService.delete(id)));
     }
 

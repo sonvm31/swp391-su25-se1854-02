@@ -10,6 +10,6 @@ public record UpdateCheckupScheduleRequest (
     
     String status,
 
-    int doctorId
+    long doctorId
 ) {
 }

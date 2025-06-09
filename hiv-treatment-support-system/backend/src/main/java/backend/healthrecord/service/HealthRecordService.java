@@ -40,13 +40,13 @@ public class HealthRecordService {
     }
 
     // Xem chi tiết phiếu khám sức khỏe 
-    public HealthRecord get(int id) {
+    public HealthRecord get(long id) {
         return healthRecordRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id));
     }
 
     // Cập nhật phiếu khám sức khỏe
-    public String update(int id, UpdateHealthRecordRequest request) {
+    public String update(long id, UpdateHealthRecordRequest request) {
         HealthRecord record = healthRecordRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id));
         
@@ -65,7 +65,7 @@ public class HealthRecordService {
     }
 
     // Xóa phiếu khám sức khỏe
-    public String delete(int id) {
+    public String delete(long id) {
         healthRecordRepository.delete(healthRecordRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id)));
         
@@ -73,7 +73,7 @@ public class HealthRecordService {
     }
 
     // Xem phiếu khám sức khỏe theo ID ca khám
-    public HealthRecord getByScheduleId(int scheduleId) {
+    public HealthRecord getByScheduleId(long scheduleId) {
         return healthRecordRepository.findByScheduleId(scheduleId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH SCHEDULE ID: " + scheduleId));
     }

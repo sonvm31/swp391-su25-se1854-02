@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 public class Regimen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String regimenName;
     

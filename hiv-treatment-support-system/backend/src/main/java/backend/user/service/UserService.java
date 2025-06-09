@@ -70,13 +70,13 @@ public class UserService {
     }
     
     // Xem chi tiết người dùng 
-    public User get(int id) {
+    public User get(long id) {
         return userRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id));
     }
 
     // Chỉnh sửa người dùng 
-    public String update(int id, UpdateUserRequest request) {
+    public String update(long id, UpdateUserRequest request) {
         User user = userRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id));
             
@@ -94,7 +94,7 @@ public class UserService {
     }
 
     // Xóa người dùng 
-    public String delete(int id) {
+    public String delete(long id) {
         userRepository.delete(userRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id)));
         

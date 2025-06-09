@@ -39,32 +39,32 @@ public class SheduleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Schedule> list(@PathVariable int id) {
+    public ResponseEntity<Schedule> list(@PathVariable long id) {
         return ResponseEntity.ok(checkupScheduleService.get(id));
     }
 
     @PutMapping("/update/schedule-id/{id}") 
-    public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateCheckupScheduleRequest request) {
+    public ResponseEntity<Map<String, String>> update(@PathVariable long id, @RequestBody UpdateCheckupScheduleRequest request) {
         return ResponseEntity.ok(Map.of("message", checkupScheduleService.update(id, request)));
     }
     
     @PutMapping("/register/schedule-id/{id}") 
-    public ResponseEntity<Map<String, String>> register(@PathVariable int id, @RequestParam int patientId, @RequestParam String type) {
+    public ResponseEntity<Map<String, String>> register(@PathVariable long id, @RequestParam int patientId, @RequestParam String type) {
         return ResponseEntity.ok(Map.of("message", checkupScheduleService.register(id, patientId, type)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> delete(@PathVariable int id) {
+    public ResponseEntity<Map<String, String>> delete(@PathVariable long id) {
         return ResponseEntity.ok(Map.of("message", checkupScheduleService.delete(id)));
     }
     
     @GetMapping("/patient-id/{patientId}")
-    public ResponseEntity<List<Schedule>> getByPatientId(@PathVariable int id) {
+    public ResponseEntity<List<Schedule>> getByPatientId(@PathVariable long id) {
         return ResponseEntity.ok(checkupScheduleService.getByPatientId(id));
     }
 
     @GetMapping("/doctor-id/{doctorId}")
-    public ResponseEntity<List<Schedule>> getByDoctorId(@PathVariable int id) {
+    public ResponseEntity<List<Schedule>> getByDoctorId(@PathVariable long id) {
         return ResponseEntity.ok(checkupScheduleService.getByDoctorId(id));
     }
 

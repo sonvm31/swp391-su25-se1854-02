@@ -44,13 +44,13 @@ public class ReginmenService {
     }
 
     // Xem chi tiết phác đồ
-    public Regimen get(int id) {
+    public Regimen get(long id) {
         return regimenRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id));
     }
 
     // Chỉnh sửa phác đồ
-    public String update(int id, UpdateRegimenRequest request) {
+    public String update(long id, UpdateRegimenRequest request) {
         Regimen regimen = regimenRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id));
         
@@ -65,7 +65,7 @@ public class ReginmenService {
     }
 
     // Xóa phác đồ
-    public String delete(int id) {
+    public String delete(long id) {
         regimenRepository.delete(regimenRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id)));
         

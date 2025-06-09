@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import backend.testresult.model.TestResult;
 
 @Repository
-public interface TestResultRepository extends JpaRepository<TestResult, Integer> {
-    List<TestResult> findByHealthRecordId(int healthrecordId);
+public interface TestResultRepository extends JpaRepository<TestResult, Long> {
+    List<TestResult> findByHealthRecordId(long healthrecordId);
 }

@@ -49,13 +49,13 @@ public class DoctorProfileService {
     }
 
     // Xem chi tiết hồ sơ của bác sĩ 
-    public DoctorProfile get(int id) {
+    public DoctorProfile get(long id) {
         return doctorProfileRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PRODFILE FOUND"));
     }
 
     // Chỉnh sửa hồ sơ bác sĩ
-    public String update(int id, UpdateDoctorProfileRequest request) {
+    public String update(long id, UpdateDoctorProfileRequest request) {
         DoctorProfile doctorProfile = doctorProfileRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PROFILE FOUND WITH ID: " + id));
         
@@ -71,7 +71,7 @@ public class DoctorProfileService {
     }
 
     // Xóa hồ sơ bác sĩ
-    public String delete(int id) {
+    public String delete(long id) {
         doctorProfileRepository.delete(doctorProfileRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PROFILE FOUND WITH ID: " + id)));
         

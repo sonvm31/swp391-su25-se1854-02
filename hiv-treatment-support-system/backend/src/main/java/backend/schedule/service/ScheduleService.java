@@ -48,13 +48,13 @@ public class ScheduleService {
     }
     
     // Xem chi tiết ca khám bệnh 
-    public Schedule get(int id) {
+    public Schedule get(long id) {
         return scheduleRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID: " + id));
     } 
 
     // Chỉnh sửa ca khám bệnh
-    public String update(int id, UpdateCheckupScheduleRequest request) {        
+    public String update(long id, UpdateCheckupScheduleRequest request) {        
         Schedule CheckupSchedule = scheduleRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID" + id));
 
@@ -67,7 +67,7 @@ public class ScheduleService {
     }   
 
     // Đăng ký ca khám bệnh theo ID bệnh nhân
-    public String register(int id, int patientId, String type) {
+    public String register(long id, long patientId, String type) {
         Schedule CheckupSchedule = scheduleRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID: " + id));
 
@@ -78,7 +78,7 @@ public class ScheduleService {
     }   
 
     // Xóa ca khám bệnh 
-    public String delete(int id) {
+    public String delete(long id) {
         scheduleRepository.delete(scheduleRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID: " + id)));
         
@@ -86,7 +86,7 @@ public class ScheduleService {
     }
 
     // Xem danh sách ca khám bệnh theo ID bệnh nhân
-    public List<Schedule> getByPatientId(int patientId) {
+    public List<Schedule> getByPatientId(long patientId) {
         List<Schedule> schedules = scheduleRepository.findByPatientId(patientId);
         if (schedules.isEmpty()) 
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND");
@@ -95,7 +95,7 @@ public class ScheduleService {
     }
 
     // Xem danh sách ca khám bệnh theo ID bác sĩ
-    public List<Schedule> getByDoctorId(int docotrId) {
+    public List<Schedule> getByDoctorId(long docotrId) {
         List<Schedule> schedules = scheduleRepository.findByDoctorId(docotrId);
         if (schedules.isEmpty()) 
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND");

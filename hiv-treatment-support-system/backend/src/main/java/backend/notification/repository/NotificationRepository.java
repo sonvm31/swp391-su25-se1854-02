@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import backend.notification.model.Notification;
 
 @Repository
-public interface NotificationRepository extends JpaRepository<Notification, Integer> {
-    List<Notification> findByUserId(int userId);
+public interface NotificationRepository extends JpaRepository<Notification, Long> {
+    List<Notification> findByUserId(long userId);
 }

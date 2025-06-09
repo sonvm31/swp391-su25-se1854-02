@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import backend.document.model.Document;
 
 @Repository
-public interface DocumentRepository extends JpaRepository<Document, Integer> {
+public interface DocumentRepository extends JpaRepository<Document, Long> {
 }

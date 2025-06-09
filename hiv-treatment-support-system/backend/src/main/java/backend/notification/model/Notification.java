@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(columnDefinition = "NVARCHAR")
     private String title;

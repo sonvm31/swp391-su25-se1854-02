@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import backend.doctorprofile.model.DoctorProfile;
 
 @Repository
-public interface DoctorProfileRepository extends JpaRepository<DoctorProfile, Integer> {
+public interface DoctorProfileRepository extends JpaRepository<DoctorProfile, Long> {
 }

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import backend.regimen.model.Regimen;
 
 @Repository
-public interface RegimenRepository extends JpaRepository<Regimen, Integer> {
+public interface RegimenRepository extends JpaRepository<Regimen, Long> {
 }

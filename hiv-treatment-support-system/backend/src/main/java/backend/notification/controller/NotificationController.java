@@ -37,22 +37,22 @@ public class NotificationController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Notification> get(@PathVariable int id) {
+    public ResponseEntity<Notification> get(@PathVariable long id) {
         return ResponseEntity.ok(notificationService.get(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateNotificationRequest request) {
+    public ResponseEntity<Map<String, String>> update(@PathVariable long id, @RequestBody UpdateNotificationRequest request) {
         return ResponseEntity.ok(Map.of("message", notificationService.update(id, request)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Map<String, String>> delete(@PathVariable int id) {
+    public ResponseEntity<Map<String, String>> delete(@PathVariable long id) {
         return ResponseEntity.ok(Map.of("message", notificationService.delete(id)));
     }
     
     @GetMapping("/user-id/{userId}")
-    public ResponseEntity<List<Notification>> list(@PathVariable int userId) {
+    public ResponseEntity<List<Notification>> list(@PathVariable long userId) {
         return ResponseEntity.ok(notificationService.listByUserId(userId));
     }
 

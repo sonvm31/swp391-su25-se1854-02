@@ -46,7 +46,7 @@ public class PaymentService {
     }
 
     // Xem chi tiết thanh toán 
-    public Payment get(int id) {
+    public Payment get(long id) {
         return paymentRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO PAYMENT FOUND WITH ID: " + id));
     }

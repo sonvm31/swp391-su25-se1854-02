@@ -32,7 +32,7 @@ public class PaymentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Payment> list(@PathVariable int id) {
+    public ResponseEntity<Payment> list(@PathVariable long id) {
         return ResponseEntity.ok(paymentService.get(id));
     }
 

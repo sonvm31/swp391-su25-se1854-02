@@ -9,6 +9,6 @@ public record  CreateNotificationRequest(
     
     LocalDateTime createdAt,
     
-    int userId
+    long userId
 ) {
 }

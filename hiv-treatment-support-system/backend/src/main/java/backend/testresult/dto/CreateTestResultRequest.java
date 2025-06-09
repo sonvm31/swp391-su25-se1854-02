@@ -13,6 +13,6 @@ public record CreateTestResultRequest(
 
     LocalDateTime expectedResultTime,
     
-    int scheduleId
+    long scheduleId
 ) {
 }
