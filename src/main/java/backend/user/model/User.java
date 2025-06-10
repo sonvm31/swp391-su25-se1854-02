@@ -25,10 +25,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String fullName;
 
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(255)")
     private String address;
 
     @Column(unique = true)
@@ -51,7 +51,7 @@ public class User {
     private LocalDateTime createdAt;
 
     private boolean isVerified;
-    
+
     private Role role;
 
     public String getDisplayId() {
