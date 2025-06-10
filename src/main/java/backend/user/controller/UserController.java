@@ -63,12 +63,12 @@ public class UserController {
     }
 
     @GetMapping("/{role}/{isVerified}")
-    public ResponseEntity<User> getByPhoneNumber(@PathVariable Role role, @PathVariable boolean isVerified) {
+    public ResponseEntity<List<User>> getByPhoneNumber(@PathVariable Role role, @PathVariable boolean isVerified) {
         return ResponseEntity.ok(userService.getByIsVerified(role, isVerified));
     }
 
     @GetMapping("/{role}/{accountStatus}")
-    public ResponseEntity<User> getByAccountStatus(@PathVariable Role role, @PathVariable String accountStatus) {
+    public ResponseEntity<List<User>> getByAccountStatus(@PathVariable Role role, @PathVariable String accountStatus) {
         return ResponseEntity.ok(userService.getByAccountStatus(role, accountStatus));
     }
 }

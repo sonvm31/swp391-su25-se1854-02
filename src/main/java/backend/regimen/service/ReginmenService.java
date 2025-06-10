@@ -36,11 +36,7 @@ public class ReginmenService {
 
     // Xem danh sách phác đồ
     public List<Regimen> list() {
-        List<Regimen> regimens = regimenRepository.findAll();
-        if (regimens.isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND");
-
-        return regimens;
+        return regimenRepository.findAll();
     }
 
     // Xem chi tiết phác đồ

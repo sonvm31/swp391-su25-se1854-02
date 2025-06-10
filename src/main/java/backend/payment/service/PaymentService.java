@@ -38,10 +38,6 @@ public class PaymentService {
 
     // Xem danh sách thanh toán
     public List<Payment> list() {
-        List<Payment> payments = paymentRepository.findAll();
-        if (payments.isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO PAYMENT FOUND");
-
         return paymentRepository.findAll();
     }
 
@@ -53,10 +49,6 @@ public class PaymentService {
 
     // Xem danh sách thanh toán theo trạng thái
     public List<Payment> getByStatus(String status) {
-        List<Payment> paymentList = paymentRepository.findByStatus(status);
-        if (paymentList.isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO PAYMENT FOUND WITH STATUS: " + status);
-        
-        return paymentList;
+        return paymentRepository.findByStatus(status);
     }
 }

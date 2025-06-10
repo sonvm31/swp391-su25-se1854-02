@@ -24,8 +24,10 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(columnDefinition = "NVARCHAR")
     private String title;
 
+    @Column(columnDefinition = "NVARCHAR")
     private String author;
     
     @Column(columnDefinition = "NTEXT")

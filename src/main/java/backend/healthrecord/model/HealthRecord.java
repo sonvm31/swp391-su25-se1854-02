@@ -2,6 +2,7 @@ package backend.healthrecord.model;
 
 import backend.regimen.model.Regimen;
 import backend.schedule.model.Schedule;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,9 +34,10 @@ public class HealthRecord {
 
     private String bloodType;
 
-    private String note;
-
     private String treatmentStatus;
+
+    @Column(columnDefinition = "NVARCHAR")
+    private String note;
 
     private float weight;
 

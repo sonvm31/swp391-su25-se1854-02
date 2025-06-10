@@ -15,7 +15,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Thông báo nếu email đã tồn tại
+    // Thông báo nếu email, username, số điện thoại đã tồn tại
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
         if (ex.getMessage().toLowerCase().contains("email")) {
@@ -59,5 +59,4 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now().toString());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }

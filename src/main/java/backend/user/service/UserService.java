@@ -115,11 +115,7 @@ public class UserService {
 
     // Xem danh sách người dùng theo tên
     public List<User> search(Role role, String searchString) {
-        List<User> users = userRepository.findByFullNameContaining(searchString);
-        if (users.isEmpty())
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH FULL NAME: " + searchString);
-
-        return users;
+        return userRepository.findByFullNameContaining(searchString);
     }
 
     // Tìm người dùng theo số điện thoại
@@ -137,16 +133,12 @@ public class UserService {
     }
 
     // Tìm người dùng theo trạng thái xác minh email
-    public User getByIsVerified(Role role, boolean isVerified) {
-        return userRepository.findByIsVerified(isVerified)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "NO USER FOUND WITH VERIFIED STATUS: " + isVerified));
+    public List<User> getByIsVerified(Role role, boolean isVerified) {
+        return userRepository.findByIsVerified(isVerified);
     }
 
     // Tìm người dùng theo trạng thái tài khoản
-    public User getByAccountStatus(Role role, String status) {
-        return userRepository.findByAccountStatus(status)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "NO USER FOUND WITH ACCOUNT STATUS: " + status));
+    public List<User> getByAccountStatus(Role role, String status) {
+        return userRepository.findByAccountStatus(status);
     }
 }

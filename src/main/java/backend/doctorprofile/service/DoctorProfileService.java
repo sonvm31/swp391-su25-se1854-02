@@ -41,10 +41,13 @@ public class DoctorProfileService {
 
     // Xem danh sách hồ sơ bác sĩ
     public List<DoctorProfile> list() {
+<<<<<<< HEAD
         List<DoctorProfile> doctorProfiles = doctorProfileRepository.findAll();
         if (doctorProfiles.isEmpty())
             return doctorProfiles;
 
+=======
+>>>>>>> d3104ece944bf5ad8b37737860f5dcb90b44646d
         return doctorProfileRepository.findAll();
     }
 

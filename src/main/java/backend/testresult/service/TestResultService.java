@@ -65,10 +65,6 @@ public class TestResultService {
 
     // Xem danh sách kết quả xét nghiệm theo ID phiếu phám sức khỏe
     public List<TestResult> list(long recordId) {
-        List<TestResult> testResults = testResultRepository.findByHealthRecordId(recordId);
-        if (testResults.isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO TEST RESULT FOUND WITH RECORD ID: " + recordId);
-
-        return testResults;
+        return testResultRepository.findByHealthRecordId(recordId);
     }
 }
