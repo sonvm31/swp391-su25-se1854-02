@@ -1,5 +1,6 @@
 package backend.doctorprofile.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,14 @@ public class DoctorProfileController {
         return ResponseEntity.ok(Map.of("message", doctorProfileService.create(request)));
     }
 
+    @GetMapping()
+    public ResponseEntity<List<DoctorProfile>> list() {
+        return ResponseEntity.ok(doctorProfileService.list());
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, String>> update(@PathVariable long id, @RequestBody UpdateDoctorProfileRequest request) {
+    public ResponseEntity<Map<String, String>> update(@PathVariable long id,
+            @RequestBody UpdateDoctorProfileRequest request) {
         return ResponseEntity.ok(Map.of("message", doctorProfileService.update(id, request)));
     }
 
@@ -38,7 +45,7 @@ public class DoctorProfileController {
     public ResponseEntity<Map<String, String>> delete(@PathVariable long id) {
         return ResponseEntity.ok(Map.of("message", doctorProfileService.delete(id)));
     }
-   
+
     @GetMapping("/doctor-id/{doctorId}")
     public ResponseEntity<DoctorProfile> get(@PathVariable long doctorId) {
         return ResponseEntity.ok(doctorProfileService.get(doctorId));

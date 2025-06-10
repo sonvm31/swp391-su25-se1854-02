@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateUserRequest request) {
+    public ResponseEntity<Map<String, String>> update(@PathVariable long id, @RequestBody UpdateUserRequest request) {
         return ResponseEntity.ok(Map.of("message", userService.update(id, request)));
     }
 

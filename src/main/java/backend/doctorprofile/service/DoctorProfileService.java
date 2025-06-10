@@ -27,34 +27,35 @@ public class DoctorProfileService {
     // Tạo hồ sơ bác sĩ
     public String create(CreateDoctorProfileRequest request) {
         var doctorProfile = DoctorProfile.builder()
-        .qualifications(request.qualifications())
-        .licenseNumber(request.licenseNumber())
-        .background(request.background())
-        .biography(request.biography())
-        .startYear(request.startYear())
-        .user(userRepository.findById(request.userId()).get())
-        .build();
+                .qualifications(request.qualifications())
+                .licenseNumber(request.licenseNumber())
+                .background(request.background())
+                .biography(request.biography())
+                .startYear(request.startYear())
+                .user(userRepository.findById(request.userId()).get())
+                .build();
         doctorProfileRepository.save(doctorProfile);
 
         return "DOCTOR PROFILE CREATED SUCCESSFULLY WITH ID: " + doctorProfile.getId();
     }
 
-    // Xem danh sách hồ sơ bác sĩ 
+    // Xem danh sách hồ sơ bác sĩ
     public List<DoctorProfile> list() {
         return doctorProfileRepository.findAll();
     }
 
-    // Xem chi tiết hồ sơ của bác sĩ 
+    // Xem chi tiết hồ sơ của bác sĩ
     public DoctorProfile get(long id) {
         return doctorProfileRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PRODFILE FOUND"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PRODFILE FOUND"));
     }
 
     // Chỉnh sửa hồ sơ bác sĩ
     public String update(long id, UpdateDoctorProfileRequest request) {
         DoctorProfile doctorProfile = doctorProfileRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PROFILE FOUND WITH ID: " + id));
-        
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "NO DOCTOR PROFILE FOUND WITH ID: " + id));
+
         Optional.ofNullable(request.qualifications()).ifPresent(doctorProfile::setQualifications);
         Optional.ofNullable(request.licenseNumber()).ifPresent(doctorProfile::setLicenseNumber);
         Optional.ofNullable(request.background()).ifPresent(doctorProfile::setBackground);
