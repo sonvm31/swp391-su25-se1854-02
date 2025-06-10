@@ -41,11 +41,7 @@ public class DoctorProfileService {
 
     // Xem danh sách hồ sơ bác sĩ 
     public List<DoctorProfile> list() {
-        List<DoctorProfile> doctorProfiles = doctorProfileRepository.findAll();
-        if (doctorProfiles.isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PRODFILE FOUND");
-
-        return doctorProfiles;
+        return doctorProfileRepository.findAll();
     }
 
     // Xem chi tiết hồ sơ của bác sĩ 

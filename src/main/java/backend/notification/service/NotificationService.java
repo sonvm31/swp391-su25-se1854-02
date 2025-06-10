@@ -1,6 +1,7 @@
 package backend.notification.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +40,7 @@ public class NotificationService {
 
     // Xem danh sách thông báo
     public List<Notification> list() {
-        List<Notification> notifications = notificationRepository.findAll();
-        if (notifications.isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND");
-        
-        return notifications;
+        return notificationRepository.findAll();
     }
 
     // Xem chi tiết thông báo 
@@ -75,27 +72,17 @@ public class NotificationService {
 
     // Xem danh sách thông báo theo người dùng
     public List<Notification> listByUserId(long userId) {
-        List<Notification> notifications = notificationRepository.findByUserId(userId);
-        if (notifications.isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND");
-
-        return notifications;
+        return notificationRepository.findByUserId(userId);
     }
 
     // Tìm kiếm danh sách thông báo theo tên  
     public List<Notification> getBySearchString(String searchString) {
         List<Notification> notificationList = notificationRepository.findAll();
-        if (notificationList.isEmpty())  
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND");
-
         List<Notification> searchList = list();
         for (Notification notification : notificationList) {
-            if (notification.getTitle().contains(searchString)) 
+            if (Objects.toString(notification.getTitle(), "").contains(searchString))
                 searchList.add(notification);
         }
-        if (searchList.isEmpty())  
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND WITH TITLE: " + searchString);
-        
         return notificationList;
     }
 }

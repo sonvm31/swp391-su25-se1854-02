@@ -1,6 +1,7 @@
 package backend.document.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,7 @@ public class DocumentService {
 
     // Xem danh sách tất cả tài liệu 
     public List<Document> list() {
-        List<Document> documents = documentRepository.findAll();
-        if (documents.isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND");
-
-        return documents;
+        return documentRepository.findAll();
     }
 
     // Xem chi tiết tài liệu 
@@ -71,20 +68,14 @@ public class DocumentService {
     // Tìm danh sách tài liệu theo tên, tác giả và nội dung
     public List<Document> search(String searchString) {
         List<Document> documents = documentRepository.findAll();
-        if (documents.isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND");
-        
         List<Document> searchList = list();
         for (Document document : documents) {
-            if (document.getAuthor().contains(searchString) 
-            || document.getTitle().contains(searchString)
-            || document.getContent().contains(searchString)) {
+            if (Objects.toString(document.getAuthor(), "").contains(searchString) 
+            || Objects.toString(document.getTitle(), "").contains(searchString)
+            ||Objects.toString(document.getContent(), "").contains(searchString))  {
                 searchList.add(document);
             }
         } 
-        if (searchList.isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH SEARCH VALUE: " + searchString);
-
         return searchList;
     }
 }

@@ -33,12 +33,9 @@ public class HealthRecordService {
 
     // Xem danh sách phiếu khám sức khỏe
     public List<HealthRecord> list() {
-        List<HealthRecord> healthRecords = healthRecordRepository.findAll();
-        if (healthRecords.isEmpty()) 
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND");
-        return healthRecords;
+       return healthRecordRepository.findAll();
     }
-
+    
     // Xem chi tiết phiếu khám sức khỏe 
     public HealthRecord get(long id) {
         return healthRecordRepository.findById(id)

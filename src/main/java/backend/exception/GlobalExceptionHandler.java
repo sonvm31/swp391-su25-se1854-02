@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Thông báo nếu email đã tồn tại
+    // Thông báo nếu email, username, số điện thoại đã tồn tại
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
         if (ex.getMessage().toLowerCase().contains("email")) {
@@ -26,7 +26,4 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Data integrity violation");
     }
-
-    
-
 }
