@@ -36,7 +36,7 @@ public class TestResultService {
             .build();
         testResultRepository.save(testResult);
 
-        return "Test result created successfully with ID: " + testResult.getId() + ".";
+        return "TEST RESULT CREATED SUCCESSFULLY WITH ID: " + testResult.getId();
     }
 
     // Cập nhật kết quả xét nghiệm
@@ -52,7 +52,7 @@ public class TestResultService {
         Optional.of(request.actualResultTime()).ifPresent(testResult::setActualResultTime);
         testResultRepository.save(testResult);
         
-        return "Test result updated successfully with ID: " + id + ".";
+        return "TEST RESULT UPDATED SUCCESSFULLY WITH ID: " + id;
     }   
     
     // Xóa kết quả xét nghiệm
@@ -60,7 +60,7 @@ public class TestResultService {
         testResultRepository.delete(testResultRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO TEST RESULT FOUND WITH ID: " + id)));
 
-        return "Test result deleted successfully with ID: " + id + ".";
+        return "TEST RESULT DELETED SUCCESSFULLY WITH ID: " + id;
     }
 
     // Xem danh sách kết quả xét nghiệm theo ID phiếu phám sức khỏe

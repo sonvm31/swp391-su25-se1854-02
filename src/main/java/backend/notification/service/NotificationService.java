@@ -35,7 +35,7 @@ public class NotificationService {
             .build();
         notificationRepository.save(notification);
 
-        return "Notification created successfully with ID: " + notification.getId() + ".";
+        return "NOTIFICATION CREATED SUCCESSFULLY WITH ID: " + notification.getId();
     }
 
     // Xem danh sách thông báo
@@ -59,7 +59,7 @@ public class NotificationService {
         Optional.of(request.createdAt()).ifPresent(notification::setCreatedAt);
         notificationRepository.save(notification);
 
-        return "Notification updated successfully with ID: " + id + ".";
+        return "NOTIFICATION UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
     // Xóa thông báo
@@ -67,7 +67,7 @@ public class NotificationService {
         notificationRepository.delete(notificationRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND WITH ID: " + id)));
         
-        return "Notification deleted successfully with ID: " + id + ".";
+        return "NOTIFICATION DELETED SUCCESSFULLY WITH ID: " + id;
     }
 
     // Xem danh sách thông báo theo người dùng

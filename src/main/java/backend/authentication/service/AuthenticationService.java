@@ -93,14 +93,14 @@ public class AuthenticationService {
 
         if (mailVerification.isEmpty()
                 || mailVerification.get().getExpiryDate().isBefore(LocalDateTime.now())) {
-            return "Invalid or expired token.";
+            return "INVALID OR EXPIRED TOKEN";
         }
 
         User user = mailVerification.get().getUser();
         user.setVerified(true);
         userRepository.save(user);
 
-        return "Mail verified successfully.";
+        return "MAIL VERIFIED SUCCESSFULLY";
     }
 
     // Đăng nhập bằng tên tài khoản và mật khẩu
@@ -109,7 +109,7 @@ public class AuthenticationService {
                 new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 
         User user = userRepository.findByUsername(request.username())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "USER NOT FOUND"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH USERNAME: " + request.username()));
 
         if (user.getAccountStatus().equals("UNACTIVE")
                 || !user.isVerified())
@@ -121,9 +121,10 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwtToken, user.getUsername(), user.getRole().name());
     }
 
+    // Lấy thông tin tài khoản người dùng
     public AccountResponse getUserInfo(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException("NO USER FOUND WITH USERNAME: " + username));
         return new AccountResponse(user.getId(), user.getUsername(), user.getEmail(), user.getFullName(),
                 user.getAccountStatus(), user.getRole());
     }

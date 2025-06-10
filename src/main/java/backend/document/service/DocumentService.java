@@ -30,7 +30,7 @@ public class DocumentService {
             .build();
         documentRepository.save(document);
 
-        return "Document created successfully with ID: " + document.getId() + ".";
+        return "DOCUMENT CREATED SUCCESSFULLY WITH ID: " + document.getId();
     }
 
     // Xem danh sách tất cả tài liệu 
@@ -54,7 +54,7 @@ public class DocumentService {
         Optional.of(request.content()).ifPresent(document::setContent);
         documentRepository.save(document);
 
-        return "Document updated successfully with ID: " + id + ".";
+        return "DOCUMENT UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
     // Xóa tài liệu
@@ -62,7 +62,7 @@ public class DocumentService {
         documentRepository.delete(documentRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + id)));
         
-        return "Document deleted successfully with ID: " + id + ".";
+        return "DOCUMENT DELETED SUCCESSFULLY WITH ID: " + id;
     }
 
     // Tìm danh sách tài liệu theo tên, tác giả và nội dung

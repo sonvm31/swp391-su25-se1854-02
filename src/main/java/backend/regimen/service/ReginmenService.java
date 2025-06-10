@@ -31,7 +31,7 @@ public class ReginmenService {
             .build();
         regimenRepository.save(regimen);
 
-        return "Regimen created successfully with ID: " + regimen.getId() + ".";
+        return "REGIMEN CREATED SUCCESSFULLY WITH ID: " + regimen.getId();
     }
 
     // Xem danh sách phác đồ
@@ -57,7 +57,7 @@ public class ReginmenService {
         Optional.of(request.contradications()).ifPresent(regimen::setContradications);
         regimenRepository.save(regimen);
 
-        return "Regimen updated successfully with ID: " + id + ".";
+        return "REGIMEN UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
     // Xóa phác đồ
@@ -65,6 +65,6 @@ public class ReginmenService {
         regimenRepository.delete(regimenRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id)));
         
-        return "Regimen deleted successfully with ID: " + id + ".";
+        return "REGIMEN DELETED SUCCESSFULLY WITH ID: " + id;
     }
 }

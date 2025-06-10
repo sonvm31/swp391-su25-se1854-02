@@ -33,7 +33,7 @@ public class PaymentService {
             .build();
         paymentRepository.save(payment);
 
-        return "Payment created successfully with ID: "+ payment.getId() + ".";
+        return "PAYMENT CREATED SUCCESSFULLY WITH ID: "+ payment.getId();
     } 
 
     // Xem danh sách thanh toán

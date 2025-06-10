@@ -36,7 +36,7 @@ public class DoctorProfileService {
         .build();
         doctorProfileRepository.save(doctorProfile);
 
-        return "Doctor profile created successfully with ID: " + doctorProfile.getId() + ".";
+        return "DOCTOR PROFILE CREATED SUCCESSFULLY WITH ID: " + doctorProfile.getId();
     }
 
     // Xem danh sách hồ sơ bác sĩ 
@@ -63,7 +63,7 @@ public class DoctorProfileService {
         Optional.ofNullable(userRepository.findById(id).get()).ifPresent(doctorProfile::setUser);
         doctorProfileRepository.save(doctorProfile);
 
-        return "Doctor profile updated successfully with ID: " + id + ".";
+        return "DOCTOR PROFILE UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
     // Xóa hồ sơ bác sĩ
@@ -71,6 +71,6 @@ public class DoctorProfileService {
         doctorProfileRepository.delete(doctorProfileRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PROFILE FOUND WITH ID: " + id)));
         
-        return "Doctor profile deleted successfully with ID: " + id + ".";
+        return "DOCTOR PROFILE DELETED SUCCESSFULLY WITH ID: " + id;
     }
 }

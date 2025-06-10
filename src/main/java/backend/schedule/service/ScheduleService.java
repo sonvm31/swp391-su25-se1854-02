@@ -35,7 +35,7 @@ public class ScheduleService {
             .build();
         scheduleRepository.save(checkupSchedule);
 
-        return "Slot created successfully with ID: " + checkupSchedule.getId() + ".";
+        return "SLOT CREATED SUCCESSFULLY WITH ID: " + checkupSchedule.getId();
     }
 
     // Xem danh sách ca khám bệnh 
@@ -51,15 +51,15 @@ public class ScheduleService {
 
     // Chỉnh sửa ca khám bệnh
     public String update(long id, UpdateCheckupScheduleRequest request) {        
-        Schedule CheckupSchedule = scheduleRepository.findById(id)
+        Schedule checkupSchedule = scheduleRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID" + id));
 
-        Optional.of(request.date()).ifPresent(CheckupSchedule::setDate);
-        Optional.of(request.slot()).ifPresent(CheckupSchedule::setSlot);
-        Optional.of(request.status()).ifPresent(CheckupSchedule::setStatus);
-        Optional.of(userRepository.findById(request.doctorId()).get()).ifPresent(CheckupSchedule::setDoctor);
+        Optional.of(request.date()).ifPresent(checkupSchedule::setDate);
+        Optional.of(request.slot()).ifPresent(checkupSchedule::setSlot);
+        Optional.of(request.status()).ifPresent(checkupSchedule::setStatus);
+        Optional.of(userRepository.findById(request.doctorId()).get()).ifPresent(checkupSchedule::setDoctor);
     
-        return "Slot updated successfully with ID: " + id + ".";
+        return "SLOT UPDATED SUCCESSFULLY WITH ID: " + id;
     }   
 
     // Đăng ký ca khám bệnh theo ID bệnh nhân
@@ -70,7 +70,7 @@ public class ScheduleService {
         Optional.of(userRepository.findById(patientId).get()).ifPresent(CheckupSchedule::setPatient);
         Optional.of(type).ifPresent(CheckupSchedule::setType);
         
-        return "Slot registered successfully with ID: " + id + ".";
+        return "SLOT REGISTERED SUCCESSFULLY WITH ID: " + id;
     }   
 
     // Xóa ca khám bệnh 
@@ -78,7 +78,7 @@ public class ScheduleService {
         scheduleRepository.delete(scheduleRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID: " + id)));
         
-        return "Slot deleted successfully with ID: " + id + ".";
+        return "SLOT DELETED SUCCESSFULLY WITH ID: " + id;
     }
 
     // Xem danh sách ca khám bệnh theo ID bệnh nhân

@@ -90,7 +90,7 @@ public class UserService {
         Optional.ofNullable(request.dateOfBirth()).ifPresent(user::setDateOfBirth);
         userRepository.save(user);
 
-        return "User updated successfully with ID: " + id + ".";
+        return "USER UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
     // Xóa người dùng
@@ -98,7 +98,7 @@ public class UserService {
         userRepository.delete(userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id)));
 
-        return "User deleted successfully with ID: " + id + ".";
+        return "USER DELETED SUCCESSFULLY WITH ID: " + id;
     }
 
     // Xem danh sách người dùng theo vai trò

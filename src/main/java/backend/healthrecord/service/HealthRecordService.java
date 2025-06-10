@@ -28,7 +28,7 @@ public class HealthRecordService {
             .build();
         healthRecordRepository.save(healthRecord);
 
-        return "Check-up record created with ID: " + healthRecord.getId() + ".";
+        return "CHECK-UP RECORD CREATED WITH ID: " + healthRecord.getId();
     }
 
     // Xem danh sách phiếu khám sức khỏe
@@ -58,7 +58,7 @@ public class HealthRecordService {
         Optional.ofNullable(request.treatmentStatus()).ifPresent(record::setTreatmentStatus);
         healthRecordRepository.save(record);
 
-        return "Check-up record updated successfullty with ID: " + record.getId() + ".";
+        return "HEALTH RECORD UPDATED SUCCESSFULLTY WITH ID: " + record.getId();
     }
 
     // Xóa phiếu khám sức khỏe
@@ -66,7 +66,7 @@ public class HealthRecordService {
         healthRecordRepository.delete(healthRecordRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id)));
         
-        return "Check-up record deleted successfully with ID:" + id + ".";
+        return "HEALTH RECORD DELETED SUCCESSFULLY WITH ID:" + id;
     }
 
     // Xem phiếu khám sức khỏe theo ID ca khám

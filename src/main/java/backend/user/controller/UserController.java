@@ -52,22 +52,22 @@ public class UserController {
         return ResponseEntity.ok(userService.search(role, searchString));
     }
 
-    @GetMapping("/{role}/{phoneNumber}")
+    @GetMapping("/{role}/phone-number/{phoneNumber}")
     public ResponseEntity<User> getByPhoneNumber(@PathVariable Role role, @PathVariable String searchString) {
         return ResponseEntity.ok(userService.getByPhoneNumber(role, searchString));
     }
 
-    @GetMapping("/{role}/{email}")
+    @GetMapping("/{role}/email-address/{email}")
     public ResponseEntity<User> getByEmail(@PathVariable Role role, @PathVariable String searchString) {
         return ResponseEntity.ok(userService.getByEmail(role, searchString));
     }
 
-    @GetMapping("/{role}/{isVerified}")
+    @GetMapping("/{role}/mail-verification-status/{isVerified}")
     public ResponseEntity<List<User>> getByPhoneNumber(@PathVariable Role role, @PathVariable boolean isVerified) {
         return ResponseEntity.ok(userService.getByIsVerified(role, isVerified));
     }
 
-    @GetMapping("/{role}/{accountStatus}")
+    @GetMapping("/{role}/account-status/{accountStatus}")
     public ResponseEntity<List<User>> getByAccountStatus(@PathVariable Role role, @PathVariable String accountStatus) {
         return ResponseEntity.ok(userService.getByAccountStatus(role, accountStatus));
     }
