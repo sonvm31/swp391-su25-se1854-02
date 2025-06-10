@@ -27,12 +27,14 @@ public class TestResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String type;
-
-    private String result;
-    
     private String unit;
 
+    @Column(columnDefinition = "NVARCHAR")
+    private String type;
+    
+    @Column(columnDefinition = "NVARCHAR")
+    private String result;
+    
     @Column(columnDefinition = "NVARCHAR")
     private String note;
     

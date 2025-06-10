@@ -22,10 +22,11 @@ public class Regimen {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String regimenName;
-    
     private String components;
 
+    @Column(columnDefinition = "NVARCHAR")
+    private String regimenName;
+    
     @Column(columnDefinition = "NVARCHAR")
     private String description;
 
@@ -35,6 +36,5 @@ public class Regimen {
     @Column(columnDefinition = "NVARCHAR")
     private String contradications;
 
-    @Column(columnDefinition = "NVARCHAR")
-    private String note;
+    private Boolean isDefault;
 }
