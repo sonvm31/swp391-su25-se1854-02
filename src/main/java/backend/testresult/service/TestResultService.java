@@ -39,11 +39,6 @@ public class TestResultService {
         return "TEST RESULT CREATED SUCCESSFULLY WITH ID: " + testResult.getId();
     }
 
-    // Xem danh sách kết quả xét nghiệm
-    public List<TestResult> list() {
-        return testResultRepository.findAll();
-    }
-
     // Cập nhật kết quả xét nghiệm
     public String update(long id, UpdateTestResultRequest request) {
         TestResult testResult = testResultRepository.findById(id)
