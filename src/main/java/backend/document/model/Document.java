@@ -1,6 +1,6 @@
 package backend.document.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,5 +33,6 @@ public class Document {
     @Column(columnDefinition = "NTEXT")
     private String content;
     
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
+
 }

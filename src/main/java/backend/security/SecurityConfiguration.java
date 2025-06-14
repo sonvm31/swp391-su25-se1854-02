@@ -42,9 +42,18 @@ public class SecurityConfiguration {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/public/**").permitAll()
-                        .requestMatchers("/api/user/**").permitAll()
                         .requestMatchers("/api/doctor-profile/**").permitAll()
+                        .requestMatchers("/api/document/**").permitAll()
+                        .requestMatchers("/api/document-image/**").permitAll()
+                        .requestMatchers("/api/health-record/**").permitAll()
+                        .requestMatchers("/api/notification/**").permitAll()
+                        .requestMatchers("/api/payment/**").permitAll()
+                        .requestMatchers("/api/regimen/**").permitAll()
+                        .requestMatchers("/api/schedule/**").permitAll()
+                        .requestMatchers("/api/system-configuration/**").permitAll()
+                        .requestMatchers("/api/test-result/**").permitAll()
+                        .requestMatchers("/api/user/**").permitAll()
+                        .requestMatchers("/api/public/**").permitAll()
                         .requestMatchers(
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
