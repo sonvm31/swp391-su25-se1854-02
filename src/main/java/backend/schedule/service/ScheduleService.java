@@ -32,6 +32,7 @@ public class ScheduleService {
             .date(request.date())
             .slot(request.slot())
             .doctor(userRepository.findById(request.doctorId()).get())
+            .status("ACTIVE")
             .build();
         scheduleRepository.save(checkupSchedule);
 
