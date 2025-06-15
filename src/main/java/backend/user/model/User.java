@@ -1,7 +1,6 @@
 package backend.user.model;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,27 +27,33 @@ public class User {
     @Column(columnDefinition = "NVARCHAR(100)")
     private String fullName;
 
-    @Column(columnDefinition = "NVARCHAR(255)")
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String address;
 
-    @Column(unique = true)
+    @Column(unique = true, columnDefinition = "VARCHAR(100)")
     private String phoneNumber;
 
-    @Column(unique = true)
+    @Column(unique = true, columnDefinition = "VARCHAR(100)")
     private String email;
 
-    @Column(unique = true)
+    @Column(unique = true, columnDefinition = "VARCHAR(100)")
     private String username;
 
+    @Column(columnDefinition = "VARCHAR(255)")
     private String password;
 
+    @Column(columnDefinition = "VARCHAR(255)")
+    private String avatar;
+
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String gender;
 
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String accountStatus;
 
     private LocalDate dateOfBirth;
 
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 
     private boolean isVerified;
 

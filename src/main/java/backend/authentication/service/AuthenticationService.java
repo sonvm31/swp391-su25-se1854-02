@@ -1,5 +1,6 @@
 package backend.authentication.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -58,7 +59,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.password()))
                 .accountStatus("ACTIVE")
                 .role(Role.PATIENT)
-                .createdAt(LocalDateTime.now())
+                .createdAt(LocalDate.now())
                 .build();
         userRepository.save(user);
 
