@@ -27,15 +27,16 @@ public class TestResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String unit;
 
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String type;
     
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String result;
     
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String note;
     
     private LocalDateTime expectedResultTime;

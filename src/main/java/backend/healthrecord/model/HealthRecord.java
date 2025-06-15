@@ -26,17 +26,22 @@ public class HealthRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String roomCode;
 
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String insuranceNumber;
 
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String hivStatus;
 
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String bloodType;
 
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String treatmentStatus;
 
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String note;
 
     private float weight;

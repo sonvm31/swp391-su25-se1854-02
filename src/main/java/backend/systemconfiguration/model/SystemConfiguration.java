@@ -22,9 +22,9 @@ public class SystemConfiguration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(255)")
     private String name;
 
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(255)")
     private String value;
 }

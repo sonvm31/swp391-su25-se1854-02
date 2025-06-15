@@ -16,6 +16,8 @@ public record UpdateUserRequest(
     String password,
 
     String address,
+
+    String avatar,
     
     LocalDate dateOfBirth
 ) {
