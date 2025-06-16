@@ -50,7 +50,6 @@ public class ScheduleService {
         }
 
         Schedule checkupSchedule = Schedule.builder()
-
                 .date(request.date())
                 .slot(request.slot())
                 .doctor(userRepository.findById(request.doctorId()).get())
