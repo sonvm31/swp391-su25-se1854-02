@@ -27,6 +27,7 @@ public class DocumentService {
             .title(request.title())
             .author(request.author())
             .content(request.content())
+            .createdAt(request.createdAt())
             .build();
         documentRepository.save(document);
 

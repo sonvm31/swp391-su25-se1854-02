@@ -1,5 +1,6 @@
 package backend.user.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,7 @@ public class UserService {
                 .password(passwordEncoder.encode(request.password()))
                 .accountStatus("ACTIVE")
                 .role(Role.valueOf(request.role().toUpperCase()))
-                .createdAt(LocalDateTime.now())
+                .createdAt(LocalDate.now())
                 .isVerified(false)
                 .build();
         userRepository.save(user);
@@ -87,6 +88,7 @@ public class UserService {
         Optional.ofNullable(request.username()).ifPresent(user::setUsername);
         Optional.ofNullable(request.password()).ifPresent(user::setPassword);
         Optional.ofNullable(request.address()).ifPresent(user::setAddress);
+        Optional.ofNullable(request.avatar()).ifPresent(user::setAvatar);
         Optional.ofNullable(request.dateOfBirth()).ifPresent(user::setDateOfBirth);
         userRepository.save(user);
 

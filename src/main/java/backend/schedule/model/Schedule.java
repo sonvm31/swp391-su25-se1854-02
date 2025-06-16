@@ -28,9 +28,10 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String type;
 
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String status;
 
     private LocalDate date;

@@ -1,6 +1,6 @@
 package backend.document.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record CreateDocumentRequest(
     String title,
@@ -9,6 +9,6 @@ public record CreateDocumentRequest(
 
     String content,
     
-    LocalDateTime createdAt
+    LocalDate createdAt
 ) {
 }

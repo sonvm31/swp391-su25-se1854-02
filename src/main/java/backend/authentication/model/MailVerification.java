@@ -3,6 +3,7 @@ package backend.authentication.model;
 import java.time.LocalDateTime;
 
 import backend.user.model.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +27,7 @@ public class MailVerification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(columnDefinition = "VARCHAR(100)")
     private String token;
     
     private LocalDateTime expiryDate;
