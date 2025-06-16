@@ -20,7 +20,7 @@ import backend.testresult.service.TestResultService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("api/result")
+@RequestMapping("api/test-result")
 @RequiredArgsConstructor
 public class TestResultController {
     private final TestResultService testResultService;
@@ -40,8 +40,8 @@ public class TestResultController {
         return ResponseEntity.ok(Map.of("message", testResultService.delete(id)));
     }
 
-    @GetMapping("/record-id/{recordId}")
-    public ResponseEntity<List<TestResult>> get(@PathVariable long recordId) {
-        return ResponseEntity.ok(testResultService.list(recordId));
+    @GetMapping("/health-record-id/{healthRecordId}")
+    public ResponseEntity<List<TestResult>> get(@PathVariable long healthRecordId) {
+        return ResponseEntity.ok(testResultService.list(healthRecordId));
     }
 }

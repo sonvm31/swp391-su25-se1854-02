@@ -19,7 +19,7 @@ import backend.healthrecord.service.HealthRecordService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/record")
+@RequestMapping("/api/health-record")
 @RequiredArgsConstructor
 public class HealthRecordController {
     private final HealthRecordService healthRecordService;
@@ -30,7 +30,8 @@ public class HealthRecordController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, String>> update(@PathVariable int id, @RequestBody UpdateHealthRecordRequest request) {
+    public ResponseEntity<Map<String, String>> update(@PathVariable int id,
+            @RequestBody UpdateHealthRecordRequest request) {
         return ResponseEntity.ok(Map.of("message", healthRecordService.update(id, request)));
     }
 
@@ -38,10 +39,10 @@ public class HealthRecordController {
     public ResponseEntity<Map<String, String>> delete(@PathVariable int id) {
         return ResponseEntity.ok(Map.of("message", healthRecordService.delete(id)));
     }
-    
+
     @GetMapping("/schedule-id/{scheduleId}")
-    public ResponseEntity<HealthRecord> getByCheckupId(@PathVariable int checkupId) {
-        HealthRecord response = healthRecordService.getByScheduleId(checkupId);
+    public ResponseEntity<HealthRecord> getByScheduleId(@PathVariable int scheduleId) {
+        HealthRecord response = healthRecordService.getByScheduleId(scheduleId);
         return ResponseEntity.ok(response);
     }
 }
