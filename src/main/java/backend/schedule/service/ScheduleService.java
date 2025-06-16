@@ -107,12 +107,6 @@ public class ScheduleService {
         return availableSlots;
     }
 
-    // Khởi tạo thanh toán
-    public String initiatePayment(Long scheduleId, String amount, String ipAddress)
-            throws UnsupportedEncodingException, Exception {
-        return vnpayService.createPaymentUrl(scheduleId, amount, ipAddress);
-    }
-
     // Chỉnh sửa ca khám bệnh
     public String update(long id, UpdateCheckupScheduleRequest request) {
         Schedule checkupSchedule = scheduleRepository.findById(id)
