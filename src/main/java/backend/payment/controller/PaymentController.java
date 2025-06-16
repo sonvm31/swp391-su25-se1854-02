@@ -1,5 +1,6 @@
 package backend.payment.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -9,11 +10,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import backend.payment.dto.CreatePaymentRequest;
 import backend.payment.model.Payment;
 import backend.payment.service.PaymentService;
+import backend.payment.service.VNPayService;
+import backend.schedule.dto.PaymentDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -21,11 +25,27 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PaymentController {
     private final PaymentService paymentService;
+    private final VNPayService vnpayService;
 
     @PostMapping()
-    public ResponseEntity<Map<String, String>> create(@RequestBody CreatePaymentRequest request) {
-        return ResponseEntity.ok(Map.of("message", paymentService.create(request)));
+    public ResponseEntity<String> initiatePayment(@RequestBody PaymentDTO paymentDTO, HttpServletRequest request)
+            throws UnsupportedEncodingException, Exception {
+        String ipAddress = vnpayService.getIpAddress(request);
+        String paymentUrl = paymentService.initiatePayment(paymentDTO.getScheduleId(), paymentDTO.getAmount(),
+                ipAddress);
+        return ResponseEntity.ok(paymentUrl);
     }
+
+    @GetMapping("/callback")
+    public ResponseEntity<String> paymentCallback(@RequestParam Map<String, String> params) {
+        try {
+            vnpayService.handlePaymentCallback(params);
+            return ResponseEntity.ok("Thanh toán thành công");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Thanh toán thất bại: " + e.getMessage());
+        }
+    }
+
     @GetMapping()
     public ResponseEntity<List<Payment>> list() {
         return ResponseEntity.ok(paymentService.list());

@@ -1,6 +1,5 @@
 package backend.schedule.service;
 
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -105,12 +104,6 @@ public class ScheduleService {
                 .collect(Collectors.toList());
 
         return availableSlots;
-    }
-
-    // Khởi tạo thanh toán
-    public String initiatePayment(Long scheduleId, String amount, String ipAddress)
-            throws UnsupportedEncodingException, Exception {
-        return vnpayService.createPaymentUrl(scheduleId, amount, ipAddress);
     }
 
     // Chỉnh sửa ca khám bệnh
