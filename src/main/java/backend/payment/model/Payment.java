@@ -34,9 +34,11 @@ public class Payment {
     @Column(columnDefinition = "NVARCHAR(255)")
     private String description;
 
+    private String paymentRef;
+
     @Column(columnDefinition = "NVARCHAR(100)")
     private String status;
-    
+
     private float amount;
 
     @OneToOne

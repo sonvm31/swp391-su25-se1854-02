@@ -35,13 +35,13 @@ public class Schedule {
     private String status;
 
     private LocalDate date;
-    
+
     private LocalTime slot;
 
     @ManyToOne
     @JoinColumn(name = "doctorId", referencedColumnName = "id")
     private User doctor;
-    
+
     @ManyToOne
     @JoinColumn(name = "patientId", referencedColumnName = "id")
     private User patient;
