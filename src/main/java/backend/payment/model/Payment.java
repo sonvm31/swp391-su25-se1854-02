@@ -30,8 +30,10 @@ public class Payment {
 
     private String description;
 
+    private String paymentRef;
+
     private String status;
-    
+
     private float amount;
 
     @OneToOne

@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,13 +34,13 @@ public class Schedule {
     private String status;
 
     private LocalDate date;
-    
+
     private LocalTime slot;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "doctorId", referencedColumnName = "id")
     private User doctor;
-    
+
     @ManyToOne
     @JoinColumn(name = "patientId", referencedColumnName = "id")
     private User patient;
