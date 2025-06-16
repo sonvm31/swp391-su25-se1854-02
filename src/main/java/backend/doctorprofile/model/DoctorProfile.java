@@ -25,17 +25,19 @@ public class DoctorProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(columnDefinition = "VARCHAR(100)")
     private String licenseNumber;
-    
+       
+    @Column(columnDefinition = "VARCHAR(100)")
     private String startYear;
 
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(255)")
     private String qualifications;
 
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String biography;
 
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(255)")
     private String background;
 
     @ManyToOne

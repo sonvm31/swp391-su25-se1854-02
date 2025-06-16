@@ -1,6 +1,6 @@
 package backend.document.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,14 +24,14 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(255)")
     private String title;
 
-    @Column(columnDefinition = "NVARCHAR")
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String author;
     
-    @Column(columnDefinition = "NTEXT")
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String content;
     
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
 }

@@ -1,6 +1,7 @@
 package backend.documentimage.model;
 
 import backend.document.model.Document;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class DocumentImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(columnDefinition = "VARCHAR(255)")
     private String url;
 
     @ManyToOne
