@@ -5,21 +5,33 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import backend.schedule.model.Schedule;
 
 @Repository
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
-    List<Schedule> findByPatientId(long userId);
+        List<Schedule> findByPatientId(long userId);
 
-    List<Schedule> findByDoctorId(long userId);
+        List<Schedule> findByDoctorId(long userId);
 
-    List<Schedule> findByType(String type);
+        List<Schedule> findByType(String type);
 
-    List<Schedule> findByStatus(String status);
+        List<Schedule> findByStatus(String status);
 
-    List<Schedule> findByDate(LocalDate date);
+        List<Schedule> findByDate(LocalDate date);
 
-    List<Schedule> findBySlot(LocalTime slot);
+        List<Schedule> findBySlot(LocalTime slot);
+
+        @Query("SELECT s.slot, COUNT(slot) as count FROM Schedule s " +
+                        "WHERE s.doctor.id = :doctorId AND s.date = :date " +
+                        "GROUP BY s.slot")
+        List<Object[]> findSlotCountsByDoctorAndDate(@Param("doctorId") Long doctorId,
+                        @Param("date") LocalDate date);
+
+        @Query("SELECT s FROM Schedule s WHERE s.doctor.id = :doctorId AND s.date = :date AND s.status = 'ACTIVE'")
+        List<Schedule> findAvailableSchedulesByDoctorAndDate(@Param("doctorId") Long doctorId,
+                        @Param("date") LocalDate date);
 }

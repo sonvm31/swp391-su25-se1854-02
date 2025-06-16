@@ -43,6 +43,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/doctor-profile/**").permitAll()
+                        .requestMatchers("/api/schedule/**").permitAll()
                         .requestMatchers("/api/document/**").permitAll()
                         .requestMatchers("/api/document-image/**").permitAll()
                         .requestMatchers("/api/health-record/**").permitAll()
