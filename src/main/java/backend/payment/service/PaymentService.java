@@ -1,5 +1,6 @@
 package backend.payment.service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,30 +22,40 @@ public class PaymentService {
 
     @Autowired
     private final ScheduleRepository checkupScheduleRepository;
-    
+
+    @Autowired
+    private final VNPayService vnpayService;
+
     // Tạo thanh toán
     public String create(CreatePaymentRequest request) {
         Payment payment = Payment.builder()
-            .name(request.name())
-            .account(request.account())
-            .description(request.description())
-            .amount(request.amount())
-            .schedule(checkupScheduleRepository.findById(request.scheduleId()).get())
-            .build();
+                .name(request.name())
+                .account(request.account())
+                .description(request.description())
+                .amount(request.amount())
+                .schedule(checkupScheduleRepository.findById(request.scheduleId()).get())
+                .build();
         paymentRepository.save(payment);
 
-        return "PAYMENT CREATED SUCCESSFULLY WITH ID: "+ payment.getId();
-    } 
+        return "PAYMENT CREATED SUCCESSFULLY WITH ID: " + payment.getId();
+    }
+
+    // Khởi tạo thanh toán
+    public String initiatePayment(Long scheduleId, String amount, String ipAddress)
+            throws UnsupportedEncodingException, Exception {
+        return vnpayService.createPaymentUrl(scheduleId, amount, ipAddress);
+    }
 
     // Xem danh sách thanh toán
     public List<Payment> list() {
         return paymentRepository.findAll();
     }
 
-    // Xem chi tiết thanh toán 
+    // Xem chi tiết thanh toán
     public Payment get(long id) {
         return paymentRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO PAYMENT FOUND WITH ID: " + id));
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO PAYMENT FOUND WITH ID: " + id));
     }
 
     // Xem danh sách thanh toán theo trạng thái
