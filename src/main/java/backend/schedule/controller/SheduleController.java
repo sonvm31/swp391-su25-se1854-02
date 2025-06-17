@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import backend.payment.service.VNPayService;
 import backend.schedule.dto.CreateScheduleRequest;
 import backend.schedule.dto.UpdateCheckupScheduleRequest;
 import backend.schedule.model.Schedule;
@@ -29,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SheduleController {
     private final ScheduleService checkupScheduleService;
+    private final VNPayService vnpayService;
 
     @PostMapping()
     public ResponseEntity<Map<String, String>> create(@RequestBody CreateScheduleRequest request) {
@@ -45,10 +47,10 @@ public class SheduleController {
         return ResponseEntity.ok(schedules);
     }
 
-    // @GetMapping()
-    // public ResponseEntity<List<Schedule>> list() {
-    // return ResponseEntity.ok(checkupScheduleService.list());
-    // }
+    @GetMapping("/list")
+    public ResponseEntity<List<Schedule>> list() {
+        return ResponseEntity.ok(checkupScheduleService.list());
+    }
 
     @GetMapping("/available-slots")
     public ResponseEntity<List<String>> getAvailableSlots(@RequestParam Long doctorId,
@@ -80,14 +82,14 @@ public class SheduleController {
         return ResponseEntity.ok(Map.of("message", checkupScheduleService.delete(id)));
     }
 
-    @GetMapping("/patient-id/{id}")
-    public ResponseEntity<List<Schedule>> getByPatientId(@PathVariable long id) {
-        return ResponseEntity.ok(checkupScheduleService.getByPatientId(id));
+    @GetMapping("/patient-id/{patientId}")
+    public ResponseEntity<List<Schedule>> getByPatientId(@PathVariable long patientId) {
+        return ResponseEntity.ok(checkupScheduleService.getByPatientId(patientId));
     }
 
     @GetMapping("/doctor-id/{doctorId}")
-    public ResponseEntity<List<Schedule>> getByDoctorId(@PathVariable long id) {
-        return ResponseEntity.ok(checkupScheduleService.getByDoctorId(id));
+    public ResponseEntity<List<Schedule>> getByDoctorId(@PathVariable long doctorId) {
+        return ResponseEntity.ok(checkupScheduleService.getByDoctorId(doctorId));
     }
 
     @GetMapping("/type/{type}")
