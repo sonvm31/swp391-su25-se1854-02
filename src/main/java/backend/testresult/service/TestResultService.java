@@ -28,11 +28,9 @@ public class TestResultService {
     public String create(CreateTestResultRequest request) {
         var testResult = TestResult.builder()
             .type(request.type())
-            .result(request.result())
-            .unit(request.unit())
             .note(request.note())
             .expectedResultTime(request.expectedResultTime())
-            .healthRecord(healthRecordRepository.findById(request.scheduleId()).get())
+            .healthRecord(healthRecordRepository.findById(request.healthRecordId()).get())
             .build();
         testResultRepository.save(testResult);
 
