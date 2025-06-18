@@ -68,24 +68,6 @@ public class SheduleController {
         return ResponseEntity.ok(checkupScheduleService.get(id));
     }
 
-    @PostMapping("/payment")
-    public ResponseEntity<String> initiatePayment(@RequestBody PaymentDTO paymentDTO, HttpServletRequest request)
-            throws UnsupportedEncodingException, Exception {
-        String ipAddress = vnpayService.getIpAddress(request);
-        String paymentUrl = checkupScheduleService.initiatePayment(paymentDTO.getScheduleId(), paymentDTO.getAmount(),
-                ipAddress);
-        return ResponseEntity.ok(paymentUrl);
-    }
-
-    @GetMapping("/payment/callback")
-    public ResponseEntity<String> paymentCallback(@RequestParam Map<String, String> params) {
-        try {
-            vnpayService.handlePaymentCallback(params);
-            return ResponseEntity.ok("Thanh toán thành công");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Thanh toán thất bại: " + e.getMessage());
-        }
-    }
 
     @PutMapping("/update/schedule-id/{id}")
     public ResponseEntity<Map<String, String>> update(@PathVariable long id,
