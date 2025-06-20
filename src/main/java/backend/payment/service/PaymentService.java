@@ -26,7 +26,7 @@ public class PaymentService {
     @Autowired
     private final VNPayService vnpayService;
 
-    // Tạo thanh toán
+    // Create payment
     public String create(CreatePaymentRequest request) {
         Payment payment = Payment.builder()
                 .name(request.name())
@@ -40,25 +40,24 @@ public class PaymentService {
         return "PAYMENT CREATED SUCCESSFULLY WITH ID: " + payment.getId();
     }
 
-    // Khởi tạo thanh toán
+    // Initiate payment
     public String initiatePayment(Long scheduleId, String amount, String ipAddress)
             throws UnsupportedEncodingException, Exception {
         return vnpayService.createPaymentUrl(scheduleId, amount, ipAddress);
     }
 
-    // Xem danh sách thanh toán
+    // List payments
     public List<Payment> list() {
         return paymentRepository.findAll();
     }
 
-    // Xem chi tiết thanh toán
+    // Read payment detail
     public Payment get(long id) {
         return paymentRepository.findById(id)
-                .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO PAYMENT FOUND WITH ID: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO PAYMENT FOUND WITH ID: " + id));
     }
 
-    // Xem danh sách thanh toán theo trạng thái
+    // List payments by status
     public List<Payment> getByStatus(String status) {
         return paymentRepository.findByStatus(status);
     }

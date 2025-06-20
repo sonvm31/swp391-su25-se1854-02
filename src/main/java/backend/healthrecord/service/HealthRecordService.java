@@ -20,7 +20,7 @@ public class HealthRecordService {
     @Autowired
     private final HealthRecordRepository healthRecordRepository;  
 
-    // Tạo phiếu khám sức khỏe
+    // Create health record
     public String create(CreateHealthRecordRequest request) {
         var healthRecord = HealthRecord.builder()
             .roomCode(request.roomCode())
@@ -31,18 +31,18 @@ public class HealthRecordService {
         return "CHECK-UP RECORD CREATED WITH ID: " + healthRecord.getId();
     }
 
-    // Xem danh sách phiếu khám sức khỏe
+    // List health records
     public List<HealthRecord> list() {
        return healthRecordRepository.findAll();
     }
     
-    // Xem chi tiết phiếu khám sức khỏe 
+    // Read health record detail
     public HealthRecord get(long id) {
         return healthRecordRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id));
     }
 
-    // Cập nhật phiếu khám sức khỏe
+    // Update health record detail
     public String update(long id, UpdateHealthRecordRequest request) {
         HealthRecord record = healthRecordRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id));
@@ -61,7 +61,7 @@ public class HealthRecordService {
         return "HEALTH RECORD UPDATED SUCCESSFULLTY WITH ID: " + record.getId();
     }
 
-    // Xóa phiếu khám sức khỏe
+    // Delete health record
     public String delete(long id) {
         healthRecordRepository.delete(healthRecordRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id)));
@@ -69,7 +69,7 @@ public class HealthRecordService {
         return "HEALTH RECORD DELETED SUCCESSFULLY WITH ID:" + id;
     }
 
-    // Xem phiếu khám sức khỏe theo ID ca khám
+    // Read health record by schedule ID
     public HealthRecord getByScheduleId(long scheduleId) {
         return healthRecordRepository.findByScheduleId(scheduleId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH SCHEDULE ID: " + scheduleId));

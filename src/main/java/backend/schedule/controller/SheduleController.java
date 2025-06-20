@@ -1,6 +1,5 @@
 package backend.schedule.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -19,13 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import backend.payment.service.VNPayService;
 import backend.schedule.dto.CreateScheduleRequest;
-import backend.schedule.dto.PaymentDTO;
 import backend.schedule.dto.UpdateCheckupScheduleRequest;
 import backend.schedule.model.Schedule;
 import backend.schedule.service.ScheduleService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SheduleController {
     private final ScheduleService checkupScheduleService;
-    private final VNPayService vnpayService;
 
     @PostMapping()
     public ResponseEntity<Map<String, String>> create(@RequestBody CreateScheduleRequest request) {

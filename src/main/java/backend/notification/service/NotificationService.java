@@ -25,7 +25,7 @@ public class NotificationService {
     @Autowired
     private final UserRepository userRepository;
 
-    // Tạo thông báo
+    // Create notification
     public String create(CreateNotificationRequest request) {
         var notification = Notification.builder()
             .title(request.title())
@@ -38,18 +38,18 @@ public class NotificationService {
         return "NOTIFICATION CREATED SUCCESSFULLY WITH ID: " + notification.getId();
     }
 
-    // Xem danh sách thông báo
+    // List notifications
     public List<Notification> list() {
         return notificationRepository.findAll();
     }
 
-    // Xem chi tiết thông báo 
+    // Read notification detail
     public Notification get(long id) {
         return notificationRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND")); 
     }
 
-    // Chỉnh sửa thông báo
+    // Update notification
     public String update(long id, UpdateNotificationRequest request) {
         Notification notification = notificationRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND WITH ID: " + id));
@@ -62,7 +62,7 @@ public class NotificationService {
         return "NOTIFICATION UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Xóa thông báo
+    // Delete notification
     public String delete(long id) {
         notificationRepository.delete(notificationRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND WITH ID: " + id)));
@@ -70,12 +70,12 @@ public class NotificationService {
         return "NOTIFICATION DELETED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Xem danh sách thông báo theo người dùng
+    // List notifications by user ID
     public List<Notification> listByUserId(long userId) {
         return notificationRepository.findByUserId(userId);
     }
 
-    // Tìm kiếm danh sách thông báo theo tên  
+    // Search notification by name
     public List<Notification> getBySearchString(String searchString) {
         List<Notification> notificationList = notificationRepository.findAll();
         List<Notification> searchList = list();

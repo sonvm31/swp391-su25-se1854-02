@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.authentication.AuthenticationManager;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,9 +41,8 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final JavaMailSender mailSender;
-    private final AuthenticationManager authenticationManager;
 
-    // Đăng ký tài khoản và yêu cầu xác minh email
+    // Register account with required mail verification
     public AuthenticationResponse register(RegisterRequest request) {
         if (userRepository.findByUsername(request.username()).isPresent())
             throw new ResponseStatusException(HttpStatus.CONFLICT, "USERNAME ALREADY REGISTERED");
@@ -86,7 +85,7 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwtToken, user.getUsername(), user.getRole().name());
     }
 
-    // Gửi thông báo trạng thái xác minh email
+    // Send mail verification status
     public String verify(String token) {
         Optional<MailVerification> mailVerification = mailVerificationRepository
                 .findByToken(token);
@@ -103,7 +102,7 @@ public class AuthenticationService {
         return "MAIL VERIFIED SUCCESSFULLY";
     }
 
-    // Đăng nhập bằng tên tài khoản và mật khẩu
+    // Log in with user name and password
     public AuthenticationResponse login(LoginRequest request) {
         User user = userRepository.findByUsername(request.username())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH USERNAME: " + request.username()));
@@ -118,7 +117,7 @@ public class AuthenticationService {
         return new AuthenticationResponse(jwtToken, user.getUsername(), user.getRole().name());
     }
 
-    // Lấy thông tin tài khoản người dùng
+    // Retrieve user account information
     public AccountResponse getUserInfo(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("NO USER FOUND WITH USERNAME: " + username));

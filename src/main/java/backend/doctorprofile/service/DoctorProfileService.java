@@ -24,7 +24,7 @@ public class DoctorProfileService {
     @Autowired
     private final UserRepository userRepository;
 
-    // Tạo hồ sơ bác sĩ
+    // Create doctor profile
     public String create(CreateDoctorProfileRequest request) {
         var doctorProfile = DoctorProfile.builder()
                 .qualifications(request.qualifications())
@@ -39,18 +39,18 @@ public class DoctorProfileService {
         return "DOCTOR PROFILE CREATED SUCCESSFULLY WITH ID: " + doctorProfile.getId();
     }
 
-    // Xem danh sách hồ sơ bác sĩ
+    // List doctor profiles
     public List<DoctorProfile> list() {
         return doctorProfileRepository.findAll();
     }
 
-    // Xem chi tiết hồ sơ của bác sĩ
+    // Read doctor profile detail
     public DoctorProfile get(long id) {
         return doctorProfileRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PRODFILE FOUND"));
     }
 
-    // Chỉnh sửa hồ sơ bác sĩ
+    // Update doctor profile
     public String update(long id, UpdateDoctorProfileRequest request) {
         DoctorProfile doctorProfile = doctorProfileRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -67,7 +67,7 @@ public class DoctorProfileService {
         return "DOCTOR PROFILE UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Xóa hồ sơ bác sĩ
+    // Delete doctor profile
     public String delete(long id) {
         doctorProfileRepository.delete(doctorProfileRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCTOR PROFILE FOUND WITH ID: " + id)));

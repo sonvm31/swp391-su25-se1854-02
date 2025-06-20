@@ -20,7 +20,7 @@ public class SystemConfigurationService {
     @Autowired
     SystemConfigurationRepository systemConfigurationRepository;
 
-    // Tạo cấu hình hệ thống
+    // Create system configuration
     public String create(CreateSystemConfigurationRequest request) {
         var systemConfiguration = SystemConfiguration.builder()
             .name(request.name())
@@ -31,18 +31,18 @@ public class SystemConfigurationService {
         return "SYSTEM CONFIGURATION CREATED SUCCESSFULLY WITH ID: " + systemConfiguration.getId();
     }
 
-    // Xem danh sách cấu hình hệ thống 
+    // List system configurations
     public List<SystemConfiguration> list() {
         return systemConfigurationRepository.findAll();
     }
 
-    // Xem chi tiết cấu hình hệ thống
+    // Read system configuration detail
     public SystemConfiguration get(Long id) {
         return systemConfigurationRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SYSTEM CONFIGURATION FOUND WITH ID: " + id));
     }
 
-   // Chỉnh cấu hình hệ thống
+   // Update system configuration
     public String update(long id, UpdateSystemConfigurationRequest request) {        
         SystemConfiguration systemConfiguration = systemConfigurationRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SYSTEM CONFIGURATION FOUND WITH ID" + id));
@@ -53,7 +53,7 @@ public class SystemConfigurationService {
         return "SYSTEM CONFIGURATION UPDATED SUCCESSFULLY WITH ID: " + id;
     }   
  
-    // Xóa cấu hình hệ thống
+    // Delete system configuration
     public String delete(long id) {
         systemConfigurationRepository.delete(systemConfigurationRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SYSTEM CONFIGURATION FOUND WITH ID: " + id)));

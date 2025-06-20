@@ -21,7 +21,7 @@ public class DocumentService {
     @Autowired
     private final DocumentRepository documentRepository;
 
-    // Tạo tài liệu
+    // Create document
     public String create(CreateDocumentRequest request) {
         var document = Document.builder()
             .title(request.title())
@@ -34,18 +34,18 @@ public class DocumentService {
         return "DOCUMENT CREATED SUCCESSFULLY WITH ID: " + document.getId();
     }
 
-    // Xem danh sách tất cả tài liệu 
+    // List documents
     public List<Document> list() {
         return documentRepository.findAll();
     }
 
-    // Xem chi tiết tài liệu 
+    // Read document detail
     public Document get(long id) {
         return documentRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + id));
     }
 
-    // Chỉnh sửa tài liệu
+    // Update document
     public String update(long id, UpdateDocumentRequest request) {
         Document document = documentRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + id));
@@ -58,7 +58,7 @@ public class DocumentService {
         return "DOCUMENT UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Xóa tài liệu
+    // Delete document
     public String delete(long id) {        
         documentRepository.delete(documentRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + id)));
@@ -66,7 +66,7 @@ public class DocumentService {
         return "DOCUMENT DELETED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Tìm danh sách tài liệu theo tên, tác giả và nội dung
+    // Search documents by title, author and content
     public List<Document> search(String searchString) {
         List<Document> documents = documentRepository.findAll();
         List<Document> searchList = list();

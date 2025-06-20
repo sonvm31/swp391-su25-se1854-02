@@ -3,7 +3,7 @@ package backend.user.model;
 public enum Role {
     ADMIN,
     MANAGER,
-    STAFF,
+    LAB_TECHNICIAN,
     DOCTOR,
     PATIENT
 }
