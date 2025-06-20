@@ -24,7 +24,7 @@ public class TestResultService {
     @Autowired
     private final HealthRecordRepository healthRecordRepository;
 
-    // Tạo kết quả xét nghiệm 
+    // Create test result
     public String create(CreateTestResultRequest request) {
         var testResult = TestResult.builder()
             .type(request.type())
@@ -37,12 +37,12 @@ public class TestResultService {
         return "TEST RESULT CREATED SUCCESSFULLY WITH ID: " + testResult.getId();
     }
 
-    // Xem danh sách kết quả xét nghiệm
+    // List test results
     public List<TestResult> list() {
         return testResultRepository.findAll();
     }
 
-    // Cập nhật kết quả xét nghiệm
+    // Update test result
     public String update(long id, UpdateTestResultRequest request) {
         TestResult testResult = testResultRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO TEST RESULT FOUND WITH ID: " + id));
@@ -58,7 +58,7 @@ public class TestResultService {
         return "TEST RESULT UPDATED SUCCESSFULLY WITH ID: " + id;
     }   
     
-    // Xóa kết quả xét nghiệm
+    // Delete test result
     public String delete(long id) {
         testResultRepository.delete(testResultRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO TEST RESULT FOUND WITH ID: " + id)));
@@ -66,7 +66,7 @@ public class TestResultService {
         return "TEST RESULT DELETED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Xem danh sách kết quả xét nghiệm theo ID phiếu phám sức khỏe
+    // List test results by health record ID
     public List<TestResult> list(long recordId) {
         return testResultRepository.findByHealthRecordId(recordId);
     }

@@ -20,7 +20,7 @@ public class ReginmenService {
     @Autowired
     private final RegimenRepository regimenRepository;
 
-    // Tạo phác đồ 
+    // Create regimen
     public String create(CreateRegimenRequest request) {
         var regimen = Regimen.builder()
             .regimenName(request.regimenName())
@@ -34,18 +34,18 @@ public class ReginmenService {
         return "REGIMEN CREATED SUCCESSFULLY WITH ID: " + regimen.getId();
     }
 
-    // Xem danh sách phác đồ
+    // List regimens
     public List<Regimen> list() {
         return regimenRepository.findAll();
     }
 
-    // Xem chi tiết phác đồ
+    //  Read regimen detail
     public Regimen get(long id) {
         return regimenRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id));
     }
 
-    // Chỉnh sửa phác đồ
+    // Update regimen
     public String update(long id, UpdateRegimenRequest request) {
         Regimen regimen = regimenRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id));
@@ -60,7 +60,7 @@ public class ReginmenService {
         return "REGIMEN UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Xóa phác đồ
+    // Delete regimen
     public String delete(long id) {
         regimenRepository.delete(regimenRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id)));
