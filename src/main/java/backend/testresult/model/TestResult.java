@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class TestResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(columnDefinition = "NVARCHAR(100)")
     private String unit;
