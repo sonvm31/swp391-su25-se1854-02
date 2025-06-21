@@ -69,7 +69,7 @@ public class ReginmenService {
     }
 
     // List regimens by doctor ID
-    public List<Regimen> getByDoctorId(long doctoId) {
-        return regimenRepository.findByDoctorId(doctoId);
+    public List<Regimen> getByDoctorId(long doctorId) {
+        return regimenRepository.findByDoctorIdOrAll(doctorId);
     }
 }

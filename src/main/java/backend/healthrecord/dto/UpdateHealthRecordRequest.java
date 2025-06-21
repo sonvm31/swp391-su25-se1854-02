@@ -7,8 +7,6 @@ public record UpdateHealthRecordRequest(
 
     String bloodType,
 
-    String note,
-
     String treatmentStatus,
 
     float weight,

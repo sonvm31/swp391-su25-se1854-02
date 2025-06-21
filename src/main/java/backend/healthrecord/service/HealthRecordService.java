@@ -51,7 +51,6 @@ public class HealthRecordService {
         
         Optional.ofNullable(request.hivStatus()).ifPresent(record::setHivStatus);
         Optional.ofNullable(request.bloodType()).ifPresent(record::setBloodType);
-        Optional.ofNullable(request.note()).ifPresent(record::setNote);
         Optional.ofNullable(request.weight()).ifPresent(record::setWeight);
         Optional.ofNullable(request.height()).ifPresent(record::setHeight);
         Optional.ofNullable(request.treatmentStatus()).ifPresent(record::setTreatmentStatus);
