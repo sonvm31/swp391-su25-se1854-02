@@ -47,12 +47,12 @@ public class TestResultService {
         TestResult testResult = testResultRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO TEST RESULT FOUND WITH ID: " + id));
         
-        Optional.of(request.type()).ifPresent(testResult::setType);
-        Optional.of(request.result()).ifPresent(testResult::setResult);
-        Optional.of(request.unit()).ifPresent(testResult::setUnit);
-        Optional.of(request.note()).ifPresent(testResult::setNote);
-        Optional.of(request.expectedResultTime()).ifPresent(testResult::setExpectedResultTime);
-        Optional.of(request.actualResultTime()).ifPresent(testResult::setActualResultTime);
+        Optional.ofNullable(request.type()).ifPresent(testResult::setType);
+        Optional.ofNullable(request.result()).ifPresent(testResult::setResult);
+        Optional.ofNullable(request.unit()).ifPresent(testResult::setUnit);
+        Optional.ofNullable(request.note()).ifPresent(testResult::setNote);
+        Optional.ofNullable(request.expectedResultTime()).ifPresent(testResult::setExpectedResultTime);
+        Optional.ofNullable(request.actualResultTime()).ifPresent(testResult::setActualResultTime);
         testResultRepository.save(testResult);
         
         return "TEST RESULT UPDATED SUCCESSFULLY WITH ID: " + id;

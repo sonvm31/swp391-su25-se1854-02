@@ -49,4 +49,9 @@ public class RegimenController {
     public ResponseEntity<Map<String, String>> delete(@PathVariable long id) {
         return ResponseEntity.ok(Map.of("message", reginmenService.delete(id)));
     }
+
+    @GetMapping("doctor-id/{doctorId}")
+    public ResponseEntity<List<Regimen>> getByDoctorId(@PathVariable long doctorId) {
+        return ResponseEntity.ok(reginmenService.getByDoctorId(doctorId));
+    }
 }

@@ -27,12 +27,6 @@ public class HealthRecord {
     private long id;
 
     @Column(columnDefinition = "NVARCHAR(100)")
-    private String roomCode;
-
-    @Column(columnDefinition = "NVARCHAR(100)")
-    private String insuranceNumber;
-
-    @Column(columnDefinition = "NVARCHAR(100)")
     private String hivStatus;
 
     @Column(columnDefinition = "NVARCHAR(100)")

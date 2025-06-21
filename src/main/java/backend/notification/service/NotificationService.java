@@ -54,9 +54,9 @@ public class NotificationService {
         Notification notification = notificationRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO NOTIFICATION FOUND WITH ID: " + id));
         
-        Optional.of(request.title()).ifPresent(notification::setTitle);
-        Optional.of(request.message()).ifPresent(notification::setMessage);
-        Optional.of(request.createdAt()).ifPresent(notification::setCreatedAt);
+        Optional.ofNullable(request.title()).ifPresent(notification::setTitle);
+        Optional.ofNullable(request.message()).ifPresent(notification::setMessage);
+        Optional.ofNullable(request.createdAt()).ifPresent(notification::setCreatedAt);
         notificationRepository.save(notification);
 
         return "NOTIFICATION UPDATED SUCCESSFULLY WITH ID: " + id;
