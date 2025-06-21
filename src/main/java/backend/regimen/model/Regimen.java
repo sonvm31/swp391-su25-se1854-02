@@ -42,5 +42,5 @@ public class Regimen {
 
     @ManyToOne
     @JoinColumn(name = "doctorId", referencedColumnName = "id")
-    private User user;
+    private User doctor;
 }

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import backend.schedule.dto.CreateScheduleRequest;
-import backend.schedule.dto.UpdateCheckupScheduleRequest;
+import backend.schedule.dto.UpdateScheduleRequest;
 import backend.schedule.model.Schedule;
 import backend.schedule.repository.ScheduleRepository;
 import backend.user.repository.UserRepository;
@@ -45,6 +45,7 @@ public class ScheduleService {
         }
 
         Schedule checkupSchedule = Schedule.builder()
+                .roomCode(request.roomCode())
                 .date(request.date())
                 .slot(request.slot())
                 .doctor(userRepository.findById(request.doctorId()).get())
@@ -103,14 +104,15 @@ public class ScheduleService {
     }
 
     // Update schedule slot
-    public String update(long id, UpdateCheckupScheduleRequest request) {
+    public String update(long id, UpdateScheduleRequest request) {
         Schedule checkupSchedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID" + id));
 
-        Optional.of(request.date()).ifPresent(checkupSchedule::setDate);
-        Optional.of(request.slot()).ifPresent(checkupSchedule::setSlot);
-        Optional.of(request.status()).ifPresent(checkupSchedule::setStatus);
-        Optional.of(userRepository.findById(request.doctorId()).get()).ifPresent(checkupSchedule::setDoctor);
+        Optional.ofNullable(request.roomCode()).ifPresent(checkupSchedule::setRoomCode);
+        Optional.ofNullable(request.date()).ifPresent(checkupSchedule::setDate);
+        Optional.ofNullable(request.slot()).ifPresent(checkupSchedule::setSlot);
+        Optional.ofNullable(request.status()).ifPresent(checkupSchedule::setStatus);
+        Optional.ofNullable(userRepository.findById(request.doctorId()).get()).ifPresent(checkupSchedule::setDoctor);
 
         return "SLOT UPDATED SUCCESSFULLY WITH ID: " + id;
     }
@@ -128,8 +130,8 @@ public class ScheduleService {
         Schedule CheckupSchedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID: " + id));
 
-        Optional.of(userRepository.findById(patientId).get()).ifPresent(CheckupSchedule::setPatient);
-        Optional.of(type).ifPresent(CheckupSchedule::setType);
+        Optional.ofNullable(userRepository.findById(patientId).get()).ifPresent(CheckupSchedule::setPatient);
+        Optional.ofNullable(type).ifPresent(CheckupSchedule::setType);
         CheckupSchedule.setStatus("PENDING");
         scheduleRepository.save(CheckupSchedule);
 

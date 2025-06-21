@@ -6,6 +6,8 @@ import java.time.LocalTime;
 public record CreateScheduleRequest(
         String type,
 
+        String roomCode,
+        
         LocalDate date,
 
         LocalTime slot,

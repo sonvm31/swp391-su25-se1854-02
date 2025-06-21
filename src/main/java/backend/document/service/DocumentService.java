@@ -50,9 +50,9 @@ public class DocumentService {
         Document document = documentRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + id));
         
-        Optional.of(request.title()).ifPresent(document::setTitle);
-        Optional.of(request.author()).ifPresent(document::setAuthor);
-        Optional.of(request.content()).ifPresent(document::setContent);
+        Optional.ofNullable(request.title()).ifPresent(document::setTitle);
+        Optional.ofNullable(request.author()).ifPresent(document::setAuthor);
+        Optional.ofNullable(request.content()).ifPresent(document::setContent);
         documentRepository.save(document);
 
         return "DOCUMENT UPDATED SUCCESSFULLY WITH ID: " + id;

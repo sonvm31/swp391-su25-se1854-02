@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import backend.schedule.dto.CreateScheduleRequest;
-import backend.schedule.dto.UpdateCheckupScheduleRequest;
+import backend.schedule.dto.UpdateScheduleRequest;
+
 import backend.schedule.model.Schedule;
 import backend.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +67,7 @@ public class SheduleController {
 
     @PutMapping("/update/schedule-id/{id}")
     public ResponseEntity<Map<String, String>> update(@PathVariable long id,
-            @RequestBody UpdateCheckupScheduleRequest request) {
+            @RequestBody UpdateScheduleRequest request) {
         return ResponseEntity.ok(Map.of("message", checkupScheduleService.update(id, request)));
     }
 

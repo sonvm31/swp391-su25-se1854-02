@@ -12,6 +12,7 @@ import backend.healthrecord.dto.CreateHealthRecordRequest;
 import backend.healthrecord.dto.UpdateHealthRecordRequest;
 import backend.healthrecord.model.HealthRecord;
 import backend.healthrecord.repository.HealthRecordRepository;
+import backend.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,12 +20,13 @@ import lombok.RequiredArgsConstructor;
 public class HealthRecordService {
     @Autowired
     private final HealthRecordRepository healthRecordRepository;  
+    private final ScheduleRepository scheduleRepository;
 
     // Create health record
     public String create(CreateHealthRecordRequest request) {
         var healthRecord = HealthRecord.builder()
-            .roomCode(request.roomCode())
-            .insuranceNumber(request.insuranceNumber())
+            .treatmentStatus(request.treatmentStatus())
+            .schedule(scheduleRepository.findById(request.scheduleId()).get())
             .build();
         healthRecordRepository.save(healthRecord);
 
@@ -47,9 +49,6 @@ public class HealthRecordService {
         HealthRecord record = healthRecordRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id));
         
-        Optional.ofNullable(request.roomCode()).ifPresent(record::setRoomCode);
-        Optional.ofNullable(request.insuranceNumber()).ifPresent(record::setRoomCode);
-        Optional.ofNullable(request.insuranceNumber()).ifPresent(record::setInsuranceNumber);
         Optional.ofNullable(request.hivStatus()).ifPresent(record::setHivStatus);
         Optional.ofNullable(request.bloodType()).ifPresent(record::setBloodType);
         Optional.ofNullable(request.note()).ifPresent(record::setNote);

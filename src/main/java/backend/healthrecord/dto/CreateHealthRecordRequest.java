@@ -1,8 +1,8 @@
 package backend.healthrecord.dto;
 
 public record CreateHealthRecordRequest   (
-    String roomCode,
+    String treatmentStatus,
     
-    String insuranceNumber
+    Long scheduleId
 ){   
 }

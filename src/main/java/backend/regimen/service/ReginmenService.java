@@ -50,11 +50,11 @@ public class ReginmenService {
         Regimen regimen = regimenRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id));
         
-        Optional.of(request.regimenName()).ifPresent(regimen::setRegimenName);
-        Optional.of(request.components()).ifPresent(regimen::setComponents);
-        Optional.of(request.description()).ifPresent(regimen::setDescription);
-        Optional.of(request.indications()).ifPresent(regimen::setIndications);
-        Optional.of(request.contradications()).ifPresent(regimen::setContradications);
+        Optional.ofNullable(request.regimenName()).ifPresent(regimen::setRegimenName);
+        Optional.ofNullable(request.components()).ifPresent(regimen::setComponents);
+        Optional.ofNullable(request.description()).ifPresent(regimen::setDescription);
+        Optional.ofNullable(request.indications()).ifPresent(regimen::setIndications);
+        Optional.ofNullable(request.contradications()).ifPresent(regimen::setContradications);
         regimenRepository.save(regimen);
 
         return "REGIMEN UPDATED SUCCESSFULLY WITH ID: " + id;
@@ -66,5 +66,10 @@ public class ReginmenService {
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id)));
         
         return "REGIMEN DELETED SUCCESSFULLY WITH ID: " + id;
+    }
+
+    // List regimens by doctor ID
+    public List<Regimen> getByDoctorId(long doctoId) {
+        return regimenRepository.findByDoctorId(doctoId);
     }
 }

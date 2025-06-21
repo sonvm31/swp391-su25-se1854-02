@@ -47,8 +47,8 @@ public class SystemConfigurationService {
         SystemConfiguration systemConfiguration = systemConfigurationRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SYSTEM CONFIGURATION FOUND WITH ID" + id));
 
-        Optional.of(request.name()).ifPresent(systemConfiguration::setName);
-        Optional.of(request.value()).ifPresent(systemConfiguration::setValue);
+        Optional.ofNullable(request.name()).ifPresent(systemConfiguration::setName);
+        Optional.ofNullable(request.value()).ifPresent(systemConfiguration::setValue);
         
         return "SYSTEM CONFIGURATION UPDATED SUCCESSFULLY WITH ID: " + id;
     }   
