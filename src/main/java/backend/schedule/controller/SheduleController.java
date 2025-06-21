@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import backend.schedule.dto.CreateScheduleRequest;
 import backend.schedule.dto.UpdateScheduleRequest;
+
 import backend.schedule.model.Schedule;
 import backend.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
