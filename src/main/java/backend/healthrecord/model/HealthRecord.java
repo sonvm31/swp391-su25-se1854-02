@@ -34,10 +34,7 @@ public class HealthRecord {
 
     @Column(columnDefinition = "NVARCHAR(100)")
     private String treatmentStatus;
-
-    @Column(columnDefinition = "NVARCHAR(MAX)")
-    private String note;
-
+    
     private float weight;
 
     private float height;
