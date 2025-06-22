@@ -9,7 +9,7 @@ public record  UpdateRegimenRequest(
 
     String indications,
 
-    String contradications,
+    String contraindications,
     
     int recordId
 ) {

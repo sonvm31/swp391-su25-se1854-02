@@ -38,7 +38,7 @@ public class Regimen {
     private String indications;
 
     @Column(columnDefinition = "NVARCHAR(255)")
-    private String contradications;
+    private String contraindications;
 
     @ManyToOne
     @JoinColumn(name = "doctorId", referencedColumnName = "id")

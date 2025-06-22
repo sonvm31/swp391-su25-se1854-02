@@ -27,7 +27,7 @@ public class ReginmenService {
             .components(request.components())
             .description(request.description())
             .indications(request.indications())
-            .contradications(request.contradications())
+            .contraindications(request.contraindications())
             .build();
         regimenRepository.save(regimen);
 
@@ -54,7 +54,7 @@ public class ReginmenService {
         Optional.ofNullable(request.components()).ifPresent(regimen::setComponents);
         Optional.ofNullable(request.description()).ifPresent(regimen::setDescription);
         Optional.ofNullable(request.indications()).ifPresent(regimen::setIndications);
-        Optional.ofNullable(request.contradications()).ifPresent(regimen::setContradications);
+        Optional.ofNullable(request.contraindications()).ifPresent(regimen::setContraindications);
         regimenRepository.save(regimen);
 
         return "REGIMEN UPDATED SUCCESSFULLY WITH ID: " + id;

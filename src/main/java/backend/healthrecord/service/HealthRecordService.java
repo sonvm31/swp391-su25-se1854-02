@@ -12,6 +12,7 @@ import backend.healthrecord.dto.CreateHealthRecordRequest;
 import backend.healthrecord.dto.UpdateHealthRecordRequest;
 import backend.healthrecord.model.HealthRecord;
 import backend.healthrecord.repository.HealthRecordRepository;
+import backend.regimen.repository.RegimenRepository;
 import backend.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,7 @@ public class HealthRecordService {
     @Autowired
     private final HealthRecordRepository healthRecordRepository;  
     private final ScheduleRepository scheduleRepository;
+    private final RegimenRepository regimenRepository;
 
     // Create health record
     public String create(CreateHealthRecordRequest request) {
@@ -48,12 +50,19 @@ public class HealthRecordService {
     public String update(long id, UpdateHealthRecordRequest request) {
         HealthRecord record = healthRecordRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id));
-        
+        System.out.println(">>>>>>>>>>>>>>>" + request.regimenId());
         Optional.ofNullable(request.hivStatus()).ifPresent(record::setHivStatus);
         Optional.ofNullable(request.bloodType()).ifPresent(record::setBloodType);
         Optional.ofNullable(request.weight()).ifPresent(record::setWeight);
         Optional.ofNullable(request.height()).ifPresent(record::setHeight);
         Optional.ofNullable(request.treatmentStatus()).ifPresent(record::setTreatmentStatus);
+        Optional.ofNullable(scheduleRepository.findById(request.scheduleId()).get()).ifPresent(record::setSchedule);
+        if (request.regimenId() == null) {
+            record.setRegimen(null); 
+        } else {
+            regimenRepository.findById(request.regimenId())
+                .ifPresent(record::setRegimen); 
+        }        
         healthRecordRepository.save(record);
 
         return "HEALTH RECORD UPDATED SUCCESSFULLTY WITH ID: " + record.getId();
