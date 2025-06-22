@@ -1,8 +1,6 @@
 package backend.healthrecord.dto;
 
 public record UpdateHealthRecordRequest(
-    String insuranceNumber,
-
     String hivStatus,
 
     String bloodType,
@@ -13,8 +11,8 @@ public record UpdateHealthRecordRequest(
 
     float height,
 
-    int scheduleId,
+    Long scheduleId,
     
-    int regimenId
+    Long regimenId
 ) {
 }

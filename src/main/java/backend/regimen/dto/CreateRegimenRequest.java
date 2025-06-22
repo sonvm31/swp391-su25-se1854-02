@@ -9,7 +9,7 @@ public record  CreateRegimenRequest(
 
     String indications,
 
-    String contradications,
+    String contraindications,
     
     int recordId
 ) {
