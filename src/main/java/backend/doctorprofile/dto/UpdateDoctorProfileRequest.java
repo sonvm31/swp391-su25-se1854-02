@@ -11,6 +11,6 @@ public record UpdateDoctorProfileRequest(
 
     String biography,
 
-    long userId
+    long doctorId
 ) {
 }

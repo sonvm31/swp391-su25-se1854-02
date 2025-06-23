@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -121,7 +120,9 @@ public class AuthenticationService {
     public AccountResponse getUserInfo(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("NO USER FOUND WITH USERNAME: " + username));
-        return new AccountResponse(user.getId(), user.getUsername(), user.getEmail(), user.getFullName(),
-                user.getAccountStatus(), user.getRole());
+        return new AccountResponse(user.getId(), user.getUsername(), 
+            user.getEmail(), user.getFullName(), user.getAccountStatus(), 
+            user.getPhoneNumber(), user.getAddress(), user.getGender(), 
+            user.getDateOfBirth(), user.getAvatar(), user.getRole());
     }
 }
