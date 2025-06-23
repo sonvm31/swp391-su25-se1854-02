@@ -41,6 +41,6 @@ public class DoctorProfile {
     private String background;
 
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "doctorId", referencedColumnName = "id")
+    private User doctor;
 }
