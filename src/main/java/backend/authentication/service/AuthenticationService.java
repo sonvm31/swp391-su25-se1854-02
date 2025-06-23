@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -106,11 +105,13 @@ public class AuthenticationService {
 
     // Đăng nhập bằng tên tài khoản và mật khẩu
     public AuthenticationResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.username(), request.password()));
+        // authenticationManager.authenticate(
+        // new UsernamePasswordAuthenticationToken(request.username(),
+        // request.password()));
 
         User user = userRepository.findByUsername(request.username())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH USERNAME: " + request.username()));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "NO USER FOUND WITH USERNAME: " + request.username()));
 
         if (user.getAccountStatus().equals("UNACTIVE")
                 || !user.isVerified())

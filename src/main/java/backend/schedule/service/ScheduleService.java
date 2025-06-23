@@ -1,6 +1,5 @@
 package backend.schedule.service;
 
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -15,7 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import backend.payment.service.VNPayService;
+import backend.payment.repository.PaymentRepository;
+import backend.payment.service.PaymentService;
 import backend.schedule.dto.CreateScheduleRequest;
 import backend.schedule.dto.UpdateCheckupScheduleRequest;
 import backend.schedule.model.Schedule;
@@ -26,6 +26,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
+
+    private final PaymentService paymentService;
     @Autowired
     private final ScheduleRepository scheduleRepository;
 
@@ -33,7 +35,7 @@ public class ScheduleService {
     private final UserRepository userRepository;
 
     @Autowired
-    private VNPayService vnpayService;
+    private final PaymentRepository paymentRepository;
 
     // Tạo ca khám bệnh
     public String create(CreateScheduleRequest request) {
@@ -133,6 +135,22 @@ public class ScheduleService {
         return "SLOT REGISTERED SUCCESSFULLY WITH ID: " + id;
     }
 
+    public void cancelSchedule(Long scheduleId, Long patientId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new IllegalArgumentException("Schedule not found"));
+
+        if (!List.of("PENDING", "PENDING_PAYMENT_CONFIRMED").contains(schedule.getStatus())) {
+            throw new IllegalStateException("Cannot cancel schedule with status: " + schedule.getStatus());
+        }
+
+        schedule.setStatus("ACTIVE");
+        schedule.setPatient(null);
+        schedule.setType(null);
+        scheduleRepository.save(schedule);
+
+        paymentRepository.deleteById(paymentRepository.findByScheduleId(scheduleId).get().getId());
+    }
+
     // Xóa ca khám bệnh
     public String delete(long id) {
         scheduleRepository.delete(scheduleRepository.findById(id)
@@ -164,6 +182,10 @@ public class ScheduleService {
     // Xem danh sách ca khám bệnh theo ngày
     public List<Schedule> getByDate(LocalDate date) {
         return scheduleRepository.findByDate(date);
+    }
+
+    public List<Schedule> getAvailableSlotByDate(LocalDate date) {
+        return scheduleRepository.findActiveSchedulesByDate(date);
     }
 
     // Xem danh sách ca khám bệnh theo giờ

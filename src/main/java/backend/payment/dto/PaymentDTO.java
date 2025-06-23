@@ -1,4 +1,4 @@
-package backend.schedule.dto;
+package backend.payment.dto;
 
 import lombok.Data;
 

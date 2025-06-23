@@ -12,20 +12,25 @@ import backend.healthrecord.dto.CreateHealthRecordRequest;
 import backend.healthrecord.dto.UpdateHealthRecordRequest;
 import backend.healthrecord.model.HealthRecord;
 import backend.healthrecord.repository.HealthRecordRepository;
+import backend.schedule.repository.ScheduleRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class HealthRecordService {
     @Autowired
-    private final HealthRecordRepository healthRecordRepository;  
+    private final HealthRecordRepository healthRecordRepository;
+
+    @Autowired
+    private final ScheduleRepository scheduleRepository;
 
     // Tạo phiếu khám sức khỏe
     public String create(CreateHealthRecordRequest request) {
         var healthRecord = HealthRecord.builder()
-            .roomCode(request.roomCode())
-            .insuranceNumber(request.insuranceNumber())
-            .build();
+                .schedule(scheduleRepository.findById(request.scheduleId()).get())
+                .roomCode(request.roomCode())
+                .insuranceNumber(request.insuranceNumber())
+                .build();
         healthRecordRepository.save(healthRecord);
 
         return "CHECK-UP RECORD CREATED WITH ID: " + healthRecord.getId();
@@ -33,20 +38,22 @@ public class HealthRecordService {
 
     // Xem danh sách phiếu khám sức khỏe
     public List<HealthRecord> list() {
-       return healthRecordRepository.findAll();
+        return healthRecordRepository.findAll();
     }
-    
-    // Xem chi tiết phiếu khám sức khỏe 
+
+    // Xem chi tiết phiếu khám sức khỏe
     public HealthRecord get(long id) {
         return healthRecordRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "NO HEALTH RECORD FOUND WITH ID: " + id));
     }
 
     // Cập nhật phiếu khám sức khỏe
     public String update(long id, UpdateHealthRecordRequest request) {
         HealthRecord record = healthRecordRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id));
-        
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "NO HEALTH RECORD FOUND WITH ID: " + id));
+
         Optional.ofNullable(request.roomCode()).ifPresent(record::setRoomCode);
         Optional.ofNullable(request.insuranceNumber()).ifPresent(record::setRoomCode);
         Optional.ofNullable(request.insuranceNumber()).ifPresent(record::setInsuranceNumber);
@@ -64,14 +71,16 @@ public class HealthRecordService {
     // Xóa phiếu khám sức khỏe
     public String delete(long id) {
         healthRecordRepository.delete(healthRecordRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH ID: " + id)));
-        
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "NO HEALTH RECORD FOUND WITH ID: " + id)));
+
         return "HEALTH RECORD DELETED SUCCESSFULLY WITH ID:" + id;
     }
 
     // Xem phiếu khám sức khỏe theo ID ca khám
     public HealthRecord getByScheduleId(long scheduleId) {
         return healthRecordRepository.findByScheduleId(scheduleId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO HEALTH RECORD FOUND WITH SCHEDULE ID: " + scheduleId));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "NO HEALTH RECORD FOUND WITH SCHEDULE ID: " + scheduleId));
     }
 }

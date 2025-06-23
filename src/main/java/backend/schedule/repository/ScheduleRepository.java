@@ -34,4 +34,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
         @Query("SELECT s FROM Schedule s WHERE s.doctor.id = :doctorId AND s.date = :date AND s.status = 'ACTIVE'")
         List<Schedule> findAvailableSchedulesByDoctorAndDate(@Param("doctorId") Long doctorId,
                         @Param("date") LocalDate date);
+
+        @Query("SELECT s FROM Schedule s WHERE s.date = :date AND s.status = 'ACTIVE' AND s.patient IS NULL")
+        List<Schedule> findActiveSchedulesByDate(LocalDate date);
+
 }

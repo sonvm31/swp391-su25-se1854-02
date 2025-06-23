@@ -82,6 +82,14 @@ public class SheduleController {
         return ResponseEntity.ok(Map.of("message", checkupScheduleService.delete(id)));
     }
 
+    @DeleteMapping("/{scheduleId}/cancel")
+    public ResponseEntity<String> cancelSchedule(
+            @PathVariable Long scheduleId,
+            @RequestParam Long patientId) {
+        checkupScheduleService.cancelSchedule(scheduleId, patientId);
+        return ResponseEntity.ok("Schedule cancelled successfully");
+    }
+
     @GetMapping("/patient-id/{patientId}")
     public ResponseEntity<List<Schedule>> getByPatientId(@PathVariable long patientId) {
         return ResponseEntity.ok(checkupScheduleService.getByPatientId(patientId));
@@ -105,6 +113,11 @@ public class SheduleController {
     @GetMapping("/date/{date}")
     public ResponseEntity<List<Schedule>> getByDate(@PathVariable LocalDate date) {
         return ResponseEntity.ok(checkupScheduleService.getByDate(date));
+    }
+
+    @GetMapping("/available-slots/{date}")
+    public ResponseEntity<List<Schedule>> getAvailableSlotByDate(@PathVariable LocalDate date) {
+        return ResponseEntity.ok(checkupScheduleService.getAvailableSlotByDate(date));
     }
 
     @GetMapping("/slot/{slot}")

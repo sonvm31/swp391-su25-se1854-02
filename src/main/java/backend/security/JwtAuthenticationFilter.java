@@ -1,6 +1,5 @@
 package backend.security;
 
-
 import java.io.IOException;
 
 import org.springframework.lang.NonNull;
@@ -50,6 +49,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+            } else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\":\"Invalid or expired token\"}");
+                return;
             }
         }
         filterChain.doFilter(request, response);
