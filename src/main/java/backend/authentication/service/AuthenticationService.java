@@ -123,7 +123,9 @@ public class AuthenticationService {
                 User user = userRepository.findByUsername(username)
                                 .orElseThrow(() -> new UsernameNotFoundException(
                                                 "NO USER FOUND WITH USERNAME: " + username));
-                return new AccountResponse(user.getId(), user.getUsername(), user.getEmail(), user.getFullName(),
-                                user.getAccountStatus(), user.getRole());
+                return new AccountResponse(user.getId(), user.getUsername(),
+                                user.getEmail(), user.getFullName(), user.getAccountStatus(),
+                                user.getPhoneNumber(), user.getAddress(), user.getGender(),
+                                user.getDateOfBirth(), user.getAvatar(), user.getRole());
         }
 }

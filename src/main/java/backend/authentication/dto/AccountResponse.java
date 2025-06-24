@@ -1,5 +1,7 @@
 package backend.authentication.dto;
 
+import java.time.LocalDate;
+
 import backend.user.model.Role;
 
 public class AccountResponse {
@@ -8,14 +10,37 @@ public class AccountResponse {
     private String email;
     private String fullName;
     private String status;
+    private String phoneNumber;
+    private String address;
+    private String gender;
+    private LocalDate dateOfBirth;
+    private String avatar;
     private Role role;
 
-    public AccountResponse(long id, String username, String email, String fullName, String status, Role role) {
+    public AccountResponse(
+        long id, 
+        String username, 
+        String email, 
+        String fullName, 
+        String status, 
+        String phoneNumber, 
+        String address, 
+        String gender, 
+        LocalDate dateOfBirth, 
+        String avatar, 
+        Role role
+        ) 
+        {
         this.id = id;
         this.username = username;
         this.email = email;
         this.fullName = fullName;
         this.status = status;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.avatar = avatar;
         this.role = role;
     }
 
@@ -67,4 +92,43 @@ public class AccountResponse {
         this.role = role;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
 }
