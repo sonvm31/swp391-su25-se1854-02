@@ -30,6 +30,12 @@ public class User {
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String address;
 
+    @Column(columnDefinition = "NVARCHAR(100)")
+    private String gender;
+
+    @Column(columnDefinition = "NVARCHAR(100)")
+    private String accountStatus;
+
     @Column(unique = true, columnDefinition = "VARCHAR(100)")
     private String phoneNumber;
 
@@ -44,12 +50,6 @@ public class User {
 
     @Column(columnDefinition = "VARCHAR(255)")
     private String avatar;
-
-    @Column(columnDefinition = "NVARCHAR(100)")
-    private String gender;
-
-    @Column(columnDefinition = "NVARCHAR(100)")
-    private String accountStatus;
 
     private LocalDate dateOfBirth;
 

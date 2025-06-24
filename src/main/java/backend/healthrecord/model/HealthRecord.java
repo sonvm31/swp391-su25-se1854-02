@@ -27,12 +27,6 @@ public class HealthRecord {
     private long id;
 
     @Column(columnDefinition = "NVARCHAR(100)")
-    private String roomCode;
-
-    @Column(columnDefinition = "NVARCHAR(100)")
-    private String insuranceNumber;
-
-    @Column(columnDefinition = "NVARCHAR(100)")
     private String hivStatus;
 
     @Column(columnDefinition = "NVARCHAR(100)")
@@ -40,10 +34,7 @@ public class HealthRecord {
 
     @Column(columnDefinition = "NVARCHAR(100)")
     private String treatmentStatus;
-
-    @Column(columnDefinition = "NVARCHAR(MAX)")
-    private String note;
-
+    
     private float weight;
 
     private float height;

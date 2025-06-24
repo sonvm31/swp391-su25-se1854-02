@@ -32,6 +32,9 @@ public class Schedule {
     private String type;
 
     @Column(columnDefinition = "NVARCHAR(100)")
+    private String roomCode;
+
+    @Column(columnDefinition = "NVARCHAR(100)")
     private String status;
 
     private LocalDate date;

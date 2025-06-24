@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import backend.payment.service.VNPayService;
 import backend.schedule.dto.CreateScheduleRequest;
-import backend.schedule.dto.UpdateCheckupScheduleRequest;
+import backend.schedule.dto.UpdateScheduleRequest;
 import backend.schedule.model.Schedule;
 import backend.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SheduleController {
     private final ScheduleService checkupScheduleService;
-    private final VNPayService vnpayService;
 
     @PostMapping()
     public ResponseEntity<Map<String, String>> create(@RequestBody CreateScheduleRequest request) {
@@ -67,7 +65,7 @@ public class SheduleController {
 
     @PutMapping("/update/schedule-id/{id}")
     public ResponseEntity<Map<String, String>> update(@PathVariable long id,
-            @RequestBody UpdateCheckupScheduleRequest request) {
+            @RequestBody UpdateScheduleRequest request) {
         return ResponseEntity.ok(Map.of("message", checkupScheduleService.update(id, request)));
     }
 

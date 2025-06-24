@@ -36,7 +36,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
 
-    // Tạo tài khoản và yêu cầu xác minh email
+    // Create account with required mail verification
     public AuthenticationResponse create(CreateUserRequest request) {
         var user = User.builder()
                 .username(request.username())
@@ -70,13 +70,13 @@ public class UserService {
         return new AuthenticationResponse(token, user.getUsername(), user.getRole().name());
     }
 
-    // Xem chi tiết người dùng
+    // Read user detail
     public User get(long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id));
     }
 
-    // Chỉnh sửa người dùng
+    // Update user
     public String update(long id, UpdateUserRequest request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id));
@@ -95,7 +95,7 @@ public class UserService {
         return "USER UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Xóa người dùng
+    // Delete user
     public String delete(long id) {
         userRepository.delete(userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH ID: " + id)));
@@ -103,7 +103,7 @@ public class UserService {
         return "USER DELETED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Xem danh sách người dùng theo vai trò
+    // List users by role
     public List<User> listByRole(String role) {
 
         List<User> users = userRepository.findUsersByRole(Role.valueOf(role.toUpperCase()));
@@ -115,31 +115,31 @@ public class UserService {
 
     }
 
-    // Xem danh sách người dùng theo tên
+    // Search user by role and full name
     public List<User> search(Role role, String searchString) {
         return userRepository.findByFullNameContaining(searchString);
     }
 
-    // Tìm người dùng theo số điện thoại
+    // Search user by phone number
     public User getByPhoneNumber(Role role, String searchString) {
         return userRepository.findByPhoneNumberContaining(searchString)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "NO USER FOUND WITH PHONE NUMBER: " + searchString));
     }
 
-    // Tìm người dùng theo email
+    // Search user by mail
     public User getByEmail(Role role, String searchString) {
         return userRepository.findByEmailContaining(searchString)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "NO USER FOUND WITH EMAIL: " + searchString));
     }
 
-    // Tìm người dùng theo trạng thái xác minh email
+    // List users by mail verification status
     public List<User> getByIsVerified(Role role, boolean isVerified) {
         return userRepository.findByIsVerified(isVerified);
     }
 
-    // Tìm người dùng theo trạng thái tài khoản
+    // List users by account status
     public List<User> getByAccountStatus(Role role, String status) {
         return userRepository.findByAccountStatus(status);
     }

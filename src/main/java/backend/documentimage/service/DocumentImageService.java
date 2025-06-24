@@ -25,7 +25,7 @@ public class DocumentImageService {
     @Autowired
     private final DocumentRepository documentRepository;
 
-    // Tạo ảnh tài liệu
+    // Create document image
     public String create(CreateDocumentImageRequest request) {
         Document document = documentRepository.findById(request.documentId())
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + request.documentId()));
@@ -40,23 +40,23 @@ public class DocumentImageService {
         return "DOCUMENT IMAGE CREATED SUCCESSFULLY WITH ID: " + documentImage.getId();
     }
 
-    // Danh sách ảnh tài liệu
+    // List document images
     public List<DocumentImage> list() {
         return documentImageRepository.findAll();
     }
 
-    // Chi tiết ảnh tài liệu
+    // Read document image detail
     public DocumentImage get(long id) {
         return documentImageRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT IMAGE FOUND WITH ID: " + id));
     }
 
-    // Cập nhật ảnh tài liệu
+    // Update document image
     public String update(long id, UpdateDocumentImageRequest request) {
         DocumentImage documentImage = documentImageRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT IMAGE FOUND WITH ID: " + id));
 
-        Optional.of(request.url()).ifPresent(documentImage::setUrl);
+        Optional.ofNullable(request.url()).ifPresent(documentImage::setUrl);
 
         Document document = documentRepository.findById(request.documentId())
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT FOUND WITH ID: " + request.documentId()));
@@ -67,7 +67,7 @@ public class DocumentImageService {
         return "DOCUMENT IMAGE UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Xóa ảnh tài liệu
+    // Delete document image
      public String delete(long id) {
         DocumentImage documentImage = documentImageRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO DOCUMENT IMAGE FOUND WITH ID: " + id));
@@ -77,7 +77,7 @@ public class DocumentImageService {
         return "DOCUMENT IMAGE DELETED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Xem danh sách ảnh tài liệu theo ID tài liệu
+    // Read document images by document ID
     public List<DocumentImage> getByDocumentId(long id) {
         return documentImageRepository.findByDocumentId(id);
     }

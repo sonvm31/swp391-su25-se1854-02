@@ -34,6 +34,7 @@ public class Payment {
     @Column(columnDefinition = "NVARCHAR(255)")
     private String description;
 
+    @Column(columnDefinition = "NVARCHAR(255)")
     private String paymentRef;
 
     @Column(columnDefinition = "NVARCHAR(100)")

@@ -17,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import backend.payment.repository.PaymentRepository;
 import backend.payment.service.PaymentService;
 import backend.schedule.dto.CreateScheduleRequest;
-import backend.schedule.dto.UpdateCheckupScheduleRequest;
+import backend.schedule.dto.UpdateScheduleRequest;
 import backend.schedule.model.Schedule;
 import backend.schedule.repository.ScheduleRepository;
 import backend.user.repository.UserRepository;
@@ -52,6 +52,7 @@ public class ScheduleService {
         }
 
         Schedule checkupSchedule = Schedule.builder()
+                .roomCode(request.roomCode())
                 .date(request.date())
                 .slot(request.slot())
                 .doctor(userRepository.findById(request.doctorId()).get())
@@ -70,18 +71,18 @@ public class ScheduleService {
                 .collect(Collectors.toList());
     }
 
-    // Xem danh sách ca khám bệnh
+    // List schedule slots
     public List<Schedule> list() {
         return scheduleRepository.findAll();
     }
 
-    // Xem chi tiết ca khám bệnh
+    // Read schedule slot detail
     public Schedule get(long id) {
         return scheduleRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID: " + id));
     }
 
-    // lấy những slot còn trống
+    // Read available slots
     public List<String> getAvailableSlot(Long doctorId, LocalDate date) {
         List<LocalTime> allSlots = Arrays.asList(
                 LocalTime.of(8, 0), LocalTime.of(8, 30), LocalTime.of(9, 0), LocalTime.of(9, 30),
@@ -109,30 +110,18 @@ public class ScheduleService {
         return availableSlots;
     }
 
-    // Chỉnh sửa ca khám bệnh
-    public String update(long id, UpdateCheckupScheduleRequest request) {
+    // Update schedule slot
+    public String update(long id, UpdateScheduleRequest request) {
         Schedule checkupSchedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID" + id));
 
-        Optional.of(request.date()).ifPresent(checkupSchedule::setDate);
-        Optional.of(request.slot()).ifPresent(checkupSchedule::setSlot);
-        Optional.of(request.status()).ifPresent(checkupSchedule::setStatus);
-        Optional.of(userRepository.findById(request.doctorId()).get()).ifPresent(checkupSchedule::setDoctor);
+        Optional.ofNullable(request.roomCode()).ifPresent(checkupSchedule::setRoomCode);
+        Optional.ofNullable(request.date()).ifPresent(checkupSchedule::setDate);
+        Optional.ofNullable(request.slot()).ifPresent(checkupSchedule::setSlot);
+        Optional.ofNullable(request.status()).ifPresent(checkupSchedule::setStatus);
+        Optional.ofNullable(userRepository.findById(request.doctorId()).get()).ifPresent(checkupSchedule::setDoctor);
 
         return "SLOT UPDATED SUCCESSFULLY WITH ID: " + id;
-    }
-
-    // Đăng ký ca khám bệnh theo ID bệnh nhân
-    public String register(long id, long patientId, String type) {
-        Schedule CheckupSchedule = scheduleRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID: " + id));
-
-        Optional.of(userRepository.findById(patientId).get()).ifPresent(CheckupSchedule::setPatient);
-        Optional.of(type).ifPresent(CheckupSchedule::setType);
-        CheckupSchedule.setStatus("PENDING");
-        scheduleRepository.save(CheckupSchedule);
-
-        return "SLOT REGISTERED SUCCESSFULLY WITH ID: " + id;
     }
 
     public void cancelSchedule(Long scheduleId, Long patientId) {
@@ -151,7 +140,7 @@ public class ScheduleService {
         paymentRepository.deleteById(paymentRepository.findByScheduleId(scheduleId).get().getId());
     }
 
-    // Xóa ca khám bệnh
+    // Delete schedule slot
     public String delete(long id) {
         scheduleRepository.delete(scheduleRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID: " + id)));
@@ -159,27 +148,40 @@ public class ScheduleService {
         return "SLOT DELETED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Xem danh sách ca khám bệnh theo ID bệnh nhân
+    // Register schedule slot by patient ID
+    public String register(long id, long patientId, String type) {
+        Schedule CheckupSchedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO SLOT FOUND WITH ID: " + id));
+
+        Optional.ofNullable(userRepository.findById(patientId).get()).ifPresent(CheckupSchedule::setPatient);
+        Optional.ofNullable(type).ifPresent(CheckupSchedule::setType);
+        CheckupSchedule.setStatus("PENDING");
+        scheduleRepository.save(CheckupSchedule);
+
+        return "SLOT REGISTERED SUCCESSFULLY WITH ID: " + id;
+    }
+
+    // List schedule slots by patient ID
     public List<Schedule> getByPatientId(long patientId) {
         return scheduleRepository.findByPatientId(patientId);
     }
 
-    // Xem danh sách ca khám bệnh theo ID bác sĩ
+    // List schedule slots by doctor ID
     public List<Schedule> getByDoctorId(long doctorId) {
         return scheduleRepository.findByDoctorId(doctorId);
     }
 
-    // Xem danh sách ca khám bệnh theo loại
+    // List schedule slots by type
     public List<Schedule> getByType(String type) {
         return scheduleRepository.findByType(type);
     }
 
-    // Xem danh sách ca khám bệnh theo trạng thái
+    // List schedule slots by status
     public List<Schedule> getByStatus(String status) {
         return scheduleRepository.findByStatus(status);
     }
 
-    // Xem danh sách ca khám bệnh theo ngày
+    // List schedule slots by date
     public List<Schedule> getByDate(LocalDate date) {
         return scheduleRepository.findByDate(date);
     }
@@ -188,7 +190,7 @@ public class ScheduleService {
         return scheduleRepository.findActiveSchedulesByDate(date);
     }
 
-    // Xem danh sách ca khám bệnh theo giờ
+    // List schedule slots by slot
     public List<Schedule> getBySlot(LocalTime slot) {
         return scheduleRepository.findBySlot(slot);
     }

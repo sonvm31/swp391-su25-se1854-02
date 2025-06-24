@@ -20,51 +20,56 @@ public class ReginmenService {
     @Autowired
     private final RegimenRepository regimenRepository;
 
-    // Tạo phác đồ 
+    // Create regimen
     public String create(CreateRegimenRequest request) {
         var regimen = Regimen.builder()
             .regimenName(request.regimenName())
             .components(request.components())
             .description(request.description())
             .indications(request.indications())
-            .contradications(request.contradications())
+            .contraindications(request.contraindications())
             .build();
         regimenRepository.save(regimen);
 
         return "REGIMEN CREATED SUCCESSFULLY WITH ID: " + regimen.getId();
     }
 
-    // Xem danh sách phác đồ
+    // List regimens
     public List<Regimen> list() {
         return regimenRepository.findAll();
     }
 
-    // Xem chi tiết phác đồ
+    //  Read regimen detail
     public Regimen get(long id) {
         return regimenRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id));
     }
 
-    // Chỉnh sửa phác đồ
+    // Update regimen
     public String update(long id, UpdateRegimenRequest request) {
         Regimen regimen = regimenRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id));
         
-        Optional.of(request.regimenName()).ifPresent(regimen::setRegimenName);
-        Optional.of(request.components()).ifPresent(regimen::setComponents);
-        Optional.of(request.description()).ifPresent(regimen::setDescription);
-        Optional.of(request.indications()).ifPresent(regimen::setIndications);
-        Optional.of(request.contradications()).ifPresent(regimen::setContradications);
+        Optional.ofNullable(request.regimenName()).ifPresent(regimen::setRegimenName);
+        Optional.ofNullable(request.components()).ifPresent(regimen::setComponents);
+        Optional.ofNullable(request.description()).ifPresent(regimen::setDescription);
+        Optional.ofNullable(request.indications()).ifPresent(regimen::setIndications);
+        Optional.ofNullable(request.contraindications()).ifPresent(regimen::setContraindications);
         regimenRepository.save(regimen);
 
         return "REGIMEN UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // Xóa phác đồ
+    // Delete regimen
     public String delete(long id) {
         regimenRepository.delete(regimenRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO REGIMEN FOUND WITH ID: " + id)));
         
         return "REGIMEN DELETED SUCCESSFULLY WITH ID: " + id;
+    }
+
+    // List regimens by doctor ID
+    public List<Regimen> getByDoctorId(long doctorId) {
+        return regimenRepository.findByDoctorIdOrAll(doctorId);
     }
 }

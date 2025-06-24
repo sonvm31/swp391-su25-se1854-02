@@ -1,10 +1,13 @@
 package backend.regimen.model;
 
+import backend.user.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,7 +38,9 @@ public class Regimen {
     private String indications;
 
     @Column(columnDefinition = "NVARCHAR(255)")
-    private String contradications;
+    private String contraindications;
 
-    private Boolean isDefault;
+    @ManyToOne
+    @JoinColumn(name = "doctorId", referencedColumnName = "id")
+    private User doctor;
 }

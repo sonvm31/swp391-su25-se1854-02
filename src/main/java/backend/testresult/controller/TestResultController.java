@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class TestResultController {
     private final TestResultService testResultService;
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<Map<String, String>> create(@RequestBody CreateTestResultRequest request) {
         return ResponseEntity.ok(Map.of("message", testResultService.create(request)));
     }
