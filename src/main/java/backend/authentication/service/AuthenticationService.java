@@ -31,98 +31,101 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    @Autowired
-    private final UserRepository userRepository;
+        @Autowired
+        private final UserRepository userRepository;
 
-    @Autowired
-    private final MailVerificationRepository mailVerificationRepository;
+        @Autowired
+        private final MailVerificationRepository mailVerificationRepository;
 
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
-    private final JavaMailSender mailSender;
+        private final PasswordEncoder passwordEncoder;
+        private final JwtService jwtService;
+        private final JavaMailSender mailSender;
 
-    // Register account with required mail verification
-    public AuthenticationResponse register(RegisterRequest request) {
-        if (userRepository.findByUsername(request.username()).isPresent())
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "USERNAME ALREADY REGISTERED");
+        // Register account with required mail verification
+        public AuthenticationResponse register(RegisterRequest request) {
+                if (userRepository.findByUsername(request.username()).isPresent())
+                        throw new ResponseStatusException(HttpStatus.CONFLICT, "USERNAME ALREADY REGISTERED");
 
-        var user = User.builder()
-                .fullName(request.fullName())
-                .gender(request.gender())
-                .dateOfBirth(request.dateOfBirth())
-                .email(request.email())
-                .address(request.address())
-                .username(request.username())
-                .password(passwordEncoder.encode(request.password()))
-                .accountStatus("ACTIVE")
-                .role(Role.PATIENT)
-                .createdAt(LocalDate.now())
-                .build();
-        userRepository.save(user);
+                var user = User.builder()
+                                .fullName(request.fullName())
+                                .gender(request.gender())
+                                .dateOfBirth(request.dateOfBirth())
+                                .email(request.email())
+                                .address(request.address())
+                                .username(request.username())
+                                .password(passwordEncoder.encode(request.password()))
+                                .accountStatus("ACTIVE")
+                                .role(Role.PATIENT)
+                                .createdAt(LocalDate.now())
+                                .build();
+                userRepository.save(user);
 
-        String token = UUID.randomUUID().toString();
-        MailVerification verificationToken = MailVerification.builder()
-                .token(token)
-                .expiryDate(LocalDateTime.now().plusHours(24))
-                .user(user)
-                .build();
-        mailVerificationRepository.save(verificationToken);
+                String token = UUID.randomUUID().toString();
+                MailVerification verificationToken = MailVerification.builder()
+                                .token(token)
+                                .expiryDate(LocalDateTime.now().plusHours(24))
+                                .user(user)
+                                .build();
+                mailVerificationRepository.save(verificationToken);
 
-        String subject = "Verify your email";
-        String verificationUrl = "http://localhost:8080/api/auth/verify?token=" + token;
-        String body = "Click the link to verify your email: " + verificationUrl;
+                String subject = "Verify your email";
+                String verificationUrl = "http://localhost:8080/api/auth/verify?token=" + token;
+                String body = "Click the link to verify your email: " + verificationUrl;
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(user.getEmail());
-        message.setSubject(subject);
-        message.setText(body);
-        mailSender.send(message);
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setTo(user.getEmail());
+                message.setSubject(subject);
+                message.setText(body);
+                mailSender.send(message);
 
-        UserDetails userDetails = new CustomUserDetails(user);
-        String jwtToken = jwtService.generateToken(userDetails);
+                UserDetails userDetails = new CustomUserDetails(user);
+                String jwtToken = jwtService.generateToken(userDetails);
 
-        return new AuthenticationResponse(jwtToken, user.getUsername(), user.getRole().name());
-    }
-
-    // Send mail verification status
-    public String verify(String token) {
-        Optional<MailVerification> mailVerification = mailVerificationRepository
-                .findByToken(token);
-
-        if (mailVerification.isEmpty()
-                || mailVerification.get().getExpiryDate().isBefore(LocalDateTime.now())) {
-            return "INVALID OR EXPIRED TOKEN";
+                return new AuthenticationResponse(jwtToken, user.getUsername(), user.getRole().name());
         }
 
-        User user = mailVerification.get().getUser();
-        user.setVerified(true);
-        userRepository.save(user);
+        // Send mail verification status
+        public String verify(String token) {
+                Optional<MailVerification> mailVerification = mailVerificationRepository
+                                .findByToken(token);
 
-        return "MAIL VERIFIED SUCCESSFULLY";
-    }
+                if (mailVerification.isEmpty()
+                                || mailVerification.get().getExpiryDate().isBefore(LocalDateTime.now())) {
+                        return "INVALID OR EXPIRED TOKEN";
+                }
 
-    // Log in with user name and password
-    public AuthenticationResponse login(LoginRequest request) {
-        User user = userRepository.findByUsername(request.username())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "NO USER FOUND WITH USERNAME: " + request.username()));
+                User user = mailVerification.get().getUser();
+                user.setVerified(true);
+                userRepository.save(user);
 
-        if (user.getAccountStatus().equals("UNACTIVE")
-                || !user.isVerified())
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "ACCOUNT IS UNACTIVE OR NOT VERIFIED YET");
+                return "MAIL VERIFIED SUCCESSFULLY";
+        }
 
-        UserDetails userDetails = new CustomUserDetails(user);
-        String jwtToken = jwtService.generateToken(userDetails);
+        // Log in with user name and password
+        public AuthenticationResponse login(LoginRequest request) {
+                User user = userRepository.findByUsername(request.username())
+                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                                                "NO USER FOUND WITH USERNAME: " + request.username()));
 
-        return new AuthenticationResponse(jwtToken, user.getUsername(), user.getRole().name());
-    }
+                if (user.getAccountStatus().equals("UNACTIVE")
+                                || !user.isVerified())
+                        throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                                        "ACCOUNT IS UNACTIVE OR NOT VERIFIED YET");
 
-    // Retrieve user account information
-    public AccountResponse getUserInfo(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("NO USER FOUND WITH USERNAME: " + username));
-        return new AccountResponse(user.getId(), user.getUsername(), 
-            user.getEmail(), user.getFullName(), user.getAccountStatus(), 
-            user.getPhoneNumber(), user.getAddress(), user.getGender(), 
-            user.getDateOfBirth(), user.getAvatar(), user.getRole());
-    }
+                UserDetails userDetails = new CustomUserDetails(user);
+                String jwtToken = jwtService.generateToken(userDetails);
+
+                return new AuthenticationResponse(jwtToken, user.getUsername(), user.getRole().name());
+        }
+
+        // Retrieve user account information
+        public AccountResponse getUserInfo(String username) {
+                User user = userRepository.findByUsername(username)
+                                .orElseThrow(() -> new UsernameNotFoundException(
+                                                "NO USER FOUND WITH USERNAME: " + username));
+                return new AccountResponse(user.getId(), user.getUsername(),
+                                user.getEmail(), user.getFullName(), user.getAccountStatus(),
+                                user.getPhoneNumber(), user.getAddress(), user.getGender(),
+                                user.getDateOfBirth(), user.getAvatar(), user.getRole());
+        }
 }

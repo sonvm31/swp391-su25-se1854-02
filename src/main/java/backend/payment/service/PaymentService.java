@@ -61,4 +61,8 @@ public class PaymentService {
     public List<Payment> getByStatus(String status) {
         return paymentRepository.findByStatus(status);
     }
+
+    public void deleteByScheduleId(long scheduleId) {
+        paymentRepository.deleteByScheduleId(scheduleId);
+    }
 }

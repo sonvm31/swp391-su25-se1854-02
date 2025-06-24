@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import backend.schedule.dto.CreateScheduleRequest;
 import backend.schedule.dto.UpdateScheduleRequest;
-
 import backend.schedule.model.Schedule;
 import backend.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -46,10 +45,10 @@ public class SheduleController {
         return ResponseEntity.ok(schedules);
     }
 
-     @GetMapping("/list")
-     public ResponseEntity<List<Schedule>> list() {
-     return ResponseEntity.ok(checkupScheduleService.list());
-     }
+    @GetMapping("/list")
+    public ResponseEntity<List<Schedule>> list() {
+        return ResponseEntity.ok(checkupScheduleService.list());
+    }
 
     @GetMapping("/available-slots")
     public ResponseEntity<List<String>> getAvailableSlots(@RequestParam Long doctorId,
@@ -63,7 +62,6 @@ public class SheduleController {
     public ResponseEntity<Schedule> list(@PathVariable long id) {
         return ResponseEntity.ok(checkupScheduleService.get(id));
     }
-
 
     @PutMapping("/update/schedule-id/{id}")
     public ResponseEntity<Map<String, String>> update(@PathVariable long id,
@@ -80,6 +78,14 @@ public class SheduleController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, String>> delete(@PathVariable long id) {
         return ResponseEntity.ok(Map.of("message", checkupScheduleService.delete(id)));
+    }
+
+    @DeleteMapping("/{scheduleId}/cancel")
+    public ResponseEntity<String> cancelSchedule(
+            @PathVariable Long scheduleId,
+            @RequestParam Long patientId) {
+        checkupScheduleService.cancelSchedule(scheduleId, patientId);
+        return ResponseEntity.ok("Schedule cancelled successfully");
     }
 
     @GetMapping("/patient-id/{patientId}")
@@ -105,6 +111,11 @@ public class SheduleController {
     @GetMapping("/date/{date}")
     public ResponseEntity<List<Schedule>> getByDate(@PathVariable LocalDate date) {
         return ResponseEntity.ok(checkupScheduleService.getByDate(date));
+    }
+
+    @GetMapping("/available-slots/{date}")
+    public ResponseEntity<List<Schedule>> getAvailableSlotByDate(@PathVariable LocalDate date) {
+        return ResponseEntity.ok(checkupScheduleService.getAvailableSlotByDate(date));
     }
 
     @GetMapping("/slot/{slot}")

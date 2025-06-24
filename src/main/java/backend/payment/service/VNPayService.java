@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import java.util.Collections;
+import java.util.Date;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -156,7 +157,7 @@ public class VNPayService {
         }
     }
 
-    public static String getIpAddress(HttpServletRequest request) {
+    public String getIpAddress(HttpServletRequest request) {
         String ipAdress;
         try {
             ipAdress = request.getHeader("X-FORWARDED-FOR");

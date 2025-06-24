@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import backend.payment.repository.PaymentRepository;
+import backend.payment.service.PaymentService;
 import backend.schedule.dto.CreateScheduleRequest;
 import backend.schedule.dto.UpdateScheduleRequest;
 import backend.schedule.model.Schedule;
@@ -24,13 +26,18 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
+
+    private final PaymentService paymentService;
     @Autowired
     private final ScheduleRepository scheduleRepository;
 
     @Autowired
     private final UserRepository userRepository;
 
-    // Create schedule slot
+    @Autowired
+    private final PaymentRepository paymentRepository;
+
+    // Tạo ca khám bệnh
     public String create(CreateScheduleRequest request) {
 
         List<Object[]> slotCounts = scheduleRepository.findSlotCountsByDoctorAndDate(request.doctorId(),
@@ -117,6 +124,22 @@ public class ScheduleService {
         return "SLOT UPDATED SUCCESSFULLY WITH ID: " + id;
     }
 
+    public void cancelSchedule(Long scheduleId, Long patientId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new IllegalArgumentException("Schedule not found"));
+
+        if (!List.of("PENDING", "PENDING_PAYMENT_CONFIRMED").contains(schedule.getStatus())) {
+            throw new IllegalStateException("Cannot cancel schedule with status: " + schedule.getStatus());
+        }
+
+        schedule.setStatus("ACTIVE");
+        schedule.setPatient(null);
+        schedule.setType(null);
+        scheduleRepository.save(schedule);
+
+        paymentRepository.deleteById(paymentRepository.findByScheduleId(scheduleId).get().getId());
+    }
+
     // Delete schedule slot
     public String delete(long id) {
         scheduleRepository.delete(scheduleRepository.findById(id)
@@ -138,12 +161,12 @@ public class ScheduleService {
         return "SLOT REGISTERED SUCCESSFULLY WITH ID: " + id;
     }
 
-    // List schedule slots by patient ID 
+    // List schedule slots by patient ID
     public List<Schedule> getByPatientId(long patientId) {
         return scheduleRepository.findByPatientId(patientId);
     }
 
-    // List schedule slots by doctor ID 
+    // List schedule slots by doctor ID
     public List<Schedule> getByDoctorId(long doctorId) {
         return scheduleRepository.findByDoctorId(doctorId);
     }
@@ -161,6 +184,10 @@ public class ScheduleService {
     // List schedule slots by date
     public List<Schedule> getByDate(LocalDate date) {
         return scheduleRepository.findByDate(date);
+    }
+
+    public List<Schedule> getAvailableSlotByDate(LocalDate date) {
+        return scheduleRepository.findActiveSchedulesByDate(date);
     }
 
     // List schedule slots by slot
