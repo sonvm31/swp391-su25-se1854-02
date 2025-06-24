@@ -27,14 +27,14 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/userId/{id}")
-    public ResponseEntity<User> get(@PathVariable long id) {
-        return ResponseEntity.ok(userService.get(id));
-    }
-
     @PostMapping("/create")
     public ResponseEntity<AuthenticationResponse> create(@RequestBody CreateUserRequest request) {
         return ResponseEntity.ok(userService.create(request));
+    }
+
+    @GetMapping("/user-id/{id}")
+    public ResponseEntity<User> get(@PathVariable long id) {
+        return ResponseEntity.ok(userService.get(id));
     }
 
     @PutMapping("/{id}")
