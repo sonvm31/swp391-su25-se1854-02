@@ -56,7 +56,7 @@ public class ScheduleService {
                 .date(request.date())
                 .slot(request.slot())
                 .doctor(userRepository.findById(request.doctorId()).get())
-                .status("ACTIVE")
+                .status("Trống")
                 .build();
 
         scheduleRepository.save(checkupSchedule);
@@ -65,9 +65,9 @@ public class ScheduleService {
     }
 
     public List<Schedule> getSchedulesByDoctorDateAndStatus(Long doctorId, LocalDate date, String status) {
-        return scheduleRepository.findAvailableSchedulesByDoctorAndDate(doctorId, date)
+        return scheduleRepository.findAvailableSchedulesByDoctorAndDate(doctorId, date, "Tr\u1ed1ng")
                 .stream()
-                .filter(schedule -> status == null || schedule.getStatus().equals(status))
+                .filter(schedule -> status == null || schedule.getStatus().equalsIgnoreCase(status))
                 .collect(Collectors.toList());
     }
 
@@ -128,11 +128,11 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new IllegalArgumentException("Schedule not found"));
 
-        if (!List.of("PENDING", "PENDING_PAYMENT_CONFIRMED").contains(schedule.getStatus())) {
+        if (!List.of("Đang chờ", "Đang chờ thanh toán", "Đã thanh toán").contains(schedule.getStatus())) {
             throw new IllegalStateException("Cannot cancel schedule with status: " + schedule.getStatus());
         }
 
-        schedule.setStatus("ACTIVE");
+        schedule.setStatus("Trống");
         schedule.setPatient(null);
         schedule.setType(null);
         scheduleRepository.save(schedule);
@@ -155,7 +155,7 @@ public class ScheduleService {
 
         Optional.ofNullable(userRepository.findById(patientId).get()).ifPresent(CheckupSchedule::setPatient);
         Optional.ofNullable(type).ifPresent(CheckupSchedule::setType);
-        CheckupSchedule.setStatus("PENDING");
+        CheckupSchedule.setStatus("Đang chờ thanh toán");
         scheduleRepository.save(CheckupSchedule);
 
         return "SLOT REGISTERED SUCCESSFULLY WITH ID: " + id;
@@ -187,7 +187,7 @@ public class ScheduleService {
     }
 
     public List<Schedule> getAvailableSlotByDate(LocalDate date) {
-        return scheduleRepository.findActiveSchedulesByDate(date);
+        return scheduleRepository.findActiveSchedulesByDate(date, "Tr\u1ed1ng");
     }
 
     // List schedule slots by slot

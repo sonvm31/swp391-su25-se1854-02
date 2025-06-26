@@ -82,10 +82,14 @@ public class SecurityConfiguration {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        System.out.println();
         return username -> userRepository.findByUsername(username)
-                .map(CustomUserDetails::new)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .map(user -> {
+                    if (!user.isVerified()) {
+                        throw new RuntimeException("Tài khoản chưa được xác thực");
+                    }
+                    return new CustomUserDetails(user);
+                })
+                .orElseThrow(() -> new UsernameNotFoundException("Không tìm thấy người dùng: " + username));
     }
 
     @Bean
