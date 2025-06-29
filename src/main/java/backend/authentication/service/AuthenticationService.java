@@ -126,6 +126,6 @@ public class AuthenticationService {
                 return new AccountResponse(user.getId(), user.getUsername(),
                                 user.getEmail(), user.getFullName(), user.getAccountStatus(),
                                 user.getPhoneNumber(), user.getAddress(), user.getGender(),
-                                user.getDateOfBirth(), user.getAvatar(), user.getRole());
+                                user.getDateOfBirth(), user.getAvatar(), user.isVerified(), user.getRole());
         }
 }

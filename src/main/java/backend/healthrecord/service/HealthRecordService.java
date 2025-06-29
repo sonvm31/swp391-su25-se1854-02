@@ -27,7 +27,7 @@ public class HealthRecordService {
     // Create health record
     public String create(CreateHealthRecordRequest request) {
         var healthRecord = HealthRecord.builder()
-                .treatmentStatus(request.treatmentStatus())
+                .treatmentStatus("Đang chờ khám")
                 .schedule(scheduleRepository.findById(request.scheduleId()).get())
                 .build();
         healthRecordRepository.save(healthRecord);
@@ -81,8 +81,7 @@ public class HealthRecordService {
 
     // Read health record by schedule ID
     public HealthRecord getByScheduleId(long scheduleId) {
-        return healthRecordRepository.findByScheduleId(scheduleId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "NO HEALTH RECORD FOUND WITH SCHEDULE ID: " + scheduleId));
+        HealthRecord record = healthRecordRepository.findByScheduleId(scheduleId).get();
+        return record;
     }
 }

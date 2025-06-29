@@ -15,22 +15,22 @@ public class AccountResponse {
     private String gender;
     private LocalDate dateOfBirth;
     private String avatar;
+    private boolean verified;
     private Role role;
 
     public AccountResponse(
-        long id, 
-        String username, 
-        String email, 
-        String fullName, 
-        String status, 
-        String phoneNumber, 
-        String address, 
-        String gender, 
-        LocalDate dateOfBirth, 
-        String avatar, 
-        Role role
-        ) 
-        {
+            long id,
+            String username,
+            String email,
+            String fullName,
+            String status,
+            String phoneNumber,
+            String address,
+            String gender,
+            LocalDate dateOfBirth,
+            String avatar,
+            boolean verified,
+            Role role) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -41,6 +41,7 @@ public class AccountResponse {
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.avatar = avatar;
+        this.verified = verified;
         this.role = role;
     }
 
@@ -130,5 +131,13 @@ public class AccountResponse {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public boolean isVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
     }
 }

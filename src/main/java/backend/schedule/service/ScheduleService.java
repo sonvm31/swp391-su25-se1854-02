@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import backend.healthrecord.model.HealthRecord;
+import backend.healthrecord.repository.HealthRecordRepository;
 import backend.payment.repository.PaymentRepository;
 import backend.payment.service.PaymentService;
 import backend.schedule.dto.CreateScheduleRequest;
@@ -36,6 +38,9 @@ public class ScheduleService {
 
     @Autowired
     private final PaymentRepository paymentRepository;
+
+    @Autowired
+    private final HealthRecordRepository healthRecordRepository;
 
     // Tạo ca khám bệnh
     public String create(CreateScheduleRequest request) {
@@ -136,6 +141,11 @@ public class ScheduleService {
         schedule.setPatient(null);
         schedule.setType(null);
         scheduleRepository.save(schedule);
+
+        HealthRecord record = healthRecordRepository.findByScheduleId(scheduleId).get();
+        if (record != null) {
+            healthRecordRepository.delete(record);
+        }
 
         paymentRepository.deleteById(paymentRepository.findByScheduleId(scheduleId).get().getId());
     }
