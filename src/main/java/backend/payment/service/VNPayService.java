@@ -200,13 +200,13 @@ public class VNPayService {
             payment.setStatus("SUCCESS");
             payment.setDescription("Thanh toán thành công, mã phản hồi: " + vnpResponseCode);
             Schedule schedule = payment.getSchedule();
-            schedule.setStatus("PENDING_PAYMENT_CONFIRMED");
+            schedule.setStatus("Đã thanh toán");
             scheduleRepository.save(schedule);
         } else {
             payment.setStatus("FAILED");
             payment.setDescription("Thanh toán thất bại, mã phản hồi: " + vnpResponseCode);
             Schedule schedule = payment.getSchedule();
-            schedule.setStatus("AVAILABLE");
+            schedule.setStatus("Tr\u1ed1ng");
             schedule.setPatient(null);
             scheduleRepository.save(schedule);
         }

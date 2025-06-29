@@ -1,5 +1,8 @@
 package backend.schedule.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -37,11 +40,13 @@ public class SheduleController {
 
     @GetMapping()
     public ResponseEntity<List<Schedule>> getSchedules(
-            @RequestParam Long doctorId,
+            @RequestParam(required = false) Long doctorId,
             @RequestParam String date,
-            @RequestParam(required = false) String status) {
+            @RequestParam(required = false) String status) throws UnsupportedEncodingException {
+        LocalDate parsedDate = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+        String decodedStatus = status != null ? URLDecoder.decode(status, StandardCharsets.UTF_8.name()) : null;
         List<Schedule> schedules = checkupScheduleService.getSchedulesByDoctorDateAndStatus(
-                doctorId, LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE), status);
+                doctorId, parsedDate, decodedStatus);
         return ResponseEntity.ok(schedules);
     }
 

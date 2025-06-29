@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import backend.healthrecord.model.HealthRecord;
+import backend.healthrecord.repository.HealthRecordRepository;
 import backend.payment.repository.PaymentRepository;
 import backend.payment.service.PaymentService;
 import backend.schedule.dto.CreateScheduleRequest;
@@ -37,6 +39,9 @@ public class ScheduleService {
     @Autowired
     private final PaymentRepository paymentRepository;
 
+    @Autowired
+    private final HealthRecordRepository healthRecordRepository;
+
     // Tạo ca khám bệnh
     public String create(CreateScheduleRequest request) {
 
@@ -56,7 +61,7 @@ public class ScheduleService {
                 .date(request.date())
                 .slot(request.slot())
                 .doctor(userRepository.findById(request.doctorId()).get())
-                .status("ACTIVE")
+                .status("Trống")
                 .build();
 
         scheduleRepository.save(checkupSchedule);
@@ -65,9 +70,9 @@ public class ScheduleService {
     }
 
     public List<Schedule> getSchedulesByDoctorDateAndStatus(Long doctorId, LocalDate date, String status) {
-        return scheduleRepository.findAvailableSchedulesByDoctorAndDate(doctorId, date)
+        return scheduleRepository.findAvailableSchedulesByDoctorAndDate(doctorId, date, "Tr\u1ed1ng")
                 .stream()
-                .filter(schedule -> status == null || schedule.getStatus().equals(status))
+                .filter(schedule -> status == null || schedule.getStatus().equalsIgnoreCase(status))
                 .collect(Collectors.toList());
     }
 
@@ -128,14 +133,19 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new IllegalArgumentException("Schedule not found"));
 
-        if (!List.of("PENDING", "PENDING_PAYMENT_CONFIRMED").contains(schedule.getStatus())) {
+        if (!List.of("Đang chờ", "Đang chờ thanh toán", "Đã thanh toán").contains(schedule.getStatus())) {
             throw new IllegalStateException("Cannot cancel schedule with status: " + schedule.getStatus());
         }
 
-        schedule.setStatus("ACTIVE");
+        schedule.setStatus("Trống");
         schedule.setPatient(null);
         schedule.setType(null);
         scheduleRepository.save(schedule);
+
+        HealthRecord record = healthRecordRepository.findByScheduleId(scheduleId).get();
+        if (record != null) {
+            healthRecordRepository.delete(record);
+        }
 
         paymentRepository.deleteById(paymentRepository.findByScheduleId(scheduleId).get().getId());
     }
@@ -155,7 +165,7 @@ public class ScheduleService {
 
         Optional.ofNullable(userRepository.findById(patientId).get()).ifPresent(CheckupSchedule::setPatient);
         Optional.ofNullable(type).ifPresent(CheckupSchedule::setType);
-        CheckupSchedule.setStatus("PENDING");
+        CheckupSchedule.setStatus("Đang chờ thanh toán");
         scheduleRepository.save(CheckupSchedule);
 
         return "SLOT REGISTERED SUCCESSFULLY WITH ID: " + id;
@@ -187,7 +197,7 @@ public class ScheduleService {
     }
 
     public List<Schedule> getAvailableSlotByDate(LocalDate date) {
-        return scheduleRepository.findActiveSchedulesByDate(date);
+        return scheduleRepository.findActiveSchedulesByDate(date, "Tr\u1ed1ng");
     }
 
     // List schedule slots by slot
